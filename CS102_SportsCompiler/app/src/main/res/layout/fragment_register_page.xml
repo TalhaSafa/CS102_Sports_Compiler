@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterPage">
+
+    <EditText
+        android:id="@+id/registName"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:hint="Your Name"
+        android:inputType="text"
+        android:textSize="20sp"
+
+        ></EditText>
+
+    <EditText
+        android:id="@+id/registerMail"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:hint="Bilkent-Mail"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/registerPassword"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:hint="password"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/registerRePassword"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:hint="repassword"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/birthDate"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
+        android:hint="birthDate"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/department"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:hint="department"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="145dp"
+        android:text="Register"
+        android:textSize="20dp"
+        android:layout_marginLeft="120dp"
+        android:id="@+id/registerButton"></Button>
+
+</FrameLayout>

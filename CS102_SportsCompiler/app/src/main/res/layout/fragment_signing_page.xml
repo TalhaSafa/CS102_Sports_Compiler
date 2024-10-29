@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SigningPage">
+
+    "
+
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="150dp"
+        android:src="@drawable/sportcompicon"></ImageView>
+
+    <EditText
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:hint="E-mail"
+        android:textSize="20sp"
+        android:inputType="text"
+        android:id="@+id/signingmail"
+
+
+        ></EditText>
+
+    <EditText
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:hint="Enter a password"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:id="@+id/signingPassword"
+        ></EditText>
+
+    <EditText
+
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+
+        android:hint="Enter password again"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:id="@+id/signingPasswordcheck"
+        ></EditText>
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="145dp"
+        android:text="Sign In"
+        android:textSize="20dp"
+        android:layout_marginLeft="120dp"
+        android:id="@+id/signInButton"></Button>
+
+
+</FrameLayout>

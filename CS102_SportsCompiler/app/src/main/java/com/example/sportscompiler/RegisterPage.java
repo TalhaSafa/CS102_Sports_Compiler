@@ -23,9 +23,6 @@ public class RegisterPage extends Fragment {
     private EditText department;
     private Button registerButton;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public RegisterPage() {
         // Required empty public constructor

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewLoginPage">
+
+
+    <EditText
+        android:id="@+id/YourBilkentMail"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:hint="Bilkent Mail"
+        android:inputType="text"
+        android:textSize="20sp"
+
+        ></EditText>
+
+    <EditText
+        android:id="@+id/signInPassword"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:hint="Password"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="145dp"
+        android:text="Login"
+        android:textSize="20dp"></Button>
+
+    <Button
+        android:id="@+id/forgetPasswordButton"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="90dp"
+        android:text="Forgot Password"
+        android:textSize="15dp"></Button>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="130dp"
+        android:layout_marginBottom="90dp"
+        android:text="Register"
+        android:textSize="20dp"></Button>
+
+</FrameLayout>

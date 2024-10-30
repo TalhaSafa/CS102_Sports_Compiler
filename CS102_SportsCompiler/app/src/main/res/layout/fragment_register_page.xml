@@ -39,7 +39,7 @@
         android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
-        android:hint="repassword"
+        android:hint="Enter your password again"
         android:inputType="text"
         android:textSize="20sp" />
 
@@ -48,7 +48,7 @@
         android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="240dp"
-        android:hint="birthDate"
+        android:hint="Your Birth Date"
         android:inputType="text"
         android:textSize="20sp" />
 
@@ -57,18 +57,18 @@
         android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
-        android:hint="department"
+        android:hint="Your Department"
         android:inputType="text"
         android:textSize="20sp" />
 
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="130dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="120dp"
         android:layout_marginTop="145dp"
         android:text="Register"
-        android:textSize="20dp"
-        android:layout_marginLeft="120dp"
-        android:id="@+id/registerButton"></Button>
+        android:textSize="20dp"></Button>
 
 </FrameLayout>

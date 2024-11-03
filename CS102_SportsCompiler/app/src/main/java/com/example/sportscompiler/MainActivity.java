@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
         
         // Load the SigningPage fragment
-        loadFragment(new SigningPage());
+        loadFragment(new NewLoginPage());
     }
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();

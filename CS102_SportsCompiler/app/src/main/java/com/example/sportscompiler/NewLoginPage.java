@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,12 +42,21 @@ public class NewLoginPage extends Fragment {
         forgotPasswordButton = view.findViewById(R.id.forgetPasswordButton);
         registerButton = view.findViewById(R.id.registerButton);
 
+        registerButton.setOnClickListener(v -> {
+
+            ((MainActivity) requireActivity()).loadFragment(new RegisterPage());
+        });
+
         forgotPasswordButton.setOnClickListener(view1 -> {
 
             String loginMail1 = loginMail.getText().toString();
-            Intent intent = new Intent(requireActivity(), ForgetPasswordPage.class);
-            intent.putExtra("mail", loginMail1);
-            startActivity(intent);
+            ForgetPasswordPage forgetPasswordPage = new ForgetPasswordPage();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("mail", loginMail1);
+            forgetPasswordPage.setArguments(bundle);
+
+            ((MainActivity) requireActivity()).loadFragment(forgetPasswordPage);
         });
         return  view;
     }

@@ -167,7 +167,7 @@ public class mainPageFragment extends Fragment {
                             .getJSONObject(0)
                             .getString("icon");
 
-                    txtView.setText(String.format("%.1f°C, %s", temperature, weatherDescription));
+                    txtView.setText(String.format("%.1f°C, %s\n%s\n%s", temperature, weatherDescription, dateStr.substring(0,10), dateStr.substring(11,16)));
 
                     //To download icon and set it to image view:
                     String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -32,7 +33,10 @@ android {
 }
 
 dependencies {
-
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    //AUTHENTICATON:
+    implementation("com.google.firebase:firebase-auth:23.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

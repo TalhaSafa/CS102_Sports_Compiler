@@ -20,6 +20,7 @@ public class NewLoginPage extends Fragment {
     private EditText loginPassword;
     private Button loginButton;
     private Button forgotPasswordButton;
+
     private Button registerButton;
 
 

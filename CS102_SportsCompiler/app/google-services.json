@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "828180988376",
+    "project_id": "sports-cmplr",
+    "storage_bucket": "sports-cmplr.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828180988376:android:fd80c5ff9461e56f2c72ad",
+        "android_client_info": {
+          "package_name": "com.example.sportscompiler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnCeUmG42XznB9xZMw-zWoYpPKF0I5pXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

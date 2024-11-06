@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -93,7 +94,23 @@ public class RegisterPage extends Fragment {
                 if(task.isSuccessful())
                 {
                     FirebaseUser newUser = firebaseAuth.getCurrentUser(); //returns the current signed in user
-                    Toast.makeText(getActivity(), "Registration successful!", Toast.LENGTH_SHORT).show();
+                    if(newUser != null){
+                        newUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getActivity(), "Registration successful! Verification Email sent!", Toast.LENGTH_SHORT).show();
+                                    //TODO pass to NewLoginPage
+                                }
+                                else{
+                                    Toast.makeText(getActivity(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Authentication failed!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {

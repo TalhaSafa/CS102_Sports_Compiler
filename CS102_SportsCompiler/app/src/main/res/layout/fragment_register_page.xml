@@ -16,6 +16,7 @@
 
         ></EditText>
 
+
     <EditText
         android:id="@+id/registerMail"
         android:layout_width="377dp"
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
         android:hint="password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:textSize="20sp" />
 
     <EditText
@@ -40,23 +41,46 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
         android:hint="Enter your password again"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/day_spinner"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="240dp" />
+
+
+    <Spinner
+        android:id="@+id/month_spinner"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginStart="120dp" />
+
+    <Spinner
+        android:id="@+id/year_spinner"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginStart="240dp" />
+
 
     <EditText
         android:id="@+id/birthDate"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="300dp"
         android:hint="Your Birth Date"
         android:inputType="text"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        />
 
     <EditText
         android:id="@+id/department"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="360dp"
         android:hint="Your Department"
         android:inputType="text"
         android:textSize="20sp" />

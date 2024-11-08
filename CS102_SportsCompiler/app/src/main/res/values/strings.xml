@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">SportsCompiler</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Add the string array here -->
+    <string-array name="spinner_items">
+        <item>Select an option </item>
+        <item>match score miss written</item>
+        <item>admin did not attended the match </item>
+        <item>bad administration</item>
+        <item>other</item>
+    </string-array>
 </resources>

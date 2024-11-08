@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomePage"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/blank_profile_picture"
+        android:scaleType="centerCrop"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginTop="16dp"
+        android:text="Name Surname"
+        android:textSize="30sp"
+        android:textColor="#333333"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/departmentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_below="@+id/nameTextView"
+        android:textSize="20sp"
+        android:text="Department" />
+
+    <TextView
+        android:id="@+id/ageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/departmentTextView"
+        android:layout_below="@+id/nameTextView"
+        android:layout_marginStart="70dp"
+        android:textSize="20sp"
+        android:text="Age: " />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ageTextView"
+        android:layout_toEndOf="@id/departmentTextView"
+        android:layout_gravity="center"
+        android:text="Settings"
+        android:textSize="20sp"  />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="350dp"
+        android:background="#808080"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/matchName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/matchScore1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchName1"
+            android:text="N-N"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/matchPosition1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/matchName1"
+            android:text="Defence"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/date1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchPosition1"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/matchName1"
+            android:text="28.02.30"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/rating1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchScore1"
+            android:layout_centerInParent="true"
+            android:text="7,4"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="500dp"
+        android:background="#00FF00"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/matchName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/matchScore2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchName2"
+            android:text="3-2"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/matchPosition2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/matchName2"
+            android:text="Striker"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/date2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchPosition2"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/matchName2"
+            android:text="21.08.24"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/rating2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matchScore2"
+            android:layout_centerInParent="true"
+            android:text="8,0"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

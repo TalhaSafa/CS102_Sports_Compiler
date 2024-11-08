@@ -15,7 +15,7 @@
         android:inputType="text"
         android:textSize="20sp"
 
-        ></EditText>
+        />
 
     <EditText
         android:id="@+id/signInPassword"
@@ -34,7 +34,7 @@
         android:layout_marginLeft="1dp"
         android:layout_marginTop="145dp"
         android:text="Login"
-        android:textSize="20dp"></Button>
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/forgetPasswordButton"
@@ -44,7 +44,7 @@
         android:layout_marginRight="130dp"
         android:layout_marginBottom="90dp"
         android:text="Forgot Password"
-        android:textSize="15dp"></Button>
+        android:textSize="15dp" />
 
     <Button
         android:id="@+id/registerButton"
@@ -54,6 +54,6 @@
         android:layout_marginLeft="130dp"
         android:layout_marginBottom="90dp"
         android:text="Register"
-        android:textSize="20dp"></Button>
+        android:textSize="20dp" />
 
 </FrameLayout>

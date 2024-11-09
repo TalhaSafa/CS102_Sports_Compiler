@@ -1,0 +1,13 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- İç renk -->
+
+    <!-- Yuvarlatılmış köşeler -->
+    <corners
+        android:topLeftRadius="16dp"
+        android:bottomRightRadius="16dp" />
+
+    <!-- Çerçeve rengi ve genişliği -->
+    <stroke
+        android:width="2dp"
+        android:color="#00FF00" /> <!-- Çerçeve rengi (örnek mor renk) -->
+</shape>

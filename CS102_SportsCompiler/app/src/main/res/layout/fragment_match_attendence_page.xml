@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MatchAttendencePage">
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="510dp"
+        android:background="#808080"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/matchName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name"
+            android:textSize="30sp"
+            android:layout_toEndOf="@+id/date1"
+            android:layout_marginStart="100dp"
+            />
+
+        <TextView
+            android:id="@+id/place1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date1"
+            android:text="Main Campus"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/adminName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/place1"
+            android:text="Admin Name"
+            android:layout_below="@id/matchName1"
+            android:textSize="28sp"
+            />
+
+        <TextView
+            android:id="@+id/date1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28.11.24"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/notes1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/time1"
+            android:text="Notes: 2nd grade below can't attend"
+            android:textSize="30sp"
+            android:layout_marginStart="140dp"
+            android:layout_below="@id/place1" />
+
+        <TextView
+            android:id="@+id/time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/place1"
+            android:text="21.00"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/quota1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time1"
+            android:text="2/8"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="300dp"
+        android:background="#00FF00"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/matchName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name"
+            android:textSize="30sp"
+            android:layout_toEndOf="@+id/date2"
+            android:layout_marginStart="100dp"
+            />
+
+        <TextView
+            android:id="@+id/place2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date2"
+            android:text="East Campus"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/adminName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/place2"
+            android:text="Admin Name"
+            android:layout_below="@id/matchName2"
+            android:textSize="30sp"
+            />
+
+        <TextView
+            android:id="@+id/date2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04.12.24"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/notes2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/time2"
+            android:text="Notes:"
+            android:textSize="30sp"
+            android:layout_marginStart="140dp"
+            android:layout_below="@id/place2" />
+
+        <TextView
+            android:id="@+id/time2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/place2"
+            android:text="20.00"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/quota2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time2"
+            android:text="4/8"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="460dp"
+        android:layout_marginBottom="105dp"
+        android:background="#FF0000"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/matchName3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name"
+            android:textSize="30sp"
+            android:layout_toEndOf="@+id/date3"
+            android:layout_marginStart="100dp"
+            />
+
+        <TextView
+            android:id="@+id/place3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date3"
+            android:text="Main Campus"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/adminName3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/place3"
+            android:text="Admin Name"
+            android:layout_below="@id/matchName3"
+            android:textSize="30sp"
+            />
+
+        <TextView
+            android:id="@+id/date3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08.12.24"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/notes3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/time3"
+            android:text="Notes:"
+            android:textSize="30sp"
+            android:layout_marginStart="140dp"
+            android:layout_below="@id/place3" />
+
+        <TextView
+            android:id="@+id/time3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/place3"
+            android:text="19.00"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/quota3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time3"
+            android:text="8/8"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/createMatchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="630dp"
+        android:layout_marginStart="270dp"
+        android:text="Create Match"
+        android:textSize="20sp"
+        android:backgroundTint="#FF0000"
+        />
+
+    <Button
+        android:id="@+id/filteringButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="630dp"
+        android:backgroundTint="#00FF00"
+        android:text="Filter"
+        android:textSize="20sp" />
+
+</FrameLayout>

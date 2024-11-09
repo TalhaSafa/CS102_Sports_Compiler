@@ -109,11 +109,6 @@
             android:text="7,4"
             android:textSize="30sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="#000000" />
 
     </RelativeLayout>
 
@@ -167,11 +162,6 @@
             android:text="8,0"
             android:textSize="30sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="#000000" />
 
     </RelativeLayout>
 

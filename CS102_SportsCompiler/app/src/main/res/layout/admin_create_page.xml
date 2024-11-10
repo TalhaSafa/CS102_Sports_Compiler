@@ -6,11 +6,33 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button7"
-        style="@style/Widget.AppCompat.Button"
+        android:id="@+id/buttondecline"
+
         android:layout_width="123dp"
         android:layout_height="49dp"
-        android:background="@drawable/ic_launcher_background"
+        android:backgroundTint="#FF0000"
+        android:text="Decline"
+        android:textColorLink="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.899"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="android:backgroundTint=&quot;#FF0000&quot;" />
+
+    <Button
+        android:id="@+id/button7"
+
+        android:layout_width="123dp"
+        android:layout_height="49dp"
+
+
         android:stateListAnimator="@android:anim/anticipate_overshoot_interpolator"
         android:text="Accept"
         android:textColorLink="@color/white"
@@ -58,7 +80,7 @@
         android:layout_width="268dp"
 
 
-        android:layout_height="511dp"
+        android:layout_height="512dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -132,22 +154,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.874" />
-
-    <Button
-        android:id="@+id/button6"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="116dp"
-        android:layout_height="52dp"
-        android:background="@android:color/holo_red_dark"
-        android:stateListAnimator="@android:anim/anticipate_overshoot_interpolator"
-        android:text="Decline"
-        android:textColorLink="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.864"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.971" />
 
     <EditText
         android:id="@+id/editTextDate"

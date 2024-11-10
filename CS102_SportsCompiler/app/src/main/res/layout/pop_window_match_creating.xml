@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
-        android:text="Date"
+        android:text="Date/Time"
         android:textSize="20sp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="205dp" />

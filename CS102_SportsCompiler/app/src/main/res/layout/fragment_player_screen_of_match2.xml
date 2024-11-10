@@ -31,17 +31,21 @@
         android:layout_height="wrap_content"
         android:text="Match Score"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="600dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <Button
         android:id="@+id/reportAdminButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#FF0000"
         android:text="Report Admin"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="656dp" />
+        app:layout_constraintEnd_toEndOf="@+id/matchScore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/matchScore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

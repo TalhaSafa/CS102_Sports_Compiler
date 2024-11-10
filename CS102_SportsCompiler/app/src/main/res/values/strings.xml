@@ -13,9 +13,9 @@
 
     <string-array name="places_array">
         <item>Select a Place</item>
-        <item>Doğu Halı Saha</item>
-        <item>Merkez Halı Saha 1 </item>
-        <item>Merkez Halı Saha 2</item>
+        <item>East Campus</item>
+        <item>Main Campus 1 </item>
+        <item>Main Campus 2</item>
         <item>other</item>
     </string-array>
 

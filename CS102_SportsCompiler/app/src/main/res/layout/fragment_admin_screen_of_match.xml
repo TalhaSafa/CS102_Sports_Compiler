@@ -35,8 +35,10 @@
         android:numStars="5"
         android:rating="0"
         android:stepSize="1"
-        app:layout_constraintTop_toBottomOf="@id/ratingView"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingView" />
 
     <TextView
         android:id="@+id/ratingView"
@@ -44,8 +46,10 @@
         android:layout_height="wrap_content"
         android:text="Rating"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="608dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/didntAttendButton"
+        app:layout_constraintEnd_toStartOf="@+id/didntAttendButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/didntAttendButton" />
 
     <Button
         android:id="@+id/didntAttendButton"
@@ -54,8 +58,12 @@
         android:backgroundTint="#FF0000"
         android:text="Didn't Attend"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="256dp"
-        tools:layout_editor_absoluteY="600dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

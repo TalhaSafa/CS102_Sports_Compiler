@@ -9,9 +9,9 @@
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="34dp"
         android:layout_marginBottom="510dp"
-        android:background="#808080"
+        android:background="@color/lightGreen"
         tools:ignore="ExtraText">
 
         <TextView
@@ -226,11 +226,12 @@
         android:id="@+id/createMatchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="630dp"
+        android:layout_marginTop="550dp"
         android:layout_marginStart="270dp"
         android:text="Create Match"
         android:textSize="20sp"
-        android:backgroundTint="#FF0000"
+        android:textColor="@color/green"
+        android:backgroundTint="@color/white"
         />
 
     <Button
@@ -241,6 +242,15 @@
         android:layout_marginTop="630dp"
         android:backgroundTint="#00FF00"
         android:text="Filter"
+        android:textSize="20sp" />
+    <Button
+        android:id="@+id/sortingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="630dp"
+        android:backgroundTint="#00FF00"
+        android:text="Sort by"
         android:textSize="20sp" />
 
 </FrameLayout>

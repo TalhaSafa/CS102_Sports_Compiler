@@ -11,10 +11,13 @@
         android:id="@+id/verificationTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Waiting for verification"
+        android:text="E-mail has been sent to:\nuser@bilkent.edu.tr\n\nWaiting for verification."
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAlignment="center"
+        android:textSize="25sp"/>
 
     <Button
         android:id="@+id/resendButton"
@@ -23,5 +26,7 @@
         android:text="Resend"
         app:layout_constraintEnd_toEndOf="@+id/verificationTxt"
         app:layout_constraintStart_toStartOf="@+id/verificationTxt"
-        app:layout_constraintTop_toBottomOf="@+id/verificationTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/verificationTxt"
+        android:layout_marginTop="20dp"
+        android:textSize="25sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

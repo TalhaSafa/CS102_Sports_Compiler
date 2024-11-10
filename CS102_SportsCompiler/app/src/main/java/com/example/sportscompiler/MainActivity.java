@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         
         // Load the SigningPage fragment
-        loadFragment(new NewLoginPage());
+        loadFragment(new AdminScreenOfMatch2());
     }
 
     public void loadFragment(Fragment fragment) {

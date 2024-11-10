@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewLoginPage">
+    tools:context=".NewLoginPage"
+    android:background="@color/logoWhite">
 
 
     <EditText
         android:id="@+id/YourBilkentMail"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="200dp"
         android:hint="Bilkent Mail"
         android:inputType="text"
         android:textSize="20sp"
@@ -21,7 +22,7 @@
         android:id="@+id/signInPassword"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="260dp"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="20sp" />
@@ -31,8 +32,8 @@
         android:layout_width="130dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="1dp"
-        android:layout_marginTop="145dp"
         android:text="Login"
         android:textSize="20dp" />
 
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginRight="130dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="10dp"
         android:text="Forgot Password"
         android:textSize="15dp" />
 
@@ -52,8 +53,15 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginLeft="130dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="10dp"
         android:text="Register"
         android:textSize="20dp" />
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="320dp"
+        android:src="@drawable/sportcompicon"></ImageView>
+
 
 </FrameLayout>

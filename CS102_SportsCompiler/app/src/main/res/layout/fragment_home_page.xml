@@ -97,16 +97,7 @@
             android:layout_below="@id/matchPosition1"
             android:layout_marginStart="30dp"
             android:layout_toEndOf="@+id/matchName1"
-            android:text="28.02.30"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/rating1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/matchScore1"
-            android:layout_centerInParent="true"
-            android:text="7,4"
+            android:text="03.03.30"
             android:textSize="30sp" />
 
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="410dp"
+    android:layout_height="400dp"
+    android:background="@drawable/football_field">
+
+            <ImageView
+                android:id="@+id/team1player"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="145dp"
+                android:layout_marginBottom="69dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+    <ImageView
+        android:id="@+id/team2player3"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="188dp"
+        android:layout_marginBottom="285dp"
+        android:src="@mipmap/ic_sample_pp" />
+
+    <ImageView
+        android:id="@+id/team2player"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="187dp"
+        android:layout_marginBottom="346dp"
+        android:src="@mipmap/ic_sample_pp" />
+
+    <ImageView
+                android:id="@+id/team2player5"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="245dp"
+                android:layout_marginBottom="210dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+            <ImageView
+                android:id="@+id/team2player6"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="123dp"
+                android:layout_marginBottom="210dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+            <ImageView
+                android:id="@+id/team1player6"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="186dp"
+                android:layout_marginBottom="147dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+            <ImageView
+                android:id="@+id/team1player3"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="187dp"
+                android:layout_marginBottom="14dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+            <ImageView
+                android:id="@+id/team2player4"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="79dp"
+                android:layout_marginBottom="291dp"
+                android:src="@mipmap/ic_sample_pp" />
+
+            <ImageView
+                android:id="@+id/team1player2"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="215dp"
+                android:layout_marginEnd="232dp"
+                android:layout_marginBottom="70dp"
+                android:src="@mipmap/ic_empty_place" />
+
+            <ImageView
+                android:id="@+id/team1player4"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="220dp"
+                android:layout_marginEnd="326dp"
+                android:layout_marginBottom="284dp"
+                android:src="@mipmap/ic_empty_place" />
+
+            <ImageView
+                android:id="@+id/team2player2"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="61dp"
+                android:layout_marginEnd="291dp"
+                android:layout_marginBottom="284dp"
+                android:src="@mipmap/ic_empty_place" />
+
+            <ImageView
+                android:id="@+id/team1player5"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="219dp"
+                android:layout_marginEnd="47dp"
+                android:layout_marginBottom="284dp"
+                android:src="@mipmap/ic_empty_place" />
+
+        </RelativeLayout>
+
+

@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        
         // Load the SigningPage fragment
-        loadFragment(new HomePage());
+        loadFragment(new adminReportPageFragment());
     }
 
     public void loadFragment(Fragment fragment) {

@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
         <activity
+            android:name=".MatchLeavePage"
+            android:exported="false" />
+        <activity
             android:name=".emailVerificationPage"
             android:exported="false" />
         <activity

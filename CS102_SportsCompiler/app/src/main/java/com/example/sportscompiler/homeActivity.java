@@ -6,7 +6,10 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class homeActivity extends AppCompatActivity {
     @Override
@@ -17,25 +20,40 @@ public class homeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         // Set default fragment
-        loadFragment(new MainFragment());
+        loadFragment(new mainPageFragment());
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                switch (item.getItemId()) {
-                    case R.id.matches:
-                        fragment = new MainFragment();
-                        break;
-                    case R.id.home:
-                        fragment = new MatchAttendanceFragment();
-                        break;
-                    case R.id.profile:
-                        fragment = new ProfileFragment();
-                        break;
+
+                Fragment selectedFragment = null;
+
+                if(item.getItemId() == R.id.matches)
+                {
+                    selectedFragment = new MatchAttendencePage();
                 }
-                return loadFragment(fragment);
+                else if(item.getItemId() == R.id.mainPage)
+                {
+                    selectedFragment = new mainPageFragment();
+                }
+                else if(item.getItemId() == R.id.profile)
+                {
+                    selectedFragment = new HomePage();
+                }
+                return loadFragment(selectedFragment);
             }
         });
+    }
+
+    public boolean loadFragment(Fragment fragment)
+    {
+        if(fragment != null)
+        {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.commit();
+            return  true;
+        }
+        return  false;
     }
 }

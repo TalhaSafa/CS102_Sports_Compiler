@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //To see main page for presentation:
         Intent intent = new Intent(this, homeActivity.class);
         startActivity(intent);
         

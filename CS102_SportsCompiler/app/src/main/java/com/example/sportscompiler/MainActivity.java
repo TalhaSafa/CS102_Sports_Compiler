@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -16,10 +17,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent intent = new Intent(this, homeActivity.class);
+        startActivity(intent);
         
         // Load the SigningPage fragment
-        loadFragment(new adminReportPageFragment());
+        //loadFragment(new adminReportPageFragment());
     }
 
     public void loadFragment(Fragment fragment) {

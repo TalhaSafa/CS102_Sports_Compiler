@@ -4,7 +4,7 @@
     <item
         android:title="Matches"
         android:icon="@drawable/baseline_sports_basketball_24"
-        android:id="@+id/matches"/>
+        android:id="@+id/matches" />
 
     <item
         android:title="Main Page"

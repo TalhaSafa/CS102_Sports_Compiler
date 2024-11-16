@@ -11,14 +11,24 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+
+
 public class homeActivity extends AppCompatActivity {
+    private Fragment matchAttendence;
+    private Fragment mainPageFragment;
+    private Fragment profileFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        profileFragment = new HomePage();
+        mainPageFragment = new mainPageFragment();
+        matchAttendence = new MatchAttendencePage();
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.mainPage);
         // Set default fragment
         loadFragment(new mainPageFragment());
 
@@ -30,15 +40,15 @@ public class homeActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.matches)
                 {
-                    selectedFragment = new MatchAttendencePage();
+                    selectedFragment = matchAttendence;
                 }
                 else if(item.getItemId() == R.id.mainPage)
                 {
-                    selectedFragment = new mainPageFragment();
+                    selectedFragment = mainPageFragment;
                 }
                 else if(item.getItemId() == R.id.profile)
                 {
-                    selectedFragment = new HomePage();
+                    selectedFragment = profileFragment;
                 }
                 return loadFragment(selectedFragment);
             }
@@ -50,7 +60,7 @@ public class homeActivity extends AppCompatActivity {
         if(fragment != null)
         {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment);
+            transaction.replace(R.id.fragmentContainerView, fragment);
             transaction.commit();
             return  true;
         }

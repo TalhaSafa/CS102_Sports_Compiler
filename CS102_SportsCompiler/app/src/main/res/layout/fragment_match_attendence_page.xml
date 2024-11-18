@@ -83,15 +83,38 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/filteringButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="630dp"
-            android:backgroundTint="#00FF00"
-            android:text="Filter"
-            android:textSize="20sp" />
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Other RelativeLayouts for matches -->
+
+            <!-- Buttons for Filtering and Sorting -->
+            <Button
+                android:id="@+id/filteringButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#00FF00"
+                android:text="Filter"
+                android:textSize="20sp"
+                android:elevation="8dp" />
+
+            <Button
+                android:id="@+id/sortingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="120dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#00FF00"
+                android:text="Sort by"
+                android:textSize="20sp"
+                android:elevation="8dp" />
+        </FrameLayout>
+
     </FrameLayout>
 
 
@@ -250,16 +273,6 @@
         android:textColor="@color/green"
         android:backgroundTint="@color/white"
         />
-
-    <Button
-        android:id="@+id/sortingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="630dp"
-        android:backgroundTint="#00FF00"
-        android:text="Sort by"
-        android:textSize="20sp" />
 
     <!-- Bottom Navigation View -->
 

@@ -18,12 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //To see main page for presentation:
-        Intent intent = new Intent(this, homeActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, homeActivity.class);
+//        startActivity(intent);
         
-        // Load the SigningPage fragment
-        //loadFragment(new adminReportPageFragment());
+        //Load the SigningPage fragment
+        loadFragment(new NewLoginPage());
     }
 
     public void loadFragment(Fragment fragment) {

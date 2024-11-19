@@ -172,7 +172,8 @@ public class RegisterPage extends Fragment {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(getActivity(), "Registration successful! Verification Email sent!", Toast.LENGTH_SHORT).show();
-                                    //TODO pass to NewLoginPage
+                                    //TODO when changed to actvity will be changed to Intent(this, emailVerificationPage.class
+                                    FragmentLoad.changeActivity(getActivity(), emailVerificationPage.class);
                                 }
                                 else{
                                     Toast.makeText(getActivity(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();

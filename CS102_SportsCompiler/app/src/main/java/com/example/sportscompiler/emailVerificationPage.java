@@ -1,11 +1,9 @@
 package com.example.sportscompiler;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ public class emailVerificationPage extends AppCompatActivity {
     Runnable runnable;
     final int DELAY_TO_CHECK_VERIFICATION = 1000;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
     private Button resendButton;
     private TextView verificationTxt;
@@ -45,12 +43,12 @@ public class emailVerificationPage extends AppCompatActivity {
         resendButton = findViewById(R.id.resendButton);
         verificationTxt = findViewById(R.id.verificationTxt);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         resendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
@@ -71,7 +69,7 @@ public class emailVerificationPage extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        currentUser = mAuth.getCurrentUser();
+        currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null)
         {
             verificationTxt.setText("A verification has been sent to " + currentUser.getEmail() +"\nPlease verify your account!");
@@ -79,7 +77,8 @@ public class emailVerificationPage extends AppCompatActivity {
         else
         {
             Toast.makeText(emailVerificationPage.this, "Verified", Toast.LENGTH_SHORT).show();
-            //TODO send user to main page (use startActivity) :)
+            FragmentLoad.changeActivity(emailVerificationPage.this, homeActivity.class);
+
         }
 
     }
@@ -88,7 +87,7 @@ public class emailVerificationPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        currentUser = mAuth.getCurrentUser();
+        currentUser = firebaseAuth.getCurrentUser();
 
         if(currentUser != null)
         {
@@ -100,7 +99,7 @@ public class emailVerificationPage extends AppCompatActivity {
                     {
                         handler.removeCallbacks(this);
                         Toast.makeText(emailVerificationPage.this, "Verification is successful!", Toast.LENGTH_SHORT).show();
-                        //TODO send user to main page (use startActivity) :)
+                        FragmentLoad.changeActivity(emailVerificationPage.this, homeActivity.class);
                         //To stop working of current activtiy:
                         finish();
 
@@ -120,8 +119,10 @@ public class emailVerificationPage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mAuth.signOut();
-        startActivity(new Intent(emailVerificationPage.this, NewLoginPage.class));
+        firebaseAuth.signOut();
+
+        //TODO change this after converting login page to activity
+        FragmentLoad.changeActivity(emailVerificationPage.this, NewLoginPage.class);
         finish();
     }
 }

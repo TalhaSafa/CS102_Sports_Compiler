@@ -10,13 +10,38 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class homeActivity extends AppCompatActivity {
     private Fragment matchAttendence;
     private Fragment mainPageFragment;
     private Fragment profileFragment;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+
+    public void onStart()
+    {
+        super.onStart();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser != null)
+        {
+            if(!firebaseUser.isEmailVerified())
+            {
+                FragmentLoad.changeActivity(this, emailVerificationPage.class);
+            }
+        }
+        else
+        {
+            //TODO will be changed when converted to activity
+            FragmentLoad.changeActivity(this, RegisterPage.class);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

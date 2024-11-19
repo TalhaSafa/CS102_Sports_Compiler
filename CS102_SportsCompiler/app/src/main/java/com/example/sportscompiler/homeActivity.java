@@ -2,6 +2,7 @@ package com.example.sportscompiler;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,10 @@ public class homeActivity extends AppCompatActivity {
             if(!firebaseUser.isEmailVerified())
             {
                 FragmentLoad.changeActivity(this, emailVerificationPage.class);
+            }
+            else
+            {
+                Toast.makeText(this, firebaseUser.getEmail(), Toast.LENGTH_SHORT).show();
             }
         }
         else

@@ -41,6 +41,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     //AUTHENTICATON:
     implementation("com.google.firebase:firebase-auth:23.1.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

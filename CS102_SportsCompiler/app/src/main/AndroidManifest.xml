@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
         <activity
+            android:name=".ForgetPasswordPage"
+            android:exported="false" />
+        <activity
             android:name=".LoginPage"
             android:exported="false" />
         <activity
@@ -34,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

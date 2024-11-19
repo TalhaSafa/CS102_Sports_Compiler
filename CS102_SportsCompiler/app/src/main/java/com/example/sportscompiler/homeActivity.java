@@ -39,7 +39,7 @@ public class homeActivity extends AppCompatActivity {
         else
         {
             //TODO will be changed when converted to activity
-            FragmentLoad.changeActivity(this, RegisterPage.class);
+            FragmentLoad.changeActivity(this, RegisterPageAc.class);
         }
     }
 

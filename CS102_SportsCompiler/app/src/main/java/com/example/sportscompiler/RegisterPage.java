@@ -145,6 +145,7 @@ public class RegisterPage extends Fragment {
         yearSpinner.setDropDownVerticalOffset(500);
 
 
+
         birthDate = view.findViewById(R.id.birthDate);
         birthDate.setOnClickListener(v ->
         {

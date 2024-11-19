@@ -122,7 +122,7 @@ public class emailVerificationPage extends AppCompatActivity {
         firebaseAuth.signOut();
 
         //TODO change this after converting login page to activity
-        FragmentLoad.changeActivity(emailVerificationPage.this, NewLoginPage.class);
+        FragmentLoad.changeActivity(emailVerificationPage.this, LoginPage.class);
         finish();
     }
 }

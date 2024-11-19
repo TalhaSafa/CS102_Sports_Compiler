@@ -20,11 +20,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.model.DatabaseId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,7 @@ public class RegisterPageAc extends AppCompatActivity {
     private EditText department;
     private Button registerButton;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore;
 
 
 
@@ -148,6 +153,29 @@ public class RegisterPageAc extends AppCompatActivity {
         });
     }
 
+    //A method to update database based on user informations.
+    //To update need a user first. Initialize it with id, name, birthdate, department
+    private void updateDatabase(User user)
+    {
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(firebaseAuth.getCurrentUser().getUid())
+                .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful())
+                        {
+                            Toast.makeText(RegisterPageAc.this, "Updated Data", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(RegisterPageAc.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
+    }
+
     private void createAccount(String email, String password)
     {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -162,8 +190,15 @@ public class RegisterPageAc extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+
                                             Toast.makeText(RegisterPageAc.this, "Registration successful! Verification Email sent!", Toast.LENGTH_SHORT).show();
-                                            //TODO when changed to actvity will be changed to Intent(this, emailVerificationPage.class
+
+                                            //CREATING NEW USER:
+                                            User user = new User(newUser.getUid(), registerName.getText().toString()
+                                                    , birthDate.getText().toString(), department.getText().toString());
+
+                                            updateDatabase(user);
+
                                             FragmentLoad.changeActivity(RegisterPageAc.this, emailVerificationPage.class);
                                         }
                                         else{

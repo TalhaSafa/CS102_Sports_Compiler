@@ -26,9 +26,4 @@ public class MainActivity extends AppCompatActivity {
         //loadFragment(new adminReportPageFragment());
     }
 
-    public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
-    }
 }

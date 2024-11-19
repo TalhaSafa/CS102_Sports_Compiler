@@ -54,13 +54,6 @@ public class LoginPage extends AppCompatActivity {
 
         forgotPasswordButton.setOnClickListener(view1 -> {
 
-            String loginMail1 = loginMail.getText().toString();
-            ForgetPasswordPage forgetPasswordPage = new ForgetPasswordPage();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("mail", loginMail1);
-            forgetPasswordPage.setArguments(bundle);
-
             FragmentLoad.changeActivity(LoginPage.this, emailVerificationPage.class);
         });
 

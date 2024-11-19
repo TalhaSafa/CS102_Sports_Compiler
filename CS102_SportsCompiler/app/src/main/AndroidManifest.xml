@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
         <activity
+            android:name=".LoginPage"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterPageAc"
+            android:exported="false" />
+        <activity
             android:name=".MatchLeavePage"
             android:exported="false" />
         <activity

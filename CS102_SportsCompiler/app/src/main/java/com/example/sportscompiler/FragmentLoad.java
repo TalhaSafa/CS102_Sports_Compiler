@@ -34,7 +34,5 @@ public class FragmentLoad
         {
             ((Activity) current).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
-
-
     }
 }

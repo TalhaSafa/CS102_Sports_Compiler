@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/logoWhite">
+
+
+    <EditText
+        android:id="@+id/YourBilkentMail"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:hint="Bilkent Mail"
+        android:inputType="text"
+        android:textSize="20sp"
+
+        />
+
+    <EditText
+        android:id="@+id/signInPassword"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="1dp"
+        android:text="Login"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/forgetPasswordButton"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="10dp"
+        android:text="Forgot Password"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="130dp"
+        android:layout_marginBottom="10dp"
+        android:text="Register"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="290dp"
+        android:src="@drawable/sportcompicon" />
+
+
+</FrameLayout>

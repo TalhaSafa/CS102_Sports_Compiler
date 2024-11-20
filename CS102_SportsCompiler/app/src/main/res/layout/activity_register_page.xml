@@ -4,22 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/verificationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="50dp"
+        android:text="Create an account!"
+
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="470dp"
+        android:layout_height="661dp"
+        android:layout_gravity="center"
+        android:alpha="0.07
+"
+        android:contentDescription="App Icon"
+        android:src="@drawable/sportcompicon" />
+
     <EditText
         android:id="@+id/registName"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
         android:hint="Your Name"
         android:inputType="text"
         android:textSize="20sp" />
-
 
 
     <EditText
         android:id="@+id/registerMail"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="160dp"
         android:hint="Bilkent-Mail"
         android:inputType="text"
         android:textSize="20sp" />
@@ -28,7 +49,8 @@
         android:id="@+id/registerPassword"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="220dp"
         android:hint="password"
         android:inputType="textPassword"
         android:textSize="20sp" />
@@ -37,48 +59,52 @@
         android:id="@+id/registerRePassword"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="280dp"
         android:hint="Enter your password again"
         android:inputType="textPassword"
         android:textSize="20sp" />
+
 
     <Spinner
         android:id="@+id/day_spinner"
         android:layout_width="120dp"
         android:layout_height="48dp"
-        android:layout_marginTop="240dp" />
-
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="340dp" />
 
     <Spinner
         android:id="@+id/month_spinner"
         android:layout_width="120dp"
         android:layout_height="48dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginStart="120dp" />
+        android:layout_marginTop="340dp"
+        android:layout_marginLeft="138dp"
+        />
+
 
     <Spinner
         android:id="@+id/year_spinner"
         android:layout_width="120dp"
         android:layout_height="48dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginStart="240dp" />
-
+        android:layout_marginLeft="258dp"
+        android:layout_marginTop="340dp" />
 
     <EditText
         android:id="@+id/birthDate"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
         android:hint="Your Birth Date"
         android:inputType="text"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/department"
         android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="460dp"
         android:hint="Your Department"
         android:inputType="text"
         android:textSize="20sp" />
@@ -89,7 +115,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="145dp"
+        android:layout_marginTop="180dp"
         android:text="Register"
         android:textSize="20dp"></Button>
 

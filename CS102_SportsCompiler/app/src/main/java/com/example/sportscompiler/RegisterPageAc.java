@@ -6,10 +6,12 @@ import static java.security.AccessController.getContext;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -39,12 +41,14 @@ public class RegisterPageAc extends AppCompatActivity {
     private EditText registerMail;
     private EditText registerPassword;
     private EditText registerRePassword;
-    private EditText birthDate;
+    private TextView birthDate;
     private EditText department;
     private Button registerButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestore;
-
+    private  Spinner daySpinner;
+    private Spinner monthSpinner;
+    private Spinner yearSpinner;
 
 
     @Override
@@ -60,6 +64,9 @@ public class RegisterPageAc extends AppCompatActivity {
         department = findViewById(R.id.department);
         registerButton = findViewById(R.id.registerButton);
         birthDate = findViewById(R.id.birthDate);
+        daySpinner = findViewById(R.id.day_spinner);
+        monthSpinner = findViewById(R.id.month_spinner);
+        yearSpinner = findViewById(R.id.year_spinner);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -94,11 +101,6 @@ public class RegisterPageAc extends AppCompatActivity {
             }
         });
 
-
-        Spinner daySpinner = findViewById(R.id.day_spinner);
-        Spinner monthSpinner = findViewById(R.id.month_spinner);
-        Spinner yearSpinner = findViewById(R.id.year_spinner);
-
         List<String> days = new ArrayList<>();
 
         for(int i = 1; i <= 31; i++)
@@ -122,7 +124,7 @@ public class RegisterPageAc extends AppCompatActivity {
 
         List<String> years = new ArrayList<>();
 
-        for(int i = 1970; i <= 2024; i++)
+        for(int i = 1960; i <= 2010; i++)
         {
             years.add(String.valueOf(i));
         }
@@ -142,15 +144,54 @@ public class RegisterPageAc extends AppCompatActivity {
         yearSpinner.setAdapter(yearAdapter);
         yearSpinner.setDropDownVerticalOffset(500);
 
-        birthDate.setOnClickListener(v ->
-        {
-            String selecetedDay = daySpinner.getSelectedItem().toString();
-            String selectedMonth = monthSpinner.getSelectedItem().toString();
-            String selectedYear = yearSpinner.getSelectedItem().toString();
+        daySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                updateBirthDateEdittext();
+            }
 
-            String date = selecetedDay + "/" + selectedMonth + "/" + selectedYear;
-            birthDate.setText(date);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
+            }
         });
+
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateBirthDateEdittext();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateBirthDateEdittext();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    private  void updateBirthDateEdittext()
+    {
+        String selectedDay = daySpinner.getSelectedItem().toString();
+        String selectedMonth = monthSpinner.getSelectedItem().toString();
+        String selectedYear = yearSpinner.getSelectedItem().toString();
+
+        String date = selectedDay + "/" + selectedMonth + "/" + selectedYear;
+        birthDate.setText(date);
     }
 
     //A method to update database based on user informations.

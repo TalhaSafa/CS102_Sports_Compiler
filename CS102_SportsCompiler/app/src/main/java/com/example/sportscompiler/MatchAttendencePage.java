@@ -2,11 +2,28 @@ package com.example.sportscompiler;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchFields;
+import com.example.sportscompiler.AdditionalClasses.Player;
+import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +31,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class MatchAttendencePage extends Fragment {
+
+    private Button createMatchButton;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,12 +75,82 @@ public class MatchAttendencePage extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
+        createMatchButton = view.findViewById(R.id.createMatchButton);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        createMatchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewMatch(firebaseAuth.getCurrentUser().getUid().toString(), 5, view);
+            }
+        });
+
+        return view;
+    }
+
+    //To initialize team maps
+    private void initializeMaps(Map<String, Player> team, int numberOfPlayersInATeam)
+    {
+        if(numberOfPlayersInATeam == 5)
+        {
+            team.put(Positions.GK1.getAction(), new Player());
+            team.put(Positions.CB1.getAction(), new Player());
+            team.put(Positions.CB2.getAction(), new Player());
+            team.put(Positions.MO3.getAction(), new Player());
+            team.put(Positions.FW3.getAction(), new Player());
+        }
+
+        if(numberOfPlayersInATeam == 6)
+        {
+            team.put(Positions.GK1.getAction(), new Player());
+            team.put(Positions.CB1.getAction(), new Player());
+            team.put(Positions.CB2.getAction(), new Player());
+            team.put(Positions.MO1.getAction(), new Player());
+            team.put(Positions.MO2.getAction(), new Player());
+            team.put(Positions.FW3.getAction(), new Player());
+        }
+
+    }
+
+    //This method is to try whether database is working or not:
+    private void createNewMatch(String adminID, int numberOfPlayersInATeam, View view){
+        Timestamp date = Timestamp.now();
+        Map<String, Player> teamA = new HashMap<>();
+        Map<String, Player> teamB = new HashMap<>();
+        initializeMaps(teamA, numberOfPlayersInATeam);
+        initializeMaps(teamB, numberOfPlayersInATeam);
+        Match newMatch = new Match(adminID, date, MatchFields.MAIN1, teamA, teamB);
+
+        //To create distinct id for each match:
+        String matchID = newMatch.getAdminID() + newMatch.getDate().toDate().toString();
+
+
+        firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
     }
 }

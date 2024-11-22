@@ -2,6 +2,7 @@ package com.example.sportscompiler.AdditionalClasses;
 
 import com.google.firebase.Timestamp;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 public class Match
 {
     private String adminID;
+    private String matchName;
     private Timestamp date;
     private MatchFields field;
     private Map<String, Player > playersA;

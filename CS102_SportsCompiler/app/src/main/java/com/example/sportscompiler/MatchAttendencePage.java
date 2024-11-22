@@ -33,6 +33,7 @@ import java.util.Map;
 public class MatchAttendencePage extends Fragment {
 
     private Button createMatchButton;
+    private String matchName;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
@@ -91,7 +92,7 @@ public class MatchAttendencePage extends Fragment {
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewMatch(firebaseAuth.getCurrentUser().getUid().toString(), 5, view);
+                createNewMatch(firebaseAuth.getCurrentUser().getUid().toString(), matchName, 5, view);
             }
         });
 
@@ -123,13 +124,13 @@ public class MatchAttendencePage extends Fragment {
     }
 
     //This method is to try whether database is working or not:
-    private void createNewMatch(String adminID, int numberOfPlayersInATeam, View view){
+    private void createNewMatch(String adminID, String matchName, int numberOfPlayersInATeam, View view){
         Timestamp date = Timestamp.now();
         Map<String, Player> teamA = new HashMap<>();
         Map<String, Player> teamB = new HashMap<>();
         initializeMaps(teamA, numberOfPlayersInATeam);
         initializeMaps(teamB, numberOfPlayersInATeam);
-        Match newMatch = new Match(adminID, date, MatchFields.MAIN1, teamA, teamB);
+        Match newMatch = new Match(adminID, matchName, date, MatchFields.MAIN1, teamA, teamB);
 
         //To create distinct id for each match:
         String matchID = newMatch.getAdminID() + newMatch.getDate().toDate().toString();

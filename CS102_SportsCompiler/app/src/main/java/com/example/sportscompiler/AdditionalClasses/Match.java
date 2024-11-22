@@ -18,13 +18,14 @@ public class Match
 
     public Match(){}
 
-    public Match(String adminID1, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1 )
+    public Match(String adminID1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1 )
     {
         adminID = adminID1;
         date = date1;
         field = field1;
         playersA= playersA1;
         playersB= playersB1;
+        this.matchName = matchName;
     }
 
 
@@ -35,6 +36,10 @@ public class Match
     public void setAdminID(String adminID) {
         this.adminID = adminID;
     }
+
+    public String getMatchName() { return matchName;}
+
+    public void setMatchName(String matchName) {this.matchName = matchName;}
 
     public Timestamp getDate() {
         return date;

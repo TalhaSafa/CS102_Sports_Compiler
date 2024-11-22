@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
         //To see main page for presentation:
         Intent intent = new Intent(this, LoginPage.class);
         startActivity(intent);
-        
-        // Load the SigningPage fragment
-        //loadFragment(new adminReportPageFragment());
-    }
 
+        //Load the SigningPage fragment
+        //FragmentLoad.loadFragment();
+
+    }
 }

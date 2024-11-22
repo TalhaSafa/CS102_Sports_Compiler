@@ -36,14 +36,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     public void onBindViewHolder(@NonNull MatchViewHolder holder, int position)
     {
         Match match = matchList.get(position);
-        holder.matchName.setText(match.getMa);
-        holder.matchScore.setText(match.getMa);
-        holder.matchDate.setText(match.getMat);
+        holder.matchName.setText(match.getMatchName());
+        holder.matchDate.setText(match.getDate().toString());
     }
 
     @Override
-    public int getItemCount() {
-        return 0;
+    public int getItemCount()
+    {
+        return matchList.size();
     }
 
     public static class MatchViewHolder extends RecyclerView.ViewHolder
@@ -58,10 +58,5 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             matchPosition = itemView.findViewById(R.id.matchPosition);
             matchDate = itemView.findViewById(R.id.matchDate);
         }
-    }
-
-    public String formatTimeStamp(Timestamp timestamp)
-    {
-        Date date = timestamp.
     }
 }

@@ -3,11 +3,14 @@ package com.example.sportscompiler;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sportscompiler.AdditionalClasses.User;
@@ -22,6 +25,7 @@ public class HomePage extends Fragment {
     private TextView nameTextView, departmentTextView, ageTextView;
     private User user;
     private firestoreUser fireuser;
+    private Button settingsButton;
 
     public HomePage() {
         user = new User();
@@ -36,6 +40,7 @@ public class HomePage extends Fragment {
         nameTextView = rootView.findViewById(R.id.nameTextView);
         departmentTextView = rootView.findViewById(R.id.departmentTextView);
         ageTextView = rootView.findViewById(R.id.ageTextView);
+        settingsButton = rootView.findViewById(R.id.settingsButton);
 
         // Fetch user info and update UI
         fireuser.updateInfo(user, new firestoreUser.FirestoreCallback<User>() {
@@ -48,6 +53,16 @@ public class HomePage extends Fragment {
             @Override
             public void onError(Exception e) {
                 Log.e("HomePage", "Error fetching user info", e);
+            }
+        });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new profile_settings())
+                        .addToBackStack(null).commit();
             }
         });
 

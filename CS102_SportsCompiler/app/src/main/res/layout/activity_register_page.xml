@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="220dp"
-        android:hint="password"
+        android:hint="Enter your password"
         android:inputType="textPassword"
         android:textSize="20sp" />
 

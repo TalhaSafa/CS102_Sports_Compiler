@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,7 +27,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,6 +46,9 @@ public class mainPageFragment extends Fragment {
     private int day;
     private String cityName = "Ankara";
     private String APIKey = "9f5051ab914d08850742c634382c54ee";
+    private RecyclerView recyclerView;
+    private MatchAdapter matchAdapter;
+    private List<Match> matchList;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -94,6 +104,13 @@ public class mainPageFragment extends Fragment {
         updateWeatherConditions(1, day1Txt, day1Img); //for tomorrow
         updateWeatherConditions(2, day2Txt, day2Img); //tomorrow + 1
         updateWeatherConditions(3, day3Txt, day3Img); //tomorrow + 2
+
+        recyclerView = view.findViewById(R.id.matchListRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matchList = getMatches();
+        matchAdapter = new MatchAdapter(matchList);
+        recyclerView.setAdapter(matchAdapter);
 
         return view;
     }
@@ -207,5 +224,13 @@ public class mainPageFragment extends Fragment {
         tomorrow.add(Calendar.DATE, day);
         String tomorrowDate = sdf.format(tomorrow.getTime());
         return dayStr.startsWith(tomorrowDate);
+    }
+
+    // we need to pull match datas from database. It's not done yet.
+    private List<Match> getMatches()
+    {
+        List<Match> matches = new ArrayList<>();
+
+        return matches;
     }
 }

@@ -1,10 +1,14 @@
 package com.example.sportscompiler.AdditionalClasses;
 
+import java.util.ArrayList;
+
 public class User {
     private String userID;
     private String name;
     private String birthDate;
     private String department;
+    private ArrayList<Match> matches = new ArrayList<Match>();
+    private double averageRating;
 
     public User(){}
 
@@ -14,6 +18,7 @@ public class User {
         name = Name;
         birthDate = BirthDate;
         department = Department;
+
     }
 
     public String getUserID() {
@@ -46,5 +51,18 @@ public class User {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(ArrayList<Match> matches) {
+        this.matches = matches;
+    }
+
+    public void addMatches(Match match)
+    {
+        matches.add(match);
     }
 }

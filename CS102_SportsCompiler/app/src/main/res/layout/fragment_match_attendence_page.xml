@@ -262,17 +262,20 @@
 
     </RelativeLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createMatchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="550dp"
-        android:layout_marginStart="270dp"
-        android:text="Create Match"
-        android:textSize="20sp"
-        android:textColor="@color/green"
-        android:backgroundTint="@color/white"
-        />
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:text="+"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/green"
+        android:elevation="8dp"
+        app:fabSize="normal" />
+
 
     <!-- Bottom Navigation View -->
 

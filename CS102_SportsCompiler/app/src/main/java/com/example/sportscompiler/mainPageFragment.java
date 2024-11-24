@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,21 +187,35 @@ public class mainPageFragment extends Fragment {
                             .getJSONArray("weather")
                             .getJSONObject(0)
                             .getString("icon");
+                    weatherDescription = capitalizeWords(weatherDescription);
+                    String formattedText = String.format("%.1f°C\n%s\n%s\n%s", temperature, weatherDescription, dateStr.substring(0, 10), dateStr.substring(11, 16));
 
-                    txtView.setText(String.format("%.1f°C, %s\n%s\n%s", temperature, weatherDescription, dateStr.substring(0,10), dateStr.substring(11,16)));
+// Create a SpannableString from the formatted string
+                    SpannableString spannableString = new SpannableString(formattedText);
+
+// Find the index of the temperature part in the string (e.g., the first part before "\n")
+                    int temperatureEndIndex = formattedText.indexOf("°") + 1;  // Index where the temperature ends
+
+// Apply bold and increase size to the temperature part
+                    spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, temperatureEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.setSpan(new RelativeSizeSpan(2f), 0, temperatureEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  // Increase size by 1.5 times
+
+// Set the styled text to the TextView
+                    txtView.setText(spannableString);
 
                     //To download icon and set it to image view:
-                    String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+                    String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@4x.png";
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 URL url = new URL(iconUrl);
                                 Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        imgView.setImageBitmap(bitmap);
+                                        imgView.setImageBitmap(scaledBitmap);
                                     }
                                 });
 
@@ -217,6 +235,24 @@ public class mainPageFragment extends Fragment {
         }
     }
 
+    private String capitalizeWords(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        String[] words = input.split(" "); // Split the string into words
+        StringBuilder capitalizedString = new StringBuilder();
+
+        for (String word : words) {
+            // Capitalize the first letter of each word and add the rest unchanged
+            capitalizedString.append(word.substring(0, 1).toUpperCase())
+                    .append(word.substring(1).toLowerCase())
+                    .append(" ");
+        }
+
+        // Remove the last extra space
+        return capitalizedString.toString().trim();
+    }
     private boolean isWantedDate(int day, String dayStr, TextView txt)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());

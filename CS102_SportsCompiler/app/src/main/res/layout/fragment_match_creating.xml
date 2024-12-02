@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Match!"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="41dp" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="18"
+        android:inputType="text"
+        android:text="Name of Match"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="94dp" />
+
+    <Spinner
+        android:id="@+id/city_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/places_array"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="204dp" />
+
+    <Spinner
+        android:id="@+id/personCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/personCount"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <EditText
+        android:id="@+id/editTextDate5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:text="Date/Time"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="142dp" />
+
+    <ScrollView
+        android:layout_width="363dp"
+        android:layout_height="252dp"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="330dp">
+
+        <EditText
+            android:id="@+id/notes_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_slant_background"
+            android:gravity="top|start"
+            android:hint="Enter additional notes"
+            android:inputType="textMultiLine"
+            android:maxLines="20"
+            android:minLines="10"
+            android:scrollbars="vertical" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        tools:layout_editor_absoluteX="267dp"
+        tools:layout_editor_absoluteY="596dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

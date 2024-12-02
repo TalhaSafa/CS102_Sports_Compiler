@@ -1,4 +1,4 @@
-package com.example.yourapp;
+package com.example.sportscompiler;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +11,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-public class CreateMatchFragment extends Fragment {
+public class match_creating extends Fragment {
 
     private EditText matchNameEditText, dateEditText, notesEditText;
     private Spinner citySpinner, personCountSpinner;
     private Button createButton;
 
-    public CreateMatchFragment() {
+    public match_creating() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class CreateMatchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_create_match, container, false);
+        View view = inflater.inflate(R.layout.fragment_match_creating, container, false);
 
         // Initialize views
         matchNameEditText = view.findViewById(R.id.editTextText);

@@ -3,6 +3,7 @@ package com.example.sportscompiler;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Player;
@@ -92,7 +94,7 @@ public class MatchAttendencePage extends Fragment {
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewMatch(firebaseAuth.getCurrentUser().getUid().toString(), matchName, 5, view);
+                FragmentLoad.loadFragment((AppCompatActivity) MatchAttendencePage.this.getActivity() , R.id.fragmentContainerView, new match_creating());
             }
         });
 

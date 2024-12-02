@@ -4,14 +4,14 @@ public class Player
 {
     private Positions position;
     private String userID;
-    private int rating;
+    private double rating;
     private TeamType team;
     private boolean isAdmin;
     private String matchID;
 
     public Player(){}
 
-    public Player(String userID1, int rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1  )
+    public Player(String userID1, double rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1  )
     {
         userID = userID1;
         rating = rating1;
@@ -37,11 +37,11 @@ public class Player
         this.userID = userID;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

@@ -6,57 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".mainPageFragment">
 
+    <!-- Weather Background -->
+
+    <!-- Day 3 Image -->
+
+    <ImageView
+        android:id="@+id/weatherBackground"
+        android:layout_width="493dp"
+        android:layout_height="342dp"
+        android:layout_marginTop="-70dp"
+        android:src="@drawable/weatherbackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/day3Img"
         android:layout_width="132dp"
         android:layout_height="124dp"
+        android:layout_marginTop="-18dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="180dp"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/iconsGuide"
+        app:layout_constraintBottom_toTopOf="@+id/matchListRecycler"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Day 2 Image -->
     <ImageView
         android:id="@+id/day2Img"
         android:layout_width="121dp"
         android:layout_height="124dp"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/iconsGuide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Day 1 Image -->
     <ImageView
         android:id="@+id/day1Img"
         android:layout_width="125dp"
         android:layout_height="128dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/iconsGuide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/iconsGuide" />
+
+    <!-- Day 1 Text -->
+
+    <!-- Icons Guide -->
 
     <TextView
         android:id="@+id/day1Txt"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="-22dp"
         android:text="Day 1 Forecast"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/txtsGuide"
-        app:layout_constraintEnd_toStartOf="@+id/day2Txt"
-        app:layout_constraintHorizontal_bias="0.181"
+        android:textColor="#F3EDF5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iconsGuide"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/day1Img" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/iconsGuide"
@@ -65,39 +78,44 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="127dp" />
 
+    <!-- Texts Guide -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/txtsGuide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="185dp" />
+        app:layout_constraintGuide_begin="177dp" />
+
+    <!-- Day 2 Text -->
+
+    <!-- Day 3 Text -->
+
+    <!-- Recycler View -->
 
     <TextView
         android:id="@+id/day2Txt"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="-22dp"
         android:text="Day 2 Forecast"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/txtsGuide"
+        android:textColor="#F3EDF5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iconsGuide"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/day2Img" />
 
     <TextView
         android:id="@+id/day3Txt"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="-22dp"
+        android:layout_marginEnd="24dp"
         android:text="Day 3 Forecast"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/txtsGuide"
+        android:textColor="#F3EDF5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.675"
-        app:layout_constraintStart_toEndOf="@+id/day2Txt"
-        app:layout_constraintTop_toTopOf="@+id/iconsGuide"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/day3Img" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/matchListRecycler"
@@ -106,9 +124,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtsGuide"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtsGuide" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

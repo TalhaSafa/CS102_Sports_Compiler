@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +15,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
+import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage extends Fragment {
 
@@ -22,6 +29,9 @@ public class HomePage extends Fragment {
     private User user;
     private firestoreUser fireuser;
     private Button settingsButton;
+    private RecyclerView recyclerView;
+    private List<Match> matches;
+    private MatchAdapter matchAdapter;
 
     public HomePage() {
         user = new User();
@@ -37,6 +47,13 @@ public class HomePage extends Fragment {
         departmentTextView = rootView.findViewById(R.id.departmentTextView);
         ageTextView = rootView.findViewById(R.id.ageTextView);
         settingsButton = rootView.findViewById(R.id.settingsButton);
+        recyclerView = rootView.findViewById(R.id.matchListRecyclerforProfilePage);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matches = getMatches();
+        matchAdapter = new MatchAdapter(matches);
+        recyclerView.setAdapter(matchAdapter);
 
         // Fetch user info and update UI
         fireuser.updateInfo(user, new firestoreUser.FirestoreCallback<User>() {
@@ -77,6 +94,14 @@ public class HomePage extends Fragment {
     //TODO: implement a method calculates age according to birth date.
     public int ageCalc(String birthDate){
         return 0;
+    }
+
+    // TO DO: we need to pull match datas from database. It's not done yet.
+    private List<Match> getMatches()
+    {
+        List<Match> matches = new ArrayList<>();
+
+        return matches;
     }
 }
 

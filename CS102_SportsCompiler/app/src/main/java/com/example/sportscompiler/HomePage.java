@@ -2,6 +2,7 @@ package com.example.sportscompiler;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -60,9 +61,8 @@ public class HomePage extends Fragment {
             @Override
             public void onClick(View view)
             {
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new profile_settings())
-                        .addToBackStack(null).commit();
+                FragmentLoad.loadFragment((AppCompatActivity) HomePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
+
             }
         });
 

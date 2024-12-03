@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         //Load the SigningPage fragment
+
         //FragmentLoad.loadFragment();
 
     }

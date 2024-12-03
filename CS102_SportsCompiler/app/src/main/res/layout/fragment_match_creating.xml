@@ -12,6 +12,7 @@
         android:layout_marginTop="32dp"
         android:text="Create Match!"
         android:textSize="32sp"
+        android:layout_marginLeft="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -62,7 +62,7 @@ public class homeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.mainPage);
         // Set default fragment
-        loadFragment(new AdminPositionSelecter());
+        loadFragment(new mainPageFragment());
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

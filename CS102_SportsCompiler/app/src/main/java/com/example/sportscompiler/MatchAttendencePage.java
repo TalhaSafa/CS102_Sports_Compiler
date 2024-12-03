@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -93,8 +94,13 @@ public class MatchAttendencePage extends Fragment {
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                FragmentLoad.loadFragment((AppCompatActivity) MatchAttendencePage.this.getActivity() , R.id.fragmentContainerView, new match_creating());
+            public void onClick(View view)
+            {
+                Context context = getActivity();
+                if(context != null)
+                {
+                    FragmentLoad.changeActivity(context, CreateMatch.class);
+                }
             }
         });
 

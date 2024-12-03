@@ -110,6 +110,7 @@ public class CreateMatch extends AppCompatActivity {
                 String personCount = personCountSpinner.getSelectedItem().toString();
 
                 // Example: Display the data
+
                 Intent intent = new Intent(CreateMatch.this, AdminPositionSelector.class);
                 intent.putExtra("matchName", matchName);
                 intent.putExtra("notes", notes);

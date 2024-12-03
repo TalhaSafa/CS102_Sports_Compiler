@@ -96,7 +96,7 @@ public class HomePage extends Fragment {
         return 0;
     }
 
-    // TO DO: we need to pull match datas from database. It's not done yet.
+    // TODO: we need to pull match datas from database. It's not done yet.
     private List<Match> getMatches()
     {
         List<Match> matches = new ArrayList<>();

@@ -12,12 +12,13 @@ public class User {
 
     public User(){}
 
-    public User(String UserID, String Name, String BirthDate, String Department)
+    public User(String UserID, String Name, String BirthDate, String Department, double averageRating)
     {
         userID = UserID;
         name = Name;
         birthDate = BirthDate;
         department = Department;
+        this.averageRating = averageRating;
 
     }
 
@@ -64,5 +65,13 @@ public class User {
     public void addMatches(Match match)
     {
         matches.add(match);
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 }

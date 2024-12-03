@@ -89,7 +89,6 @@ public class MatchAttendencePage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
         createMatchButton = view.findViewById(R.id.createMatchButton);
-        firebaseAuth = FirebaseAuth.getInstance();
 
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
@@ -107,59 +106,5 @@ public class MatchAttendencePage extends Fragment {
         return view;
     }
 
-    //To initialize team maps
-    private void initializeMaps(Map<String, Player> team, int numberOfPlayersInATeam)
-    {
-        if(numberOfPlayersInATeam == 5)
-        {
-            team.put(Positions.GK1.getAction(), new Player());
-            team.put(Positions.CB1.getAction(), new Player());
-            team.put(Positions.CB2.getAction(), new Player());
-            team.put(Positions.MO3.getAction(), new Player());
-            team.put(Positions.FW3.getAction(), new Player());
-        }
 
-        if(numberOfPlayersInATeam == 6)
-        {
-            team.put(Positions.GK1.getAction(), new Player());
-            team.put(Positions.CB1.getAction(), new Player());
-            team.put(Positions.CB2.getAction(), new Player());
-            team.put(Positions.MO1.getAction(), new Player());
-            team.put(Positions.MO2.getAction(), new Player());
-            team.put(Positions.FW3.getAction(), new Player());
-        }
-
-    }
-
-    //This method is to try whether database is working or not:
-    private void createNewMatch(String adminID, String matchName, int numberOfPlayersInATeam, View view){
-        Timestamp date = Timestamp.now();
-        Map<String, Player> teamA = new HashMap<>();
-        Map<String, Player> teamB = new HashMap<>();
-        initializeMaps(teamA, numberOfPlayersInATeam);
-        initializeMaps(teamB, numberOfPlayersInATeam);
-        Match newMatch = new Match(adminID, matchName, date, MatchFields.MAIN1, teamA, teamB);
-
-        //To create distinct id for each match:
-        String matchID = newMatch.getAdminID() + newMatch.getDate().toDate().toString();
-
-
-        firestore = FirebaseFirestore.getInstance();
-
-        firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful())
-                                {
-                                    Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
-                                }
-                                else
-                                {
-                                    Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-    }
 }

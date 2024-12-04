@@ -9,15 +9,17 @@ public class User {
     private String department;
     private ArrayList<Match> matches = new ArrayList<Match>();
     private double averageRating;
+    private String profilePicture;
 
     public User(){}
 
-    public User(String UserID, String Name, String BirthDate, String Department)
+    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture)
     {
         userID = UserID;
         name = Name;
         birthDate = BirthDate;
         department = Department;
+        this.profilePicture = profilePicture;
 
     }
 
@@ -56,6 +58,8 @@ public class User {
     public ArrayList<Match> getMatches() {
         return matches;
     }
+
+    public String getProfilePicture(){ return profilePicture; }
 
     public void setMatches(ArrayList<Match> matches) {
         this.matches = matches;

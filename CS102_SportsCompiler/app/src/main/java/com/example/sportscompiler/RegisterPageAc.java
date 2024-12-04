@@ -82,6 +82,7 @@ public class RegisterPageAc extends AppCompatActivity {
                 String birthDate1 = birthDate.getText().toString();
                 String department1 = department.getText().toString();
 
+
                 if(!name.isEmpty() && !mail.isEmpty() && !password.isEmpty() && !rePassword.isEmpty()
                         && !birthDate1.isEmpty() && !department1.isEmpty() && password.equals(rePassword))
                 {
@@ -236,7 +237,7 @@ public class RegisterPageAc extends AppCompatActivity {
 
                                             //CREATING NEW USER:
                                             User user = new User(newUser.getUid(), registerName.getText().toString()
-                                                    , birthDate.getText().toString(), department.getText().toString());
+                                                    , birthDate.getText().toString(), department.getText().toString(),"");
 
                                             updateDatabase(user);
 

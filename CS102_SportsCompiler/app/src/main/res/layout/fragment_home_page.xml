@@ -8,11 +8,13 @@
     android:padding="16dp"
     android:background="#F5F5F5">
 
+    <!-- Bottom Navigation View -->
+
+
     <FrameLayout
         android:id="@+id/child_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,10 +68,9 @@
 
 
         </RelativeLayout>
+
+
     </FrameLayout>
-
-    <!-- Bottom Navigation View -->
-
 
     <ImageView
         android:id="@+id/profile_image"
@@ -79,6 +80,17 @@
         android:src="@drawable/blank_profile_picture"
         android:scaleType="centerCrop"
         android:padding="4dp" />
+
+        <Button
+        android:id="@+id/addPP"
+        android:layout_width="39dp"
+        android:layout_height="34dp"
+        android:layout_alignEnd="@id/profile_image"
+        android:layout_alignBottom="@id/profile_image"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="add"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/nameTextView"

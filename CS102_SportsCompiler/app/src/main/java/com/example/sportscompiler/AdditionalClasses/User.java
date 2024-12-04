@@ -13,7 +13,7 @@ public class User {
 
     public User(){}
 
-    public User(String UserID, String Name, String BirthDate, String Department,String ProfilePicture, double averageRating)
+    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture, double averageRating)
     {
         userID = UserID;
         name = Name;

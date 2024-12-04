@@ -2,6 +2,8 @@ package com.example.sportscompiler;
 
 //import static android.app.PendingIntent.getActivity;
 
+import static java.security.AccessController.getContext;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,9 +16,12 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +29,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.model.DatabaseId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,7 +236,7 @@ public class RegisterPageAc extends AppCompatActivity {
 
                                             //CREATING NEW USER:
                                             User user = new User(newUser.getUid(), registerName.getText().toString()
-                                                    , birthDate.getText().toString(), department.getText().toString(), 0);
+                                                    , birthDate.getText().toString(), department.getText().toString());
 
                                             updateDatabase(user);
 

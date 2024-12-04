@@ -106,11 +106,53 @@ public class CreateMatch extends AppCompatActivity {
                 // Handle button click
                 String matchName = matchNameEditText.getText().toString();
                 String notes = notesEditText.getText().toString();
-                String city = citySpinner.getSelectedItem().toString();
-                String personCount = personCountSpinner.getSelectedItem().toString();
+                long currentTimeMillis = System.currentTimeMillis();
+
+                String city;
+                if(citySpinner.getSelectedItem() != null)
+                {
+                    city = citySpinner.getSelectedItem().toString();
+                }
+                else
+                {
+                    city = "";
+                }
+
+                String personCount;
+                if(personCountSpinner.getSelectedItem() != null)
+                {
+                    personCount = personCountSpinner.getSelectedItem().toString();
+                }
+                else
+                {
+                    personCount = "";
+                }
+
+                if(matchName.isEmpty() || matchName.equals("Name of Match"))
+                {
+                    Toast.makeText(CreateMatch.this, "Please enter a match name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(city.isEmpty() || city.equals("Select a Place"))
+                {
+                    Toast.makeText(CreateMatch.this, "Please enter a place", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(personCount.isEmpty() || personCount.equals("Select person count"))
+                {
+                    Toast.makeText(CreateMatch.this, "Please enter a quota", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(selectedDateTime.getTimeInMillis() <= currentTimeMillis)
+                {
+                    Toast.makeText(CreateMatch.this, "Please enter a proper date and time", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Example: Display the data
-
                 Intent intent = new Intent(CreateMatch.this, AdminPositionSelector.class);
                 intent.putExtra("matchName", matchName);
                 intent.putExtra("notes", notes);

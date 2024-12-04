@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
@@ -25,7 +28,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +42,9 @@ public class MatchAttendencePage extends Fragment {
 
     private Button createMatchButton;
     private String matchName;
+    private RecyclerView recyclerView;
+    private List<Match> matches;
+    private MatchAdapter matchAdapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
@@ -90,6 +98,14 @@ public class MatchAttendencePage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
         createMatchButton = view.findViewById(R.id.createMatchButton);
 
+        recyclerView = view.findViewById(R.id.matchListRecyclerforMatchAttendencePage);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matches = getMatches();
+        matchAdapter = new MatchAdapter(matches);
+        recyclerView.setAdapter(matchAdapter);
+
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +120,14 @@ public class MatchAttendencePage extends Fragment {
         });
 
         return view;
+    }
+
+    // TODO: we need to pull match datas from database. It's not done yet.
+    private List<Match> getMatches()
+    {
+        List<Match> matches = new ArrayList<>();
+
+        return matches;
     }
 
 

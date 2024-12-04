@@ -21,14 +21,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class HomePage extends Fragment {
+public class ProfilePage extends Fragment {
 
     private TextView nameTextView, departmentTextView, ageTextView;
     private User user;
     private firestoreUser fireuser;
     private Button settingsButton;
 
-    public HomePage() {
+    public ProfilePage() {
         user = new User();
         fireuser = new firestoreUser();
     }
@@ -61,7 +61,7 @@ public class HomePage extends Fragment {
             @Override
             public void onClick(View view)
             {
-                FragmentLoad.loadFragment((AppCompatActivity) HomePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
+                FragmentLoad.loadFragment((AppCompatActivity) ProfilePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
 
             }
         });

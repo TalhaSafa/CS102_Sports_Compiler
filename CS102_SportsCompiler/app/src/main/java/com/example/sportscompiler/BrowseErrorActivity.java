@@ -27,7 +27,7 @@ public class BrowseErrorActivity extends FragmentActivity {
     /**
      * Called when the activity is first created.
      */
-    /*
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +65,7 @@ public class BrowseErrorActivity extends FragmentActivity {
             }
         }, TIMER_DELAY);
     }
-    */
+
     public static class SpinnerFragment extends Fragment {
         @Override
         public View onCreateView(
@@ -79,4 +79,5 @@ public class BrowseErrorActivity extends FragmentActivity {
             return progressBar;
         }
     }
+
 }

@@ -23,7 +23,7 @@ import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends Fragment {
+public class ProfilePage extends Fragment {
 
     private TextView nameTextView, departmentTextView, ageTextView;
     private User user;
@@ -33,7 +33,7 @@ public class HomePage extends Fragment {
     private List<Match> matches;
     private MatchAdapter matchAdapter;
 
-    public HomePage() {
+    public ProfilePage() {
         user = new User();
         fireuser = new firestoreUser();
     }
@@ -73,7 +73,7 @@ public class HomePage extends Fragment {
             @Override
             public void onClick(View view)
             {
-                FragmentLoad.loadFragment((AppCompatActivity) HomePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
+                FragmentLoad.loadFragment((AppCompatActivity) ProfilePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
 
             }
         });

@@ -54,7 +54,7 @@ public class homeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        profileFragment = new HomePage();
+        profileFragment = new ProfilePage();
         mainPageFragment = new mainPageFragment();
         matchAttendence = new MatchAttendencePage();
 

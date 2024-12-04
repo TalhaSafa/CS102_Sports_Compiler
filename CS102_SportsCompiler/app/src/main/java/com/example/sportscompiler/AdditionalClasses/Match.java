@@ -15,10 +15,11 @@ public class Match
     private MatchFields field;
     private Map<String, Player > playersA;
     private Map<String, Player > playersB;
+    private String adminPosition;
 
     public Match(){}
 
-    public Match(String adminID1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1 )
+    public Match(String adminID1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition )
     {
         adminID = adminID1;
         date = date1;
@@ -26,6 +27,7 @@ public class Match
         playersA= playersA1;
         playersB= playersB1;
         this.matchName = matchName;
+        this.adminPosition = adminPosition;
     }
 
 
@@ -87,5 +89,13 @@ public class Match
         {
             return "outOfBond";
         }
+    }
+
+    public String getAdminPosition() {
+        return adminPosition;
+    }
+
+    public void setAdminPosition(String adminPosition) {
+        this.adminPosition = adminPosition;
     }
 }

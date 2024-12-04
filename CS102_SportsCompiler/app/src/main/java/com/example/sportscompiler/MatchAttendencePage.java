@@ -1,9 +1,13 @@
 package com.example.sportscompiler;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
@@ -22,7 +28,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +42,9 @@ public class MatchAttendencePage extends Fragment {
 
     private Button createMatchButton;
     private String matchName;
+    private RecyclerView recyclerView;
+    private List<Match> matches;
+    private MatchAdapter matchAdapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
@@ -86,72 +97,38 @@ public class MatchAttendencePage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
         createMatchButton = view.findViewById(R.id.createMatchButton);
-        firebaseAuth = FirebaseAuth.getInstance();
+
+        recyclerView = view.findViewById(R.id.matchListRecyclerforMatchAttendencePage);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matches = getMatches();
+        matchAdapter = new MatchAdapter(matches);
+        recyclerView.setAdapter(matchAdapter);
 
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                createNewMatch(firebaseAuth.getCurrentUser().getUid().toString(), matchName, 5, view);
+            public void onClick(View view)
+            {
+                Context context = getActivity();
+                if(context != null)
+                {
+                    FragmentLoad.changeActivity(context, CreateMatch.class);
+                }
             }
         });
 
         return view;
     }
 
-    //To initialize team maps
-    private void initializeMaps(Map<String, Player> team, int numberOfPlayersInATeam)
+    // TODO: we need to pull match datas from database. It's not done yet.
+    private List<Match> getMatches()
     {
-        if(numberOfPlayersInATeam == 5)
-        {
-            team.put(Positions.GK1.getAction(), new Player());
-            team.put(Positions.CB1.getAction(), new Player());
-            team.put(Positions.CB2.getAction(), new Player());
-            team.put(Positions.MO3.getAction(), new Player());
-            team.put(Positions.FW3.getAction(), new Player());
-        }
+        List<Match> matches = new ArrayList<>();
 
-        if(numberOfPlayersInATeam == 6)
-        {
-            team.put(Positions.GK1.getAction(), new Player());
-            team.put(Positions.CB1.getAction(), new Player());
-            team.put(Positions.CB2.getAction(), new Player());
-            team.put(Positions.MO1.getAction(), new Player());
-            team.put(Positions.MO2.getAction(), new Player());
-            team.put(Positions.FW3.getAction(), new Player());
-        }
-
+        return matches;
     }
 
-    //This method is to try whether database is working or not:
-    private void createNewMatch(String adminID, String matchName, int numberOfPlayersInATeam, View view){
-        Timestamp date = Timestamp.now();
-        Map<String, Player> teamA = new HashMap<>();
-        Map<String, Player> teamB = new HashMap<>();
-        initializeMaps(teamA, numberOfPlayersInATeam);
-        initializeMaps(teamB, numberOfPlayersInATeam);
-        Match newMatch = new Match(adminID, matchName, date, MatchFields.MAIN1, teamA, teamB);
 
-        //To create distinct id for each match:
-        String matchID = newMatch.getAdminID() + newMatch.getDate().toDate().toString();
-
-
-        firestore = FirebaseFirestore.getInstance();
-
-        firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful())
-                                {
-                                    Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
-                                }
-                                else
-                                {
-                                    Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-    }
 }

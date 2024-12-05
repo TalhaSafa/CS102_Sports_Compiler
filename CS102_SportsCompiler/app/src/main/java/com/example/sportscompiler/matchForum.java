@@ -1,64 +1,65 @@
 package com.example.sportscompiler;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link matchForum#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sportscompiler.Adapters.MessageAdapter;
+import com.example.sportscompiler.AdditionalClasses.Message;
+import com.example.sportscompiler.AdditionalClasses.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class matchForum extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerView;
+    private EditText editTextMessage;
+    private Button buttonSend;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<Message> messageList;
+    private MessageAdapter messageAdapter;
+    private User loggedInUser;
 
     public matchForum() {
-        // Required empty public constructor
+        this.loggedInUser = ProfilePage.getUser();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment matchForum.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static matchForum newInstance(String param1, String param2) {
-        matchForum fragment = new matchForum();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_match_forum, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match_forum, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewMessages);
+        editTextMessage = view.findViewById(R.id.editTextTextMultiLine2);
+        buttonSend = view.findViewById(R.id.button4);
+
+        messageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(getContext(), messageList);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(messageAdapter);
+
+        buttonSend.setOnClickListener(v -> {
+            String content = editTextMessage.getText().toString().trim();
+            if (!content.isEmpty()) {
+                // Add message with logged-in user
+                messageList.add(new Message(loggedInUser, content));
+                messageAdapter.notifyItemInserted(messageList.size() - 1);
+                recyclerView.scrollToPosition(messageList.size() - 1);
+                editTextMessage.setText("");
+            }
+        });
+
+        return view;
     }
 }

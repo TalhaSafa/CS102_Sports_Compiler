@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ProfilePage extends Fragment {
 
     private TextView nameTextView, departmentTextView, ageTextView;
-    private User user;
+    private static User user;
     private firestoreUser fireuser;
     private Button settingsButton;
 
@@ -67,6 +67,10 @@ public class ProfilePage extends Fragment {
         });
 
         return rootView;
+    }
+
+    public static User getUser() {
+        return user;
     }
 
     /**

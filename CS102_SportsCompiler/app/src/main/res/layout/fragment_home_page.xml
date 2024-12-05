@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePage"
+    tools:context=".HomePage"
     android:padding="16dp"
     android:background="#F5F5F5">
 
@@ -176,18 +176,8 @@
             android:text="03.03.30"
             android:textSize="30sp" />
 
-    </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/matchListRecyclerforProfilePage"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+    </RelativeLayout>
 
 
 </RelativeLayout>

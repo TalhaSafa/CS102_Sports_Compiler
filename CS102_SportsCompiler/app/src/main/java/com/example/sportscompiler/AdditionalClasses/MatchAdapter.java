@@ -43,7 +43,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     @Override
     public int getItemCount()
     {
-        return matchList.size();
+        if(matchList != null){
+            return matchList.size();
+        }
+        return 0;
     }
 
     public static class MatchViewHolder extends RecyclerView.ViewHolder

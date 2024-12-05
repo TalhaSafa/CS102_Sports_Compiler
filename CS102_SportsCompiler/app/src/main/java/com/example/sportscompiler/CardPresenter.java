@@ -1,5 +1,5 @@
 package com.example.sportscompiler;
-
+/*
 import android.graphics.drawable.Drawable;
 
 import androidx.leanback.widget.ImageCardView;
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
  * It contains an Image CardView
- */
+
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
@@ -44,7 +44,7 @@ public class CardPresenter extends Presenter {
          * This template uses a default image in res/drawable, but the general case for Android TV
          * will require your resources in xhdpi. For more information, see
          * https://developer.android.com/training/tv/start/layouts.html#density-resources
-         */
+
         mDefaultCardImage = ContextCompat.getDrawable(parent.getContext(), R.drawable.movie);
 
         ImageCardView cardView =
@@ -88,4 +88,4 @@ public class CardPresenter extends Presenter {
         cardView.setBadgeImage(null);
         cardView.setMainImage(null);
     }
-}
+}*/

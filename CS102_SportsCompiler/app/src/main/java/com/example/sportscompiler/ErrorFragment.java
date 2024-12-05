@@ -1,15 +1,15 @@
 package com.example.sportscompiler;
-
+/*
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.ErrorSupportFragment;
-
+/*
 /*
  * This class demonstrates how to extend ErrorSupportFragment.
- */
+
 public class ErrorFragment extends ErrorSupportFragment {
     private static final String TAG = "ErrorFragment";
     private static final boolean TRANSLUCENT = true;
@@ -35,4 +35,4 @@ public class ErrorFragment extends ErrorSupportFragment {
                     }
                 });
     }
-}
+}*/

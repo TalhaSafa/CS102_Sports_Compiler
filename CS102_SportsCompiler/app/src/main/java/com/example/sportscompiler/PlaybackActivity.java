@@ -1,12 +1,12 @@
 package com.example.sportscompiler;
-
+/*
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
 /**
  * Loads {@link PlaybackVideoFragment}.
- */
+
 public class PlaybackActivity extends FragmentActivity {
 
     @Override
@@ -19,4 +19,4 @@ public class PlaybackActivity extends FragmentActivity {
                     .commit();
         }
     }
-}
+}*/

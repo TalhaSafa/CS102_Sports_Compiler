@@ -1,5 +1,5 @@
 package com.example.sportscompiler;
-
+/*
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 
 public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
@@ -14,4 +14,4 @@ public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPrese
             viewHolder.getBody().setText(movie.getDescription());
         }
     }
-}
+}*/

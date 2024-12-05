@@ -1,4 +1,4 @@
-package com.example.sportscompiler;
+/*package com.example.sportscompiler;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.leanback.widget.PlaybackControlsRow;
 
 /**
  * Handles video playback with media controls.
- */
+
 public class PlaybackVideoFragment extends VideoSupportFragment {
 
     private PlaybackTransportControlGlue<MediaPlayerAdapter> mTransportControlGlue;
@@ -44,4 +44,4 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
             mTransportControlGlue.pause();
         }
     }
-}
+}*/

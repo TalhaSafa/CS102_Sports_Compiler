@@ -76,13 +76,14 @@ public class firestoreUser {
     }
 
    private Bitmap uriToBitmap(Uri uri, Context context) throws IOException {
+
         return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
     }
 
    private  String encodeImageToBase64(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[]byteArray = baos.toByteArray();
+        byte[] byteArray = baos.toByteArray();
         return Base64.encodeToString(byteArray,Base64.DEFAULT);
     }
 
@@ -106,17 +107,33 @@ public class firestoreUser {
         }
     }
 
-    public void saveImage(Uri uri, Context context){
+    public void saveImage(Uri uri, Context context) {
         try {
-            Bitmap map = uriToBitmap(uri, context);
-            String base = encodeImageToBase64(map);
-            saveImageFireStore(base, context);
-        }
-        catch (IOException e){
+            if (uri == null) {
+                Log.e("FirestoreUser", "Image URI is null");
+                Toast.makeText(context, "Invalid image URI", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bitmap bitmap = uriToBitmap(uri, context);
+            if (bitmap == null) {
+                Log.e("FirestoreUser", "Failed to convert URI to Bitmap");
+                Toast.makeText(context, "Error processing image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Log bitmap details
+            Log.d("FirestoreUser", "Bitmap dimensions: " + bitmap.getWidth() + "x" + bitmap.getHeight());
+
+            String base64Image = encodeImageToBase64(bitmap);
+            saveImageFireStore(base64Image, context);
+
+        } catch (IOException e) {
             Toast.makeText(context, "Error processing image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("FirestoreUser", "IOException in saveImage", e);
         }
     }
+
     public Uri saveBitmapToFile(Context context, Bitmap bitmap) {
         try {
             File file = new File(context.getCacheDir(), "temp_image.jpg");

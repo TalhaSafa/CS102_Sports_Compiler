@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 /*
  * BrowseErrorActivity shows how to use ErrorFragment
  */
+/*
 public class BrowseErrorActivity extends FragmentActivity {
     private static final int TIMER_DELAY = 3000;
     private static final int SPINNER_WIDTH = 100;
@@ -26,7 +27,7 @@ public class BrowseErrorActivity extends FragmentActivity {
 
     /**
      * Called when the activity is first created.
-     */
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,4 +81,4 @@ public class BrowseErrorActivity extends FragmentActivity {
         }
     }
 
-}
+}*/

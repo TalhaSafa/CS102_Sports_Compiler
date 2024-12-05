@@ -1,5 +1,5 @@
 package com.example.sportscompiler;
-
+/*
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,7 +41,7 @@ import java.util.List;
 /*
  * LeanbackDetailsFragment extends DetailsFragment, a Wrapper fragment for leanback details screens.
  * It shows a detailed view of video and its meta plus related videos.
- */
+
 public class VideoDetailsFragment extends DetailsSupportFragment {
     private static final String TAG = "VideoDetailsFragment";
 
@@ -218,4 +218,4 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
             }
         }
     }
-}
+}*/

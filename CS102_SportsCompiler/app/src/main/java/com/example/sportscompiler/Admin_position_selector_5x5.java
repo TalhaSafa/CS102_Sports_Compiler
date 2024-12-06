@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
+import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
@@ -44,6 +45,8 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private String matchName, notes, city, personCount;
     private long dateTimeMillis;
+    private Match newMatch;
+    private String matchID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -213,12 +216,12 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         initializeMaps(teamB, numberOfPlayersInATeam);
 
         //To create distinct id for each match:
-        String matchID = adminID + date.toDate().toString();
+        matchID = adminID + date.toDate().toString();
 
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        Match newMatch = new Match(adminID,adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(),notes);
+        newMatch = new Match(adminID,adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(),notes, matchID);
 
 
         firestore = FirebaseFirestore.getInstance();
@@ -230,6 +233,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
+                            initializeForum(date, view);
                         }
                         else
                         {
@@ -238,5 +242,23 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void initializeForum(Timestamp date, View view)
+    {
+        String messageID = newMatch.getMatchID() +  user.getName() + date.toDate().toString();
+        Message startingMessage = new Message(user, date, user.getName() + " created this match."
+                , messageID);
+
+        firestore.collection(newMatch.getMatchType()).document(matchID).collection("forum")
+                .document("SystemMessage").set(startingMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!(task.isSuccessful()))
+                        {
+                            Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

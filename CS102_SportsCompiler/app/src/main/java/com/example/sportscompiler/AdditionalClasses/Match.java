@@ -19,10 +19,13 @@ public class Match
     private Map<String, Player > playersB;
     private String adminPosition;
     private String notes;
+    private String matchID;
 
     public Match(){}
 
-    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition, String notes)
+    public Match(String adminID1, String adminName, String matchName, Timestamp date1,
+                 MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1,
+                 String adminPosition, String notes, String matchID)
     {
         adminID = adminID1;
         this.adminName = adminName;
@@ -33,6 +36,7 @@ public class Match
         this.matchName = matchName;
         this.adminPosition = adminPosition;
         this.notes = notes;
+        this.matchID = matchID;
     }
 
 
@@ -182,4 +186,11 @@ public class Match
         }
     }
 
+    public String getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(String matchID) {
+        this.matchID = matchID;
+    }
 }

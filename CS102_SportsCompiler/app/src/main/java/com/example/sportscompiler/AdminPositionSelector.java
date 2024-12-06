@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
+import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
@@ -44,6 +46,9 @@ public class AdminPositionSelector extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private String matchName, notes, city, personCount;
     private long dateTimeMillis;
+    private String matchID;
+
+    private Match newMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -99,7 +104,20 @@ public class AdminPositionSelector extends AppCompatActivity {
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
                     createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
-                    Toast.makeText(AdminPositionSelector.this, numberOfPlayersInATeam + " " + "Position " + (selectedPosition + 1) + " selected", Toast.LENGTH_SHORT).show();
+
+
+                    //TODO: TO TRY FORUM:
+
+
+                    Intent toSentIntent = new Intent(AdminPositionSelector.this, MatchForumActivity.class);
+                    toSentIntent.putExtra("matchID", newMatch.getMatchID());
+                    toSentIntent.putExtra("matchType", newMatch.getMatchType());
+                    startActivity(toSentIntent);
+
+
+
+
+
                 }
             }
         });
@@ -213,12 +231,12 @@ public class AdminPositionSelector extends AppCompatActivity {
         initializeMaps(teamB, numberOfPlayersInATeam);
 
         //To create distinct id for each match:
-        String matchID = adminID + date.toDate().toString();
+        matchID = adminID + date.toDate().toString();
 
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        Match newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes );
+        newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID );
 
 
         firestore = FirebaseFirestore.getInstance();
@@ -230,6 +248,7 @@ public class AdminPositionSelector extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
+                            initializeForum(date, view);
                         }
                         else
                         {
@@ -238,5 +257,23 @@ public class AdminPositionSelector extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void initializeForum(Timestamp date, View view)
+    {
+        String messageID = newMatch.getMatchID() +  user.getName() + date.toDate().toString();
+        Message startingMessage = new Message(user, date, user.getName() + " created this match."
+                , messageID);
+
+        firestore.collection(newMatch.getMatchType()).document(matchID).collection("forum")
+                .document("SystemMessage").set(startingMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!(task.isSuccessful()))
+                        {
+                            Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

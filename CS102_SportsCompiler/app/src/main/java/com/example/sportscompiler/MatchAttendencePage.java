@@ -44,6 +44,7 @@ import java.util.Map;
 public class MatchAttendencePage extends Fragment {
 
     private FloatingActionButton createMatchButton;
+    private Button sortButton, filterButton;
     private String matchName;
     private RecyclerView recyclerView;
     private List<Match> matches = new ArrayList<>();
@@ -101,6 +102,8 @@ public class MatchAttendencePage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_match_attendence_page, container, false);
         createMatchButton = view.findViewById(R.id.createMatchButton);
+        sortButton = view.findViewById(R.id.sortingButton);
+        filterButton = view.findViewById(R.id.filteringButton);
 
         recyclerView = view.findViewById(R.id.matchListRecyclerforMatchAttendencePage);
 
@@ -136,6 +139,8 @@ public class MatchAttendencePage extends Fragment {
                 }
             }
         });
+
+
 
         return view;
     }

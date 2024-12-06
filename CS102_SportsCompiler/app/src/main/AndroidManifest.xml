@@ -4,14 +4,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="SportsCompiler"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
-
+        <activity
+            android:name=".MatchForumActivity"
+            android:exported="false" />
         <activity
             android:name=".AdminPositionSelector"
             android:exported="false" />

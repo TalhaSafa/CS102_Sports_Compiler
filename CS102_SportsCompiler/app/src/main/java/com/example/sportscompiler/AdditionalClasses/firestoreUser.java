@@ -51,7 +51,6 @@ public class firestoreUser {
         Fauth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         userID = Fauth.getCurrentUser().getUid();
-        user.setUserID(userID);
 
         DocumentReference documentReference = firestore.collection("users").document(userID);
 
@@ -66,10 +65,9 @@ public class firestoreUser {
                 }
 
                 if (value != null && value.exists()) {
-                    user.setName(value.getString("name"));
-                    user.setDepartment(value.getString("department"));
-                    user.setBirthDate(value.getString("birthDate"));
-                    callback.onSuccess(user); // Notify callback of the updated user
+                    User updatedUser;
+                    updatedUser = value.toObject(User.class);
+                    callback.onSuccess(updatedUser); // Notify callback of the updated user
                 } else {
                     Log.e("FirestoreUser", "No data found for user");
                     callback.onError(new Exception("No data found"));

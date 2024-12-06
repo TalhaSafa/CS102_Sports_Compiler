@@ -24,6 +24,7 @@ public class LoginPage extends AppCompatActivity {
     private Button loginButton;
     private Button forgotPasswordButton;
     private Button registerButton;
+    private Button autoLogin;
 
     private String eMail;
     private String password;
@@ -42,6 +43,16 @@ public class LoginPage extends AppCompatActivity {
         loginButton = findViewById(R.id.signInButton);
         forgotPasswordButton = findViewById(R.id.forgetPasswordButton);
         registerButton = findViewById(R.id.registerButton);
+
+        //TODO AUTOLOGING FOR IMPLEMENTATIN STAGE:
+        autoLogin = findViewById(R.id.autoLogin);
+        autoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginMail.setText("safa.kucuk@ug.bilkent.edu.tr");
+                loginPassword.setText("Talha.123");
+            }
+        });
 
         firebaseAuth = FirebaseAuth.getInstance();
 

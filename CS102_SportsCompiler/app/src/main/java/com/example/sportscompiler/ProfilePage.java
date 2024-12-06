@@ -101,7 +101,6 @@ public class ProfilePage extends Fragment {
             public void onClick(View view)
             {
                 FragmentLoad.loadFragment((AppCompatActivity) ProfilePage.this.getActivity(), R.id.fragmentContainerView, new profile_settings() );
-
             }
         });
 

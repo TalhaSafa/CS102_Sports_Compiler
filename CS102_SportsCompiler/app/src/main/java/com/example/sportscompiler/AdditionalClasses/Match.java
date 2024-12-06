@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,16 +119,67 @@ public class Match
     public void setAdminName(String adminName) {
         this.adminName = adminName;
     }
-   /* public int countTeam(Map<String, Player> players){
+    public int countTeam(Map<String, Player> players){
         int count = 0;
-        for(int i = 0; i< players.size();i++){
-            if(players.get() != null)
+        ArrayList<String> positionList = new ArrayList<>();
+        if(getMatchType().equals("matches5"))
+        {
+            positionList.add(Positions.GK1.getAction());
+            positionList.add(Positions.CB1.getAction());
+            positionList.add(Positions.CB2.getAction());
+            positionList.add(Positions.CB3.getAction());
+            positionList.add(Positions.FW3.getAction());
+        }
+        else if(getMatchType().equals("matches6"))
+        {
+            positionList.add(Positions.GK1.getAction());
+            positionList.add(Positions.CB1.getAction());
+            positionList.add(Positions.CB2.getAction());
+            positionList.add(Positions.CB3.getAction());
+            positionList.add(Positions.MO3.getAction());
+            positionList.add(Positions.FW3.getAction());
+        }
+        else
+        {
+            throw new NullPointerException("Not determined match size");
+        }
+        for(int i = 0; i< players.size() ; i++){
+            if(players.get(positionList.get(i)) != null)
+            {
+                count++;
+            }
         }
         return count;
     }
 
-    */
+
     public boolean isFull(){
-        return true;
+        if(getMatchType().equals("matches5"))
+        {
+            if(countTeam(playersA) == 5 && countTeam(playersB) == 5)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        else if(getMatchType().equals("matches6"))
+        {
+            if(countTeam(playersA) == 6 && countTeam(playersB) == 6)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else{
+            throw new NullPointerException("Not determined match type");
+        }
     }
+
 }

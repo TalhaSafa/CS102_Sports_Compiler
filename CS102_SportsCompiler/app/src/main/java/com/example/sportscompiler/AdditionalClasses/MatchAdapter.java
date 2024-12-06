@@ -1,8 +1,10 @@
 package com.example.sportscompiler.AdditionalClasses;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,49 +16,66 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHolder>
-{
+public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHolder> {
     private List<Match> matchList;
+    private OnItemClickListener onItemClickListener;
 
-    public MatchAdapter(List<Match> matchList)
-    {
+    public interface OnItemClickListener {
+        void onItemClick(Match match);
+    }
+
+    public MatchAdapter(List<Match> matchList, OnItemClickListener onItemClickListener) {
         this.matchList = matchList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
-    public MatchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public MatchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match, parent, false);
-
         return new MatchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MatchViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull MatchViewHolder holder, int position) {
         Match match = matchList.get(position);
+
+        // Bind data
         holder.matchName.setText(match.getMatchName());
-        holder.matchDate.setText(match.getDate().toString());
+        holder.matchDate.setText("Date: " + match.getDate().toDate().toString());
+        holder.place.setText("Place: " + match.getPlace());
+        holder.adminName.setText("Admin: " + match.getAdminName());
+        holder.notes.setText("Notes: " + (match.getNotes() != null ? match.getNotes() : "None"));
+
+        // Set background color based on match status
+        if (match.isFull()) {
+            holder.cardBackground.setBackgroundColor(Color.RED);
+        } else {
+            holder.cardBackground.setBackgroundColor(Color.GREEN);
+        }
+
+        // Handle item click
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(match));
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return matchList.size();
     }
 
-    public static class MatchViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView matchName, matchScore, matchPosition, matchDate;
+    public static class MatchViewHolder extends RecyclerView.ViewHolder {
+        TextView matchName, matchDate, place, adminName, notes;
+        RelativeLayout cardBackground;
 
-        public MatchViewHolder(@NonNull View itemView)
-        {
+        public MatchViewHolder(@NonNull View itemView) {
             super(itemView);
             matchName = itemView.findViewById(R.id.matchName);
-            matchScore = itemView.findViewById(R.id.matchScore);
-            matchPosition = itemView.findViewById(R.id.matchPosition);
             matchDate = itemView.findViewById(R.id.matchDate);
+            place = itemView.findViewById(R.id.place);
+            adminName = itemView.findViewById(R.id.adminName);
+            notes = itemView.findViewById(R.id.notes);
+            cardBackground = itemView.findViewById(R.id.cardBackground);
         }
     }
 }
+

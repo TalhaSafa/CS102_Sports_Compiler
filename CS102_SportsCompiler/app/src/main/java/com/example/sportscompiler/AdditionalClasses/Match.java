@@ -19,7 +19,7 @@ public class Match
 
     public Match(){}
 
-    public Match(String adminID1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition )
+    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition )
     {
         adminID = adminID1;
         date = date1;

@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
 
-
         <activity
             android:name=".AdminPositionSelector"
             android:exported="false" />

@@ -30,7 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ProfilePage extends Fragment {
 
     private TextView nameTextView, departmentTextView, ageTextView;
-    private User user;
+    private static User user;
     private firestoreUser fireuser;
     private Button settingsButton, changeProfile;
     public Uri ImageUri;
@@ -109,6 +109,9 @@ public class ProfilePage extends Fragment {
         return rootView;
     }
 
+    public static User getUser() {
+        return user;
+    }
 
     /**
      * Updates the UI elements with the user's data.

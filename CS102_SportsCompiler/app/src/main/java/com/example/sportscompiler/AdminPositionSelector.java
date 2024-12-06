@@ -216,8 +216,9 @@ public class AdminPositionSelector extends AppCompatActivity {
         String matchID = adminID + date.toDate().toString();
 
         setAdminPosition(teamA, adminPosition, matchID);
+        String adminName = user.getName();
 
-        Match newMatch = new Match(adminID, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction());
+        Match newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes );
 
 
         firestore = FirebaseFirestore.getInstance();

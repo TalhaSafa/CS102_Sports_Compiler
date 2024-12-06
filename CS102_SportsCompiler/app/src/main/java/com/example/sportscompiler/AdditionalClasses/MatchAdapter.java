@@ -43,8 +43,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         // Bind data
         holder.matchName.setText(match.getMatchName());
         holder.matchDate.setText("Date: " + match.getDate().toDate().toString());
-        holder.place.setText("Place: " + match.getPlace());
-        holder.adminName.setText("Admin: " + match.getAdminName());
+        holder.place.setText("Place: " + match.getField()));
+        holder.adminName.setText("Admin: " + match.getAdminID());
         holder.notes.setText("Notes: " + (match.getNotes() != null ? match.getNotes() : "None"));
 
         // Set background color based on match status

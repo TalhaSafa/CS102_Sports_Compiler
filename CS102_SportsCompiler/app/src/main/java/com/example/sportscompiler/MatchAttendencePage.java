@@ -45,7 +45,7 @@ public class MatchAttendencePage extends Fragment {
     private Button createMatchButton;
     private String matchName;
     private RecyclerView recyclerView;
-    private List<Match> matches;
+    private List<Match> matches = new ArrayList<>();
     private MatchAdapter matchAdapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
@@ -110,7 +110,7 @@ public class MatchAttendencePage extends Fragment {
             public void onSuccess(List<Match> result) {
                 matches = result;
                 System.out.println(matches);
-                matchAdapter = new MatchAdapter(matches);
+                matchAdapter = new MatchAdapter(matches,);
                 recyclerView.setAdapter(matchAdapter);
             }
 
@@ -120,7 +120,7 @@ public class MatchAttendencePage extends Fragment {
 
             }
         });
-        matchAdapter = new MatchAdapter(matches);
+        matchAdapter = new MatchAdapter(matches,);
         recyclerView.setAdapter(matchAdapter);
 
 

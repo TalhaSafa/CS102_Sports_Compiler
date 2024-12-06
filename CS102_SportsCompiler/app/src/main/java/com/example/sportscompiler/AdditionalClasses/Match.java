@@ -10,24 +10,28 @@ import java.util.Map;
 public class Match
 {
     private String adminID;
+    private String adminName;
     private String matchName;
     private Timestamp date;
     private MatchFields field;
     private Map<String, Player > playersA;
     private Map<String, Player > playersB;
     private String adminPosition;
+    private String notes;
 
     public Match(){}
 
-    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition )
+    public Match(String adminID1, String adminName, String adminName1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition, String notes)
     {
         adminID = adminID1;
+        this.adminName = adminName1;
         date = date1;
         field = field1;
         playersA= playersA1;
         playersB= playersB1;
         this.matchName = matchName;
         this.adminPosition = adminPosition;
+        this.notes = notes;
     }
 
 
@@ -97,5 +101,33 @@ public class Match
 
     public void setAdminPosition(String adminPosition) {
         this.adminPosition = adminPosition;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+   /* public int countTeam(Map<String, Player> players){
+        int count = 0;
+        for(int i = 0; i< players.size();i++){
+            if(players.get() != null)
+        }
+        return count;
+    }
+
+    */
+    public boolean isFull(){
+        return true;
     }
 }

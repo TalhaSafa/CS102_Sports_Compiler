@@ -21,10 +21,10 @@ public class Match
 
     public Match(){}
 
-    public Match(String adminID1, String adminName, String adminName1, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition, String notes)
+    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition, String notes)
     {
         adminID = adminID1;
-        this.adminName = adminName1;
+        this.adminName = adminName;
         date = date1;
         field = field1;
         playersA= playersA1;

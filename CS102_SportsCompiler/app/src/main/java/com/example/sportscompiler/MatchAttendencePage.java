@@ -25,6 +25,7 @@ import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,7 +43,7 @@ import java.util.Map;
  */
 public class MatchAttendencePage extends Fragment {
 
-    private Button createMatchButton;
+    private FloatingActionButton createMatchButton;
     private String matchName;
     private RecyclerView recyclerView;
     private List<Match> matches = new ArrayList<>();
@@ -110,7 +111,7 @@ public class MatchAttendencePage extends Fragment {
             public void onSuccess(List<Match> result) {
                 matches = result;
                 System.out.println(matches);
-                matchAdapter = new MatchAdapter(matches,);
+                //matchAdapter = new MatchAdapter(matches,);
                 recyclerView.setAdapter(matchAdapter);
             }
 
@@ -120,7 +121,7 @@ public class MatchAttendencePage extends Fragment {
 
             }
         });
-        matchAdapter = new MatchAdapter(matches,);
+        //matchAdapter = new MatchAdapter(matches);
         recyclerView.setAdapter(matchAdapter);
 
 

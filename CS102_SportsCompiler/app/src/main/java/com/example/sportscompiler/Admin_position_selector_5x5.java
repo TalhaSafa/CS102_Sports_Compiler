@@ -102,7 +102,6 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
                     createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
-                    Toast.makeText(Admin_position_selector_5x5.this, numberOfPlayersInATeam + " " + "Position " + (selectedPosition + 1) + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });

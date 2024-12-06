@@ -15,7 +15,7 @@
         android:layout_height="600dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.014"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -24,6 +24,39 @@
         <include layout="@layout/match_design_6v6" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="552dp"
+        android:text="Name"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/ratingView"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="49dp"
+        android:text="Surname"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/ratingView"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout"
+        app:layout_constraintTop_toTopOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.013" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="64dp"
+        android:text="Cuurent Rating: 3,4"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+        app:layout_constraintEnd_toStartOf="@+id/ratingView" />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -35,6 +68,7 @@
         android:rating="0"
         android:stepSize="1"
         app:layout_constraintEnd_toEndOf="@+id/ratingView"
+        app:layout_constraintHorizontal_bias="0.772"
         app:layout_constraintStart_toStartOf="@+id/ratingView"
         app:layout_constraintTop_toBottomOf="@+id/ratingView" />
 
@@ -42,9 +76,11 @@
         android:id="@+id/ratingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Rating"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.889"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 

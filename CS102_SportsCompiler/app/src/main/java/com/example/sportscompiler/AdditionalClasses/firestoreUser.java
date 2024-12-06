@@ -1,5 +1,6 @@
 package com.example.sportscompiler.AdditionalClasses;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -13,12 +14,15 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +35,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
@@ -76,13 +82,14 @@ public class firestoreUser {
     }
 
    private Bitmap uriToBitmap(Uri uri, Context context) throws IOException {
+
         return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
     }
 
    private  String encodeImageToBase64(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[]byteArray = baos.toByteArray();
+        byte[] byteArray = baos.toByteArray();
         return Base64.encodeToString(byteArray,Base64.DEFAULT);
     }
 
@@ -106,17 +113,33 @@ public class firestoreUser {
         }
     }
 
-    public void saveImage(Uri uri, Context context){
+    public void saveImage(Uri uri, Context context) {
         try {
-            Bitmap map = uriToBitmap(uri, context);
-            String base = encodeImageToBase64(map);
-            saveImageFireStore(base, context);
-        }
-        catch (IOException e){
+            if (uri == null) {
+                Log.e("FirestoreUser", "Image URI is null");
+                Toast.makeText(context, "Invalid image URI", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bitmap bitmap = uriToBitmap(uri, context);
+            if (bitmap == null) {
+                Log.e("FirestoreUser", "Failed to convert URI to Bitmap");
+                Toast.makeText(context, "Error processing image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Log bitmap details
+            Log.d("FirestoreUser", "Bitmap dimensions: " + bitmap.getWidth() + "x" + bitmap.getHeight());
+
+            String base64Image = encodeImageToBase64(bitmap);
+            saveImageFireStore(base64Image, context);
+
+        } catch (IOException e) {
             Toast.makeText(context, "Error processing image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("FirestoreUser", "IOException in saveImage", e);
         }
     }
+
     public Uri saveBitmapToFile(Context context, Bitmap bitmap) {
         try {
             File file = new File(context.getCacheDir(), "temp_image.jpg");
@@ -129,6 +152,41 @@ public class firestoreUser {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void getMatches(FirestoreCallback<List<Match>> callback) {
+        firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
+        firestore.collection("matches5").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                List<Match> matches = new ArrayList<>();
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<String, Object> data = document.getData();
+
+                    Match match = new Match();
+                    match.setAdminID((String) data.get("adminID"));
+                    match.setMatchName((String) data.get("matchName"));
+                    match.setDate((Timestamp) data.get("date"));
+
+                    // Deserialize playersA and playersB manually
+                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
+                    Map<String, Player> playersA = new HashMap<>();
+                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
+                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
+                        Player player = new Player();
+                        playersA.put(entry.getKey(), player);
+                    }
+
+                    match.setPlayersA(playersA);
+                    // Repeat for playersB
+                    matches.add(match);
+                }
+                callback.onSuccess(matches); // Return matches through callback.
+            } else {
+                callback.onError(task.getException());
+            }
+        });
     }
 
     public interface FirestoreCallback<T> {

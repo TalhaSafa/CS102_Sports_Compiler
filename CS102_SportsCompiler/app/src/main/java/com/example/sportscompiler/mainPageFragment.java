@@ -113,7 +113,7 @@ public class mainPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         matchList = getMatches();
-        matchAdapter = new MatchAdapter(matchList);
+        //matchAdapter = new MatchAdapter(matchList);
         recyclerView.setAdapter(matchAdapter);
 
         return view;

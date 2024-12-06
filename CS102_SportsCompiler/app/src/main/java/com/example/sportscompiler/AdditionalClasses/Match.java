@@ -4,30 +4,35 @@ import com.google.firebase.Timestamp;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Match
 {
     private String adminID;
+    private String adminName;
     private String matchName;
     private Timestamp date;
     private MatchFields field;
     private Map<String, Player > playersA;
     private Map<String, Player > playersB;
     private String adminPosition;
+    private String notes;
 
     public Match(){}
 
-    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition )
+    public Match(String adminID1, String adminName, String matchName, Timestamp date1, MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1, String adminPosition, String notes)
     {
         adminID = adminID1;
+        this.adminName = adminName;
         date = date1;
         field = field1;
         playersA= playersA1;
         playersB= playersB1;
         this.matchName = matchName;
         this.adminPosition = adminPosition;
+        this.notes = notes;
     }
 
 
@@ -98,4 +103,83 @@ public class Match
     public void setAdminPosition(String adminPosition) {
         this.adminPosition = adminPosition;
     }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+    public int countTeam(Map<String, Player> players){
+        int count = 0;
+        ArrayList<String> positionList = new ArrayList<>();
+        if(getMatchType().equals("matches5"))
+        {
+            positionList.add(Positions.GK1.getAction());
+            positionList.add(Positions.CB1.getAction());
+            positionList.add(Positions.CB2.getAction());
+            positionList.add(Positions.CB3.getAction());
+            positionList.add(Positions.FW3.getAction());
+        }
+        else if(getMatchType().equals("matches6"))
+        {
+            positionList.add(Positions.GK1.getAction());
+            positionList.add(Positions.CB1.getAction());
+            positionList.add(Positions.CB2.getAction());
+            positionList.add(Positions.CB3.getAction());
+            positionList.add(Positions.MO3.getAction());
+            positionList.add(Positions.FW3.getAction());
+        }
+        else
+        {
+            throw new NullPointerException("Not determined match size");
+        }
+        for(int i = 0; i< players.size() ; i++){
+            if(players.get(positionList.get(i)) != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    public boolean isFull(){
+        if(getMatchType().equals("matches5"))
+        {
+            if(countTeam(playersA) == 5 && countTeam(playersB) == 5)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        else if(getMatchType().equals("matches6"))
+        {
+            if(countTeam(playersA) == 6 && countTeam(playersB) == 6)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else{
+            throw new NullPointerException("Not determined match type");
+        }
+    }
+
 }

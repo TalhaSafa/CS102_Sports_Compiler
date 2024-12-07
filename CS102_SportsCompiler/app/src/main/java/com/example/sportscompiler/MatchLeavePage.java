@@ -1,64 +1,58 @@
 package com.example.sportscompiler;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.sportscompiler.AdditionalClasses.PlayerAdapter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MatchLeavePage#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MatchLeavePage extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerViewTeamA;
+    private RecyclerView recyclerViewTeamB;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private PlayerAdapter teamAAdapter;
+    private PlayerAdapter teamBAdapter;
+
+    private List<String> teamAPlayers;
+    private List<String> teamBPlayers;
 
     public MatchLeavePage() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MatchLeavePage.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MatchLeavePage newInstance(String param1, String param2) {
-        MatchLeavePage fragment = new MatchLeavePage();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match_leave_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_match_leave_page, container, false);
+
+        // Initialize player lists
+        teamAPlayers = new ArrayList<>(Arrays.asList("User_1234", "User_1122", "User_8891"));
+        teamBPlayers = new ArrayList<>(Arrays.asList("User_7521", "User_9991", "User_6434"));
+
+        // Set up RecyclerViews
+        recyclerViewTeamA = view.findViewById(R.id.recyclerViewTeamA);
+        recyclerViewTeamB = view.findViewById(R.id.recyclerViewTeamB);
+
+        // Create adapters
+        teamAAdapter = new PlayerAdapter(teamAPlayers);
+        teamBAdapter = new PlayerAdapter(teamBPlayers);
+
+        // Set up RecyclerView for Team A
+        recyclerViewTeamA.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewTeamA.setAdapter(teamAAdapter);
+
+        // Set up RecyclerView for Team B
+        recyclerViewTeamB.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewTeamB.setAdapter(teamBAdapter);
+
+        return view;
     }
 }

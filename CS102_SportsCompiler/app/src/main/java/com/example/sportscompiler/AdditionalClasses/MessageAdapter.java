@@ -32,7 +32,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
         return new MessageViewHolder(view);
     }
-
+    //TODO ERENİM ŞU PROFILE PICTURE ISINI HALLET SANA ZAHMET
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messageList.get(position);

@@ -29,7 +29,6 @@ public class CreateMatch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_match);
 
         matchNameEditText = findViewById(R.id.editTextText);
@@ -153,15 +152,27 @@ public class CreateMatch extends AppCompatActivity {
                 }
 
                 // Example: Display the data
-                Intent intent = new Intent(CreateMatch.this, AdminPositionSelector.class);
-                intent.putExtra("matchName", matchName);
-                intent.putExtra("notes", notes);
-                intent.putExtra("city", city);
-                intent.putExtra("personCount", personCount);
-                intent.putExtra("dateTime", selectedDateTime.getTimeInMillis());
-                startActivity(intent);
+                if(personCount.equals("12"))
+                {
+                    Intent intent = new Intent(CreateMatch.this, AdminPositionSelector.class);
+                    intent.putExtra("matchName", matchName);
+                    intent.putExtra("notes", notes);
+                    intent.putExtra("city", city);
+                    intent.putExtra("personCount", personCount);
+                    intent.putExtra("dateTime", selectedDateTime.getTimeInMillis());
+                    startActivity(intent);
+                }
+                else if(personCount.equals(("10")))
+                {
+                    Intent intent = new Intent(CreateMatch.this, Admin_position_selector_5x5.class);
+                    intent.putExtra("matchName", matchName);
+                    intent.putExtra("notes", notes);
+                    intent.putExtra("city", city);
+                    intent.putExtra("personCount", personCount);
+                    intent.putExtra("dateTime", selectedDateTime.getTimeInMillis());
+                    startActivity(intent);
+                }
             }
         });
-
     }
 }

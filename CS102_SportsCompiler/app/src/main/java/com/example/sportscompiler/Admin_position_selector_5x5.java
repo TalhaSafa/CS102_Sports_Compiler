@@ -52,7 +52,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_position_selector);
+        setContentView(R.layout.activity_admin_position_selector5x5);
 
         firebaseAuth = FirebaseAuth.getInstance();
         fireuser = new firestoreUser();
@@ -66,7 +66,6 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                 findViewById(R.id.position_3),
                 findViewById(R.id.position_4),
                 findViewById(R.id.position_5),
-                findViewById(R.id.position_6)
         };
         createMatchButton = findViewById(R.id.createMatchFinal);
         createMatchButton.setEnabled(false);

@@ -17,6 +17,9 @@
             android:name=".AdminPositionSelector"
             android:exported="false" />
         <activity
+            android:name=".Admin_position_selector_5x5"
+            android:exported="false" />
+        <activity
             android:name=".CreateMatch"
             android:exported="false" />
         <activity

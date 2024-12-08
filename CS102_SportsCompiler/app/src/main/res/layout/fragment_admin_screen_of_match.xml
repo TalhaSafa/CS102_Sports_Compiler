@@ -9,19 +9,18 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="275dp"
+        android:layout_width="wrap_content"
 
 
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
 
-        <include layout="@layout/match_design_6v6" />
+        <include layout="@layout/match_design_2" />
 
     </RelativeLayout>
 
@@ -63,7 +62,22 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92" />
+        app:layout_constraintVertical_bias="0.883" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+
+        android:text="Save"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar"
+        app:layout_constraintTop_toBottomOf="@+id/didntAttendButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

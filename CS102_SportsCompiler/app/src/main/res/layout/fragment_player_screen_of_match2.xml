@@ -1,51 +1,197 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".matchApplicationFragment6x6">
+    android:background="#87D064"
+    tools:context=".adminReportPageFragment">
 
+    <!-- Relative Layout for Match Design -->
+
+    <!-- RecyclerView for Team A -->
+
+
+    <!-- Divider Line -->
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="275dp"
+        android:layout_width="411dp"
+        android:layout_height="376dp"
+        android:alpha="0.2"
 
-
-        android:layout_height="600dp"
+        android:background="@drawable/sportcompicon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
 
-        <include layout="@layout/match_design_6v6" />
-
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/matchScore"
+        android:id="@+id/teamBscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Match Score"
-        android:textSize="30sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="52dp"
+        android:text="2"
+        android:textSize="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/teamB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.525" />
+
+    <TextView
+        android:id="@+id/teamBscore2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="-135dp"
+        android:text="-"
+        android:textSize="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/teamB"
+        app:layout_constraintEnd_toStartOf="@+id/teamBscore"
+        app:layout_constraintStart_toEndOf="@+id/teamAscore"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.47000003" />
+
+    <TextView
+        android:id="@+id/teamAscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/teamBscore"
+        android:alpha="1"
+        android:text="3"
+        android:textSize="200sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamA"
+        app:layout_constraintEnd_toStartOf="@+id/teamBscore"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeamA"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        tools:listitem="@layout/player_list_item" />
+
+    <!-- RecyclerView for Team B -->
+
+    <!-- Leave Button -->
+
+
+    <!-- Match Name Header -->
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="340dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recyclerViewTeamB"
+        app:layout_constraintStart_toEndOf="@id/recyclerViewTeamA"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMatchName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeamB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        tools:listitem="@layout/player_list_item" />
+
+    <Button
+        android:id="@+id/reportAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF0000"
+        android:text="Report Admin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.839"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textViewMatchName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:background="@color/black"
+        android:text="MatchName_1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        app:layout_constraintVertical_bias="0.053" />
 
-    <Button
-        android:id="@+id/reportAdminButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/teamA"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#FF0000"
-        android:text="Report Admin"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/matchScore"
+        android:layout_marginStart="48dp"
+
+        android:text="Team A"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTeamA"
+        app:layout_constraintEnd_toStartOf="@+id/teamB"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchScore" />
+        app:layout_constraintTop_toTopOf="@+id/divider"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/teamB"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="Team B"
+
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTeamB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMatchName"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

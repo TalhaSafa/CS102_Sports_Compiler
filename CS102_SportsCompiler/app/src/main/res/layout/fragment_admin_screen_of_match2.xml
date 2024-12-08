@@ -1,52 +1,165 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".matchApplicationFragment6x6">
+    android:background="#"
+    tools:context=".AdminScreenOfMatch2">
 
+    <!-- Relative Layout for Match Design -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="386dp"
+        android:text="Enter Match Score!"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConfirmScores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewMatchName"></TextView>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="275dp"
-
-
-        android:layout_height="600dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="410dp"
+        android:layout_height="400dp"
+        android:background="@drawable/football_field"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-
-        <include layout="@layout/match_design_6v6" />
-
+        app:layout_constraintVertical_bias="0.048">
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/enterMatchScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Match Score"
-        android:textSize="30sp"
+    <!-- Divider Line -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recyclerViewTeamB"
+        app:layout_constraintStart_toEndOf="@id/recyclerViewTeamA"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout" />
+
+    <!-- RecyclerView for Team A -->
+
+    <!-- RecyclerView for Team B -->
+
+    <!-- Team A Text and Score Input -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeamA"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/divider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        tools:listitem="@layout/player_list_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeamB"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        tools:listitem="@layout/player_list_item" />
+
+    <TextView
+        android:id="@+id/teamA"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="Team A"
+
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTeamA"
+        app:layout_constraintEnd_toStartOf="@+id/teamB"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- Team B Text and Score Input -->
+
+    <!-- Confirm Button -->
+
+    <!-- Match Name Header -->
+
+    <EditText
+        android:id="@+id/scoreTeamA"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:hint="Score"
+        android:inputType="number"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="544dp" />
+
+    <TextView
+        android:id="@+id/teamB"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="Team B"
+        android:textAlignment="center"
+
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTeamB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMatchName"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/scoreTeamB"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="40dp"
+        android:hint="Score"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@id/teamB"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/teamB"
+        app:layout_constraintTop_toBottomOf="@id/teamB" />
 
     <Button
-        android:id="@+id/confirm_button"
+        android:id="@+id/buttonConfirmScores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#00FF00"
-        android:text="Confirm"
-        android:textSize="20sp"
+        android:layout_marginTop="372dp"
+        android:text="Confirm Scores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/textViewMatchName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:background="@color/black"
+        android:text="MatchName_1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/enterMatchScore"
-        app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
-        app:layout_constraintVertical_bias="0.64" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

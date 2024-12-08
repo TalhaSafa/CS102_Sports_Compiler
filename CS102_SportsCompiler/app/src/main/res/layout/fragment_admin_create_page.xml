@@ -3,203 +3,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MatchAdminPage">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="262dp"
-        android:layout_height="517dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+    <!-- Background Image -->
 
-        <include layout="@layout/match_design_6v6" />
-    </RelativeLayout>
+    <!-- Match Details Section -->
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView13"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="479dp"
-        android:layout_toEndOf="@id/editTextDate1"
-        android:text="Approve"
-        android:textSize="20dp" />
+    <!-- Applications Section -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView14"
-        android:layout_marginTop="428dp"
-        android:layout_marginEnd="-214dp"
-        android:layout_toStartOf="@id/editText"
-        android:text="Approve"
-        android:textSize="20dp" />
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/football_field" />
 
-    <Button
-        android:id="@+id/buttondecline"
-        android:layout_width="123dp"
-        android:layout_height="49dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#FF0000"
-        android:text="Decline"
-        android:textColorLink="@color/white" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="123dp"
-        android:layout_height="49dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginBottom="5dp"
-        android:stateListAnimator="@android:anim/anticipate_overshoot_interpolator"
-        android:text="Accept"
-        android:textColorLink="@color/white" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/matchDetails"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="28dp"
-        android:layout_toEndOf="@id/relativeLayout"
-        android:text="Match Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView8"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="78dp"
-        android:text="Date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView11"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="36dp"
-        android:text="Admin Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView13"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="52dp"
-        android:text="Match Note"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="212dp"
-        android:layout_height="43dp"
-        android:layout_above="@+id/button7"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="112dp"
+        android:background="#AA000000"
+        android:orientation="vertical"
+        android:padding="16dp"> <!-- Semi-transparent background -->
+
+        <TextView
+            android:id="@+id/matchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name: CodeBatMasters Match"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/matchDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: 2024-12-10"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/adminName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin: Talha Safa"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/matchNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Note: Above 2th grades are expected !"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/applicationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/matchDetails"
+        android:layout_margin="16dp"
         android:text="Applications:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textStyle="italic" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
 
-
-    <EditText
-        android:id="@+id/editTextDate1"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
-        android:layout_below="@+id/editTextDate4"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="345dp"
-        android:layout_toEndOf="@+id/textView18"
-        android:ems="10"
-        android:inputType="none"
-        android:text="Rating: "
-        android:textSize="10dp" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignEnd="@id/editTextDate1"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginEnd="1dp"
-        android:ems="10"
-        android:inputType="none"
-        android:text="Rating: "
-        android:textSize="10dp" />
-
-    <EditText
-        android:id="@+id/editTextDate2"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
-        android:layout_below="@id/textView8"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="37dp"
-        android:ems="10"
-        android:inputType="none" />
-
-    <EditText
-        android:id="@+id/editTextDate3"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
-        android:layout_below="@id/editTextDate2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:inputType="none" />
-
-    <EditText
-        android:id="@+id/editTextDate4"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
-        android:layout_below="@id/editTextDate3"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="35dp"
-        android:ems="10"
-        android:inputType="none" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView15"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="-2dp"
-        android:layout_marginBottom="-101dp"
-        android:text="Name and Surname"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView15"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginBottom="-143dp"
-        android:text="Name and Surname"
-        android:textSize="20dp" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/applicationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/applicationsTitle"
+        android:padding="8dp" />
 
 </RelativeLayout>

@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp">
+
+    <!-- First Name -->
+    <TextView
+        android:id="@+id/applicantNameSurname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name: John"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Position -->
+    <TextView
+        android:id="@+id/applicantPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Position: Goalkeeper"
+        android:textSize="14sp" />
+
+    <!-- Team Information -->
+    <TextView
+        android:id="@+id/teamTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team:A"
+        android:textSize="14sp" />
+
+    <!-- Application Note -->
+    <TextView
+        android:id="@+id/applicationNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Note: I need gloves!."
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/acceptButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:backgroundTint="@color/green" />
+
+        <Button
+            android:id="@+id/declineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decline"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#FF0000" />
+    </LinearLayout>
+</LinearLayout>

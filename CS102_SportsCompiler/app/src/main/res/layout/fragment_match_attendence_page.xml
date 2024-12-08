@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -25,9 +26,9 @@
                 android:layout_gravity="bottom|start"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
+                android:elevation="8dp"
                 android:text="Filter"
-                android:textSize="20sp"
-                android:elevation="8dp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/sortingButton"
@@ -36,14 +37,14 @@
                 android:layout_gravity="bottom|start"
                 android:layout_marginStart="120dp"
                 android:layout_marginBottom="10dp"
+                android:elevation="8dp"
                 android:text="Sort by"
-                android:textSize="20sp"
-                android:elevation="8dp" />
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/matchListRecyclerforMatchAttendencePage"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_width="388dp"
+                android:layout_height="633dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"

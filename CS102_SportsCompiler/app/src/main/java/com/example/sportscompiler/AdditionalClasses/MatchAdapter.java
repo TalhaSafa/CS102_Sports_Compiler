@@ -1,5 +1,6 @@
 package com.example.sportscompiler.AdditionalClasses;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHolder> {
+    private Context context;
     private List<Match> matchList;
     private OnItemClickListener onItemClickListener;
 
@@ -24,7 +26,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         void onItemClick(Match match);
     }
 
-    public MatchAdapter(List<Match> matchList, OnItemClickListener onItemClickListener) {
+    public MatchAdapter(Context context ,List<Match> matchList, OnItemClickListener onItemClickListener) {
+        this.context = context;
         this.matchList = matchList;
         this.onItemClickListener = onItemClickListener;
     }
@@ -43,8 +46,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         // Bind data
         holder.matchName.setText(match.getMatchName());
         holder.matchDate.setText("Date: " + match.getDate().toDate().toString());
-        holder.place.setText("Place: " + match.getField());
-        holder.adminName.setText("Admin: " + match.getAdminID());
+        holder.place.setText("Place: " + match.getField().getAction());
+        holder.adminName.setText("Admin: " + match.getAdminName());
         holder.notes.setText("Notes: " + (match.getNotes() != null ? match.getNotes() : "None"));
 
         // Set background color based on match status
@@ -80,6 +83,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             notes = itemView.findViewById(R.id.notes);
             cardBackground = itemView.findViewById(R.id.cardBackground);
         }
+    }
+    public void updateData(List<Match> newMatchList) {
+        this.matchList = newMatchList;
+        notifyDataSetChanged();
     }
 }
 

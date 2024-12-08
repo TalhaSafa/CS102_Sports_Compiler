@@ -154,15 +154,125 @@ public class firestoreUser {
 
     public void getMatches(FirestoreCallback<List<Match>> callback) {
         firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
+        List<Match> matches = new ArrayList<>();
         firestore.collection("matches5").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-
-                List<Match> matches = new ArrayList<>();
 
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Map<String, Object> data = document.getData();
 
                     Match match = new Match();
+                    match.setNotes((String) data.get("notes"));
+                    String fieldVal = (String)data.get("field");
+                    MatchFields enumar = MatchFields.fromString(fieldVal);
+                    match.setField(enumar);
+                    match.setAdminName((String) data.get("adminName"));
+                    match.setAdminID((String) data.get("adminID"));
+                    match.setMatchName((String) data.get("matchName"));
+                    match.setDate((Timestamp) data.get("date"));
+
+                    // Deserialize playersA and playersB manually
+                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
+                    Map<String, Player> playersA = new HashMap<>();
+                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
+                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
+                        Player player = new Player();
+                        playersA.put(entry.getKey(), player);
+                    }
+
+                    match.setPlayersA(playersA);
+                    // Repeat for playersB
+                    matches.add(match);
+                }
+                callback.onSuccess(matches); // Return matches through callback.
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+        firestore.collection("matches6").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<String, Object> data = document.getData();
+
+                    Match match = new Match();
+                    match.setNotes((String) data.get("notes"));
+                    String fieldVal = (String)data.get("field");
+                    MatchFields enumar = MatchFields.fromString(fieldVal);
+                    match.setField(enumar);
+                    match.setAdminName((String) data.get("adminName"));
+                    match.setAdminID((String) data.get("adminID"));
+                    match.setMatchName((String) data.get("matchName"));
+                    match.setDate((Timestamp) data.get("date"));
+
+                    // Deserialize playersA and playersB manually
+                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
+                    Map<String, Player> playersA = new HashMap<>();
+                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
+                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
+                        Player player = new Player();
+                        playersA.put(entry.getKey(), player);
+                    }
+
+                    match.setPlayersA(playersA);
+                    // Repeat for playersB
+                    matches.add(match);
+                }
+                callback.onSuccess(matches); // Return matches through callback.
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+    }
+    public void getMatchesForUser(FirestoreCallback<List<Match>> callback) {
+        firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
+        List<Match> matches = new ArrayList<>();
+        firestore.collection("matches5").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<String, Object> data = document.getData();
+
+                    Match match = new Match();
+                    match.setNotes((String) data.get("notes"));
+                    String fieldVal = (String)data.get("field");
+                    MatchFields enumar = MatchFields.fromString(fieldVal);
+                    match.setField(enumar);
+                    match.setAdminName((String) data.get("adminName"));
+                    match.setAdminID((String) data.get("adminID"));
+                    match.setMatchName((String) data.get("matchName"));
+                    match.setDate((Timestamp) data.get("date"));
+
+                    // Deserialize playersA and playersB manually
+                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
+                    Map<String, Player> playersA = new HashMap<>();
+                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
+                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
+                        Player player = new Player();
+                        playersA.put(entry.getKey(), player);
+                    }
+
+                    match.setPlayersA(playersA);
+                    // Repeat for playersB
+                    matches.add(match);
+                }
+                callback.onSuccess(matches); // Return matches through callback.
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+        firestore.collection("matches6").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<String, Object> data = document.getData();
+
+                    Match match = new Match();
+                    match.setNotes((String) data.get("notes"));
+                    String fieldVal = (String)data.get("field");
+                    MatchFields enumar = MatchFields.fromString(fieldVal);
+                    match.setField(enumar);
+                    match.setAdminName((String) data.get("adminName"));
                     match.setAdminID((String) data.get("adminID"));
                     match.setMatchName((String) data.get("matchName"));
                     match.setDate((Timestamp) data.get("date"));

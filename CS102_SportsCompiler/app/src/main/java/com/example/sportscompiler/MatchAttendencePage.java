@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ import java.util.Map;
  * Use the {@link MatchAttendencePage#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MatchAttendencePage extends Fragment {
+public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItemClickListener {
 
     private FloatingActionButton createMatchButton;
     private Button sortButton, filterButton;
@@ -114,8 +116,8 @@ public class MatchAttendencePage extends Fragment {
             public void onSuccess(List<Match> result) {
                 matches = result;
                 System.out.println(matches);
-                //matchAdapter = new MatchAdapter(matches,);
-                recyclerView.setAdapter(matchAdapter);
+                filterNonExpiredMatches();
+                matchAdapter.updateData(matches);
             }
 
             @Override
@@ -124,9 +126,9 @@ public class MatchAttendencePage extends Fragment {
 
             }
         });
-        //matchAdapter = new MatchAdapter(matches);
-        recyclerView.setAdapter(matchAdapter);
 
+        matchAdapter = new MatchAdapter(requireContext(),matches,this);
+        recyclerView.setAdapter(matchAdapter);
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,12 +141,28 @@ public class MatchAttendencePage extends Fragment {
                 }
             }
         });
-
-
-
         return view;
     }
 
-    // TODO: we need to pull match datas from database. It's not done yet.
+    @Override
+    //HANGI FRAGMENT GIDIYOR ? USER VE ADMIN ICIN....
+    public void onItemClick(Match match) {
+
+    }
+    public void filterNonExpiredMatches() {
+        List<Match> nonExpiredMatches = new ArrayList<>();
+        Date currentDate = new Date(); // Current date and time
+
+        for (Match match : matches) {
+            // Compare the match's timestamp with the current date
+            if (match.getDate().toDate().after(currentDate)) {
+                nonExpiredMatches.add(match); // Add if it's not expired
+            }
+        }
+
+        // Update the list and refresh RecyclerView
+        this.matches = nonExpiredMatches;
+        matchAdapter.notifyDataSetChanged();
+    }
 
 }

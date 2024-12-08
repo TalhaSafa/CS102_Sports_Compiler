@@ -19,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
+import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +35,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -43,7 +46,7 @@ import java.util.concurrent.Executors;
  * Use the {@link mainPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class mainPageFragment extends Fragment {
+public class mainPageFragment extends Fragment implements MatchAdapter.OnItemClickListener {
 
     private TextView day1Txt, day2Txt, day3Txt;
     private ImageView day1Img, day2Img, day3Img;
@@ -53,6 +56,8 @@ public class mainPageFragment extends Fragment {
     private RecyclerView recyclerView;
     private MatchAdapter matchAdapter;
     private List<Match> matchList;
+    private List<Match> matches = new ArrayList<>();
+    public firestoreUser user= new firestoreUser();
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -112,8 +117,23 @@ public class mainPageFragment extends Fragment {
         recyclerView = view.findViewById(R.id.matchListRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        matchList = getMatches();
-        //matchAdapter = new MatchAdapter(matchList);
+        user.getMatches(new firestoreUser.FirestoreCallback<List<Match>>() {
+            @Override
+            public void onSuccess(List<Match> result) {
+                matches = result;
+                System.out.println(matches);
+                filterNonExpiredMatches();
+                matchAdapter.updateData(matches);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getContext(), "Failed to fetch matches: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        matchAdapter = new MatchAdapter(requireContext(),matches,this);
         recyclerView.setAdapter(matchAdapter);
 
         return view;
@@ -261,12 +281,20 @@ public class mainPageFragment extends Fragment {
         String tomorrowDate = sdf.format(tomorrow.getTime());
         return dayStr.startsWith(tomorrowDate);
     }
+    public void onItemClick(Match match) {
 
-    // TODO: we need to pull match datas from database. It's not done yet.
-    private List<Match> getMatches()
-    {
-        List<Match> matches = new ArrayList<>();
-
-        return matches;
+    }
+    public void filterNonExpiredMatches() {
+        List<Match> nonExpiredMatches = new ArrayList<>();
+        Date currentDate = new Date(); // Current date and time
+        for (Match match : matches) {
+            // Compare the match's timestamp with the current date
+            if (match.getDate().toDate().after(currentDate)) {
+                nonExpiredMatches.add(match); // Add if it's not expired
+            }
+        }
+        // Update the list and refresh RecyclerView
+        this.matches = nonExpiredMatches;
+        matchAdapter.notifyDataSetChanged();
     }
 }

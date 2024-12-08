@@ -21,19 +21,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Day 2 Image -->
+
     <ImageView
         android:id="@+id/day3Img"
         android:layout_width="132dp"
         android:layout_height="124dp"
-        android:layout_marginTop="-18dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="180dp"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/matchListRecycler"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Day 2 Image -->
     <ImageView
         android:id="@+id/day2Img"
         android:layout_width="121dp"
@@ -109,23 +110,24 @@
         android:id="@+id/day3Txt"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="-22dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="28dp"
         android:text="Day 3 Forecast"
         android:textAlignment="center"
         android:textColor="#F3EDF5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day3Img" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/matchListRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="383dp"
+        android:layout_height="496dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtsGuide" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtsGuide"
+        app:layout_constraintVertical_bias="0.724" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

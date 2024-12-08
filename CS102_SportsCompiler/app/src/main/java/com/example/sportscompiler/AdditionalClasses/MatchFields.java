@@ -16,4 +16,14 @@ public enum MatchFields
     {
         this.action = action;
     }
+
+    public static MatchFields fromString(String field) {
+        for (MatchFields matchField : MatchFields.values()) {
+            if (matchField.name().equals(field)) {
+                return matchField;
+            }
+        }
+        throw new IllegalArgumentException("Invalid MatchFields value: " + field);
+    }
+
 }

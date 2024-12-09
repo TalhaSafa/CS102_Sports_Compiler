@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
         <activity
+            android:name=".AdminAcceptApplicationPage"
+            android:exported="false" />
+        <activity
             android:name=".LeaveMatchPage"
             android:exported="false" />
         <activity

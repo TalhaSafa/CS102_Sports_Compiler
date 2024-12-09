@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MatchAdminPage">
+
+    <!-- Background Image -->
+
+    <!-- Match Details Section -->
+
+    <!-- Applications Section -->
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/football_field" />
+
+    <LinearLayout
+        android:id="@+id/matchDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:background="#AA000000"
+        android:orientation="vertical"
+        android:padding="16dp"> <!-- Semi-transparent background -->
+
+        <TextView
+            android:id="@+id/matchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name: CodeBatMasters Match"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/matchDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: 2024-12-10"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/adminName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin: Talha Safa"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/matchNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Note: Above 2th grades are expected !"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/applicationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/matchDetails"
+        android:layout_margin="16dp"
+        android:text="Applications:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/applicationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/applicationsTitle"
+        android:padding="8dp" />
+
+</RelativeLayout>

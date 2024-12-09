@@ -177,7 +177,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
             if(context != null)
             {
-               
+                FragmentLoad.changeActivity(context, LeaveMatchPage.class);
             }
         }
 

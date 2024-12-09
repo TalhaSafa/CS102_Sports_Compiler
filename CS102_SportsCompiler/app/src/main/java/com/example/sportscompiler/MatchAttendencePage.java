@@ -146,8 +146,57 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
     @Override
     //HANGI FRAGMENT GIDIYOR ? USER VE ADMIN ICIN....
-    public void onItemClick(Match match) {
+    public void onItemClick(Match match)
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String currentUserID = firebaseAuth.getCurrentUser().getUid();
 
+        if(match.getPlayersA() == null)
+        {
+            match.setPlayersA(new HashMap<>());
+        }
+
+        if(match.getPlayersB() == null)
+        {
+            match.setPlayersB(new HashMap<>());
+        }
+
+        if(currentUserID.equals(match.getAdminID()))
+        {
+            Context context = getActivity();
+
+            if(context != null)
+            {
+
+            }
+        }
+
+        else if(match.getPlayersA().containsKey(currentUserID) || match.getPlayersB().containsKey(currentUserID))
+        {
+            Context context = getActivity();
+
+            if(context != null)
+            {
+               
+            }
+        }
+
+        else
+        {
+            Context context = getActivity();
+
+            if(context != null)
+            {
+                if(match.getMatchType().equals("matches5"))
+                {
+                    FragmentLoad.changeActivity(context, MatchApplication5x5.class);
+                }
+                else
+                {
+                    FragmentLoad.changeActivity(context, MatchApplication6x6.class);
+                }
+            }
+        }
     }
     public void filterNonExpiredMatches() {
         List<Match> nonExpiredMatches = new ArrayList<>();

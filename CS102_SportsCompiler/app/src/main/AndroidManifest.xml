@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SportsCompiler">
         <activity
+            android:name=".MatchApplication5x5"
+            android:exported="false" />
+        <activity
+            android:name=".MatchApplication6x6"
+            android:exported="false" />
+        <activity
             android:name=".MatchForumActivity"
             android:exported="false" />
         <activity

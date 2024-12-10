@@ -170,6 +170,7 @@ public class firestoreUser {
                     match.setAdminID((String) data.get("adminID"));
                     match.setMatchName((String) data.get("matchName"));
                     match.setDate((Timestamp) data.get("date"));
+                    match.setMatchID((String) data.get("matchID"));
 
                     // Deserialize playersA and playersB manually
                     Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");

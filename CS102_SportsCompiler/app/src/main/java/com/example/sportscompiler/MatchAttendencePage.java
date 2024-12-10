@@ -1,6 +1,7 @@
 package com.example.sportscompiler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -167,7 +168,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
             if(context != null)
             {
-                FragmentLoad.changeActivity(context, AdminAcceptApplicationPage.class);
+                Intent intent = new Intent(context, AdminAcceptApplicationPage.class);
+                intent.putExtra("matchID", match.getMatchID());
+                intent.putExtra("matchType", match.getMatchType());
+                startActivity(intent);
             }
         }
 
@@ -177,7 +181,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
             if(context != null)
             {
-                FragmentLoad.changeActivity(context, LeaveMatchPage.class);
+                Intent intent = new Intent(context, LeaveMatchPage.class);
+                intent.putExtra("matchID", match.getMatchID());
+                intent.putExtra("matchType", match.getMatchType());
+                startActivity(intent);
             }
         }
 
@@ -189,11 +196,17 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             {
                 if(match.getMatchType().equals("matches5"))
                 {
-                    FragmentLoad.changeActivity(context, MatchApplication5x5.class);
+                    Intent intent = new Intent(context, MatchApplication5x5.class);
+                    intent.putExtra("matchID", match.getMatchID());
+                    intent.putExtra("matchType", match.getMatchType());
+                    startActivity(intent);
                 }
                 else
                 {
-                    FragmentLoad.changeActivity(context, MatchApplication6x6.class);
+                    Intent intent = new Intent(context, MatchApplication6x6.class);
+                    intent.putExtra("matchID", match.getMatchID());
+                    intent.putExtra("matchType", match.getMatchType());
+                    startActivity(intent);
                 }
             }
         }

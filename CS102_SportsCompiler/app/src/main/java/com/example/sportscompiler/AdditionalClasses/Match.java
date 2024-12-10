@@ -20,6 +20,7 @@ public class Match
     private String adminPosition;
     private String notes;
     private String matchID;
+    private ArrayList<Application> applications;
 
     public Match(){}
 
@@ -37,6 +38,7 @@ public class Match
         this.adminPosition = adminPosition;
         this.notes = notes;
         this.matchID = matchID;
+        applications = new ArrayList<>();
     }
 
 
@@ -192,5 +194,18 @@ public class Match
 
     public void setMatchID(String matchID) {
         this.matchID = matchID;
+    }
+
+    public ArrayList<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(ArrayList<Application> applications) {
+        this.applications = applications;
+    }
+
+    public void addApplication(Application application)
+    {
+        applications.add(application);
     }
 }

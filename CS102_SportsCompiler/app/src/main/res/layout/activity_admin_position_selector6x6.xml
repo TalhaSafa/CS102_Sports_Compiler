@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminPositionSelector">
+    tools:context=".AdminPositionSelector6x6">
+
+    <FrameLayout
+        android:id="@+id/admin_fragment_container6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <TextView
         android:id="@+id/textView12_2"

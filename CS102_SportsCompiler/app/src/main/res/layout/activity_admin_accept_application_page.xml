@@ -30,15 +30,6 @@
         android:padding="16dp"> <!-- Semi-transparent background -->
 
         <TextView
-            android:id="@+id/matchName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Match Name: CodeBatMasters Match"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/matchDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,5 +71,23 @@
         android:layout_height="match_parent"
         android:layout_below="@id/applicationsTitle"
         android:padding="8dp" />
+
+    <Button
+        android:id="@+id/ForumPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/applicationsRecyclerView"
+        android:layout_marginTop="-115dp"
+        android:text="Match Forum"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/matchName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Match Name: CodeBatMasters Match"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

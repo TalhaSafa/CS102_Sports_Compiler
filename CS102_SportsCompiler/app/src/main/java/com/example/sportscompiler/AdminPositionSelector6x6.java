@@ -2,20 +2,16 @@ package com.example.sportscompiler;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Message;
@@ -29,13 +25,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPositionSelector extends AppCompatActivity {
+public class AdminPositionSelector6x6 extends AppCompatActivity {
 
     private FloatingActionButton[] positionButtons;
     private Button createMatchButton;
@@ -54,7 +49,7 @@ public class AdminPositionSelector extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_position_selector);
+        setContentView(R.layout.activity_admin_position_selector6x6);
 
         firebaseAuth = FirebaseAuth.getInstance();
         fireuser = new firestoreUser();
@@ -109,12 +104,13 @@ public class AdminPositionSelector extends AppCompatActivity {
                     //TODO: TO TRY FORUM:
 
 
-                    Intent toSentIntent = new Intent(AdminPositionSelector.this, MatchForumActivity.class);
+                    Intent toSentIntent = new Intent(AdminPositionSelector6x6.this, MatchForumActivity.class);
                     toSentIntent.putExtra("matchID", newMatch.getMatchID());
                     toSentIntent.putExtra("matchType", newMatch.getMatchType());
                     startActivity(toSentIntent);
 
 
+                    FragmentLoad.loadFragment(AdminPositionSelector6x6.this, R.id.admin_fragment_container6, new MatchAttendencePage());
 
 
 

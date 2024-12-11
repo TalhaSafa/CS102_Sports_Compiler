@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Admin_position_selector_5x5">
 
+    <FrameLayout
+        android:id="@+id/admin_fragment_container5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <TextView
         android:id="@+id/textView12_2"
         android:layout_width="wrap_content"

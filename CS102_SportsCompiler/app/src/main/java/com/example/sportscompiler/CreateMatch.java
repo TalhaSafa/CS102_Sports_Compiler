@@ -10,11 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Calendar;
 
@@ -154,7 +150,7 @@ public class CreateMatch extends AppCompatActivity {
                 // Example: Display the data
                 if(personCount.equals("12"))
                 {
-                    Intent intent = new Intent(CreateMatch.this, AdminPositionSelector.class);
+                    Intent intent = new Intent(CreateMatch.this, AdminPositionSelector6x6.class);
                     intent.putExtra("matchName", matchName);
                     intent.putExtra("notes", notes);
                     intent.putExtra("city", city);

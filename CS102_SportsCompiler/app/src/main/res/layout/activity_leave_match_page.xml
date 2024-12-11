@@ -137,4 +137,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewMatchName"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/ForumPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:text="MatchForum"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLeave"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTeamA" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

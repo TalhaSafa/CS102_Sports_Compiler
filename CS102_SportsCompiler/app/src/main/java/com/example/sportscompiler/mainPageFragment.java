@@ -1,5 +1,7 @@
 package com.example.sportscompiler;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -354,8 +357,35 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
         String tomorrowDate = sdf.format(tomorrow.getTime());
         return dayStr.startsWith(tomorrowDate);
     }
-    public void onItemClick(Match match) {
-        //TODO galiba
+    public void onItemClick(Match match)
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String currentUserID = firebaseAuth.getCurrentUser().getUid();
+
+        if(currentUserID.equals(match.getAdminID()))
+        {
+            Context context = getActivity();
+
+            if(context != null)
+            {
+                Intent intent = new Intent(context, AdminAcceptApplicationPage.class);
+                intent.putExtra("matchID", match.getMatchID());
+                intent.putExtra("matchType", match.getMatchType());
+                startActivity(intent);
+            }
+        }
+        else if(match.getPlayersA().containsKey(currentUserID) || match.getPlayersB().containsKey(currentUserID))
+        {
+            Context context = getActivity();
+
+            if(context != null)
+            {
+                Intent intent = new Intent(context, LeaveMatchPage.class);
+                intent.putExtra("matchID", match.getMatchID());
+                intent.putExtra("matchType", match.getMatchType());
+                startActivity(intent);
+            }
+        }
     }
     public void filterNonExpiredMatches() {
         List<Match> nonExpiredMatches = new ArrayList<>();

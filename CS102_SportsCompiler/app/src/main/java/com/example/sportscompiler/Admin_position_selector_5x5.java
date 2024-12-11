@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Message;
@@ -101,6 +102,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
                     createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
+                    FragmentLoad.loadFragment(Admin_position_selector_5x5.this, R.id.admin_fragment_container5, new MatchAttendencePage());
                 }
             }
         });

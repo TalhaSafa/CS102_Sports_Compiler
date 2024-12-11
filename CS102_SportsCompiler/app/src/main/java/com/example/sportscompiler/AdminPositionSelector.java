@@ -206,8 +206,8 @@ public class AdminPositionSelector extends AppCompatActivity {
         if(numberOfPlayersInATeam == 6)
         {
             team.put(Positions.GK1.getAction(), null);
-            team.put(Positions.CB1.getAction(), null);
-            team.put(Positions.CB2.getAction(), null);
+            team.put(Positions.CB3.getAction(), null);
+            team.put(Positions.MO3.getAction(), null);
             team.put(Positions.MO1.getAction(), null);
             team.put(Positions.MO2.getAction(), null);
             team.put(Positions.FW3.getAction(), null);
@@ -240,7 +240,6 @@ public class AdminPositionSelector extends AppCompatActivity {
 
 
         firestore = FirebaseFirestore.getInstance();
-
         firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -249,6 +248,8 @@ public class AdminPositionSelector extends AppCompatActivity {
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
                             initializeForum(date, view);
+                            user.addMatches(newMatch.getMatchID());
+                            firestore.collection("users").document(user.getUserID()).set(user);
                         }
                         else
                         {

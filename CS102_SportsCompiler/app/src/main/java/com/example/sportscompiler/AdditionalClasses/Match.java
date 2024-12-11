@@ -98,7 +98,7 @@ public class Match
         }
         else
         {
-            return "outOfBond";
+            return Integer.toString(playersA.size());
         }
     }
 

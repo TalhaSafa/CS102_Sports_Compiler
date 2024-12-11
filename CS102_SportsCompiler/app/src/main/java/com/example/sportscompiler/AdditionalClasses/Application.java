@@ -14,6 +14,8 @@ public class Application {
         this.teamInfo = teamInfo; // Initialize team info
         this.userID = userID;
     }
+    public Application()
+    {}
 
     // Getters and setters
     public String getName() { return firstName; }

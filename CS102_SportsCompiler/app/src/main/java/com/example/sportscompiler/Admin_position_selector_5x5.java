@@ -232,6 +232,8 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
                             initializeForum(date, view);
+                            user.addMatches(newMatch.getMatchID());
+                            firestore.collection("users").document(user.getUserID()).set(user);
                         }
                         else
                         {

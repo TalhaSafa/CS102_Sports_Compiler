@@ -7,7 +7,8 @@ public class User {
     private String name;
     private String birthDate;
     private String department;
-    private ArrayList<Match> matches = new ArrayList<Match>();
+    private ArrayList<String> matchIDs;
+    private ArrayList<String> pastMatchIDs;
     private double averageRating;
     private String profilePicture;
 
@@ -21,6 +22,8 @@ public class User {
         department = Department;
         this.averageRating = averageRating;
         this.profilePicture = profilePicture;
+        pastMatchIDs = new ArrayList<>();
+        matchIDs = new ArrayList<>();
 
     }
 
@@ -56,19 +59,19 @@ public class User {
         this.department = department;
     }
 
-    public ArrayList<Match> getMatches() {
-        return matches;
+    public ArrayList<String> getMatches() {
+        return matchIDs;
     }
 
     public String getProfilePicture(){ return profilePicture; }
 
-    public void setMatches(ArrayList<Match> matches) {
-        this.matches = matches;
+    public void setMatches(ArrayList<String> matches) {
+        this.matchIDs = matches;
     }
 
-    public void addMatches(Match match)
+    public void addMatches(String matchID)
     {
-        matches.add(match);
+        matchIDs.add(matchID);
     }
 
     public double getAverageRating() {
@@ -78,4 +81,18 @@ public class User {
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
+
+    public ArrayList<String> getPastMatches() {
+        return pastMatchIDs;
+    }
+
+    public void setPastMatches(ArrayList<String> pastMatches) {
+        this.pastMatchIDs = pastMatches;
+    }
+
+    public void addPastMatches(String matchID)
+    {
+        pastMatchIDs.add(matchID);
+    }
+
 }

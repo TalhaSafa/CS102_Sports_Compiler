@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,6 +22,8 @@ import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -78,6 +81,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
 
         matchID = getIntent().getStringExtra("matchID");
+
         matchType = getIntent().getStringExtra("matchType");
         firestore.collection(matchType).document(matchID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -121,8 +125,20 @@ public class MatchApplication5x5 extends AppCompatActivity {
                         Toast.makeText(MatchApplication5x5.this, "Choose position", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    applicationNoteStr = applicatonNote.getText().toString();
                     Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID() );
                     match.addApplication(newApplication);
+                    firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(MatchApplication5x5.this, "Application sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MatchApplication5x5.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

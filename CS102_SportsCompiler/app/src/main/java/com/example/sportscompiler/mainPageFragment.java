@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,14 @@ import android.widget.Toast;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,9 +66,9 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
     private String APIKey = "9f5051ab914d08850742c634382c54ee";
     private RecyclerView recyclerView;
     private MatchAdapter matchAdapter;
-    private List<Match> matchList;
     private List<Match> matches = new ArrayList<>();
     public firestoreUser user= new firestoreUser();
+    private FirebaseFirestore firestore;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -117,26 +128,88 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
         recyclerView = view.findViewById(R.id.matchListRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        user.getMatches(new firestoreUser.FirestoreCallback<List<Match>>() {
-            @Override
-            public void onSuccess(List<Match> result) {
-                matches = result;
-                System.out.println(matches);
-                filterNonExpiredMatches();
-                matchAdapter.updateData(matches);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Toast.makeText(getContext(), "Failed to fetch matches: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
         matchAdapter = new MatchAdapter(requireContext(),matches,this);
         recyclerView.setAdapter(matchAdapter);
 
+
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(user.getUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null)
+                {
+                    Toast.makeText(getContext(), "Failed to fetch matches: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                else if (error == null && value.exists())
+                {
+                    List<String> registeredMatches = (List<String>) value.get("matches");
+                    if(registeredMatches != null)
+                    {
+                        fetchUsersMatches("matches5", registeredMatches);
+                        fetchUsersMatches("matches6", registeredMatches);
+                    }
+
+                }
+            }
+        });
+
+
+
+//        user.getMatches(new firestoreUser.FirestoreCallback<List<Match>>() {
+//            @Override
+//            public void onSuccess(List<Match> result) {
+//                matches = result;
+//                filterNonExpiredMatches();
+//                matchAdapter.updateData(matches);
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                Toast.makeText(getContext(), "Failed to fetch matches: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        matchAdapter = new MatchAdapter(requireContext(),matches,this);
+//        recyclerView.setAdapter(matchAdapter);
+
         return view;
+    }
+
+    private void fetchUsersMatches(String collectionName, List<String> registeredMatches)
+    {
+        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+
+        for (String matchID : registeredMatches) {
+            Task<DocumentSnapshot> task = firestore.collection(collectionName).document(matchID).get();
+            tasks.add(task);
+        }
+
+        Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
+            @Override
+            public void onSuccess(List<Object> objects) {
+                for (Object result : objects) {
+                    DocumentSnapshot documentSnapshot = (DocumentSnapshot) result;
+                    if (documentSnapshot.exists()) {
+                        Match match = documentSnapshot.toObject(Match.class);
+                        if (match != null) {
+                            if(matches.indexOf(match) == -1)
+                                matches.add(match);
+                        }
+                    }
+                }
+                filterNonExpiredMatches();
+                matchAdapter.updateData(matches);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Firebase", "Error fetching matches", e);
+            }
+        });
+
+
+
     }
 
     private void updateWeatherConditions(int day, TextView txtView, ImageView imgView)
@@ -282,7 +355,7 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
         return dayStr.startsWith(tomorrowDate);
     }
     public void onItemClick(Match match) {
-
+        //TODO galiba
     }
     public void filterNonExpiredMatches() {
         List<Match> nonExpiredMatches = new ArrayList<>();

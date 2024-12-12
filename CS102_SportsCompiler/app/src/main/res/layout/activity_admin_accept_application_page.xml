@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MatchAdminPage">
+    tools:context=".AdminAcceptApplicationPage">
 
     <!-- Background Image -->
 
@@ -68,8 +68,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/applicationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_below="@id/applicationsTitle"
+        android:layout_weight="1"
         android:padding="8dp" />
 
     <Button
@@ -77,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/applicationsRecyclerView"
-        android:layout_marginTop="-115dp"
+        android:layout_marginTop="16dp"
         android:text="Match Forum"
         android:textSize="25sp" />
 

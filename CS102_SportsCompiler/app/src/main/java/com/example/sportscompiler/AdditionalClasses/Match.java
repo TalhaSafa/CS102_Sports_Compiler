@@ -2,13 +2,14 @@ package com.example.sportscompiler.AdditionalClasses;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Match
+public class Match implements Serializable
 {
     private String adminID;
     private String adminName;

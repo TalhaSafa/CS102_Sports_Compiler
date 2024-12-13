@@ -34,7 +34,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestore;
     private Match currentMatch;
-    private String matchID;
+    private String matchID, matchType;
     private Timestamp date;
     private long dateTimeMillis;
 
@@ -52,20 +52,16 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         initializeUser();
 
         matchID = getIntent().getStringExtra("matchID");
-        dateTimeMillis = getIntent().getLongExtra("dateTime", -1);
-
-
-        long seconds = dateTimeMillis / 1000;
-        int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
-        date = new Timestamp(seconds, nanoseconds);
+        matchType = getIntent().getStringExtra("matchType");
 
         matchForumButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                initializeForum(date, view);
                 Intent intent = new Intent(AdminAcceptApplicationPage.this, MatchForumActivity.class);
+                intent.putExtra("matchID", matchID);
+                intent.putExtra("matchType", matchType);
                 startActivity(intent);
             }
         });

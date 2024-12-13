@@ -54,11 +54,12 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
         fireUser = new firestoreUser();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        applyButton = findViewById(R.id.applyButton);
+        applicatonNote = findViewById(R.id.applicationNote);
         user = new User();
         initializeUser();
         applicationNoteStr = "";
-        applyButton = findViewById(R.id.applyButton);
-        applicatonNote = findViewById(R.id.applicationNote);
 
         kaleciA = findViewById(R.id.kaleciA);
         ortadefansA = findViewById(R.id.ortadefansA);
@@ -220,17 +221,21 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
     }
 
-    private void initializeUser()
-    {
+    private void initializeUser() {
+        applyButton.setEnabled(false); // Disable apply button initially
+
         fireUser.updateInfo(user, new firestoreUser.FirestoreCallback<User>() {
             @Override
             public void onSuccess(User result) {
                 user = result;
+                Log.d("initializeUser", "User info successfully retrieved: " + user.getName());
+                applyButton.setEnabled(true); // Enable apply button once user data is ready
             }
 
             @Override
             public void onError(Exception e) {
                 Log.e("MatchApplication", "Error fetching user info", e);
+                Toast.makeText(MatchApplication6x6.this, "Failed to fetch user info", Toast.LENGTH_SHORT).show();
             }
         });
     }

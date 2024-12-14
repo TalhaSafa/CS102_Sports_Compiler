@@ -233,7 +233,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
-                            initializeForum(date, view);
+                            initializeForum(view);
                             user.addMatches(newMatch.getMatchID());
                             firestore.collection("users").document(user.getUserID()).set(user);
                         }
@@ -246,10 +246,11 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
     }
 
-    private void initializeForum(Timestamp date, View view)
+    private void initializeForum(View view)
     {
-        String messageID = newMatch.getMatchID() +  user.getName() + date.toDate().toString();
-        Message startingMessage = new Message(user, date, user.getName() + " created this match."
+        Timestamp nowTime = Timestamp.now();
+        String messageID = newMatch.getMatchID() +  user.getName() + nowTime.toDate().toString();
+        Message startingMessage = new Message(user, nowTime, user.getName() + " created this match."
                 , messageID);
 
         firestore.collection(newMatch.getMatchType()).document(matchID).collection("forum")

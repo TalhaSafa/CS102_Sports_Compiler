@@ -9,6 +9,9 @@ public class Message {
     private String content;
     private String messageID;
 
+    public Message()
+    {}
+
     public Message(User user, Timestamp time, String content, String messageID) {
         this.user = user;
         this.time = time;

@@ -23,10 +23,13 @@ import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +105,55 @@ public class MatchForumActivity extends AppCompatActivity {
             }
         });
 
+        firestore.collection(matchType).document(matchID).collection("forum").orderBy("time", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null)
+                {
+                    Toast.makeText(MatchForumActivity.this, "Could not fetch messages", Toast.LENGTH_SHORT).show();
+
+                }
+                else if(error == null && value != null)
+                {
+
+                    for(DocumentChange change: value.getDocumentChanges())
+                    {
+                        switch (change.getType()) {
+                            case ADDED:
+                                Message message = change.getDocument().toObject(Message.class);
+                                messageList.add(message);
+                                break;
+                            case MODIFIED:
+                                // Optionally handle message updates
+                                break;
+                            case REMOVED:
+                                // Optionally handle message deletions
+                                break;
+                        }
+                    }
+
+
+                    //HAS SOME ERROR
+                    /*
+                    for(DocumentSnapshot snapshot: value.getDocuments())
+                    {
+                        Message currMessages = snapshot.toObject(Message.class);
+                        if(currMessages != null && !messageList.contains(currMessages))
+                        {
+                            messageList.add(currMessages);
+                            messageAdapter.notifyItemInserted(messageList.size() - 1);
+                            recyclerView.scrollToPosition(messageList.size() - 1);
+                        }
+                    }
+                    */
+
+                    messageAdapter.updateData(messageList);
+
+
+                }
+            }
+        });
+
         buttonSend.setOnClickListener(v -> {
             String content = editTextMessage.getText().toString().trim();
             if (!content.isEmpty()) {
@@ -122,9 +174,9 @@ public class MatchForumActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful())
                                 {
-                                    messageList.add(newMessage);
-                                    messageAdapter.notifyItemInserted(messageList.size() - 1);
-                                    recyclerView.scrollToPosition(messageList.size() - 1);
+//                                    messageList.add(newMessage);
+//                                    messageAdapter.notifyItemInserted(messageList.size() - 1);
+//                                    recyclerView.scrollToPosition(messageList.size() - 1);
                                 }
                                 else
                                 {

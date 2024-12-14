@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -196,7 +197,7 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                     if (documentSnapshot.exists()) {
                         Match match = documentSnapshot.toObject(Match.class);
                         if (match != null) {
-                            if(matches.indexOf(match) == -1)
+                            if(!matches.contains(match))
                                 matches.add(match);
                         }
                     }
@@ -300,26 +301,37 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                     txtView.setText(spannableString);
 
                     //To download icon and set it to image view:
-                    String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@4x.png";
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                URL url = new URL(iconUrl);
-                                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false);
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        imgView.setImageBitmap(scaledBitmap);
-                                    }
-                                });
+//                    String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@4x.png";
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                URL url = new URL(iconUrl);
+//                                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false);
+//                                handler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        imgView.setImageBitmap(scaledBitmap);
+//                                    }
+//                                });
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }).start();
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
+                    String iconWay ="i" + iconCode;
+                    try {
+                        int iconID = getContext().getResources().getIdentifier(iconWay, "drawable", getContext().getPackageName());
+                        imgView.setImageResource(iconID);
+                    }
+                    catch (Exception e)
+                    {
+                        //ERROR TO LOAD
+                    }
+
 
                     break;
                 }

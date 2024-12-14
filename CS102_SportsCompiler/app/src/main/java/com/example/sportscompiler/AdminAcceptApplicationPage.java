@@ -107,27 +107,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         });
     }
 
-    private void initializeForum(Timestamp date, View view)
-    {
-        String messageID = matchID +  user.getName() + date.toDate().toString();
-        Message startingMessage = new Message(user, date, user.getName() + " created this match."
-                , messageID);
-
-        firestore.collection(currentMatch.getMatchType()).document(matchID).collection("forum")
-                .document("SystemMessage").set(startingMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(!(task.isSuccessful()))
-                        {
-                            Toast.makeText(view.getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            FragmentLoad.changeActivity((Activity) view.getContext(), MatchForumActivity.class);
-                        }
-                    }
-                });
-    }
     private void fetchMatchFromFirestore(String matchID) {
         String type = "matches6";
         if(matchType.equals("matches5")){

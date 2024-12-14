@@ -1,5 +1,7 @@
 package com.example.sportscompiler;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sportscompiler.AdditionalClasses.Application;
+import com.example.sportscompiler.AdditionalClasses.ApplicationActionListener;
+import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
@@ -25,6 +32,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class AdminAcceptApplicationPage extends AppCompatActivity {
 
@@ -37,12 +47,19 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private String matchID, matchType;
     private Timestamp date;
     private long dateTimeMillis;
+    private RecyclerView recyclerView;
+    private ApplicationsAdapter appAdapt;
+    private ArrayList<Application> applications;
+    private ApplicationActionListener actionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_accept_application_page);
+
+        recyclerView = findViewById(R.id.applicationsRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         matchForumButton = findViewById(R.id.ForumPage);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -52,7 +69,10 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         initializeUser();
 
         matchID = getIntent().getStringExtra("matchID");
+        System.out.println(matchID);
         matchType = getIntent().getStringExtra("matchType");
+        System.out.println(matchType);
+        fetchMatchFromFirestore(matchID);
 
         matchForumButton.setOnClickListener(new View.OnClickListener()
         {
@@ -108,5 +128,52 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     }
                 });
     }
+    private void fetchMatchFromFirestore(String matchID) {
+        String type = "matches6";
+        if(matchType.equals("matches5")){
+            type = "matches5";
+        }
+        firestore.collection(type).document(matchID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    currentMatch = documentSnapshot.toObject(Match.class);
+                    if (currentMatch != null) {
+                        fillApplications();
+                    } else {
+                        Log.e("fetchMatchFromFirestore", "Match object is null!");
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("fetchMatchFromFirestore", "Failed to fetch match!", e));
+    }
+
+    private void fillApplications() {
+        // Ensure the applications list is initialized
+        if (applications == null) {
+            applications = new ArrayList<>();
+        }
+
+        // Clear the existing list to avoid duplicates
+        applications.clear();
+
+        if (currentMatch != null) {
+            ArrayList<Application> matchApplications = currentMatch.getApplications();
+
+            if (matchApplications != null && !matchApplications.isEmpty()) {
+                applications.addAll(matchApplications);
+
+                // Notify adapter of changes (or initialize it if necessary)
+                if (appAdapt == null) {
+                    appAdapt = new ApplicationsAdapter(applications, actionListener);
+                    recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
+                } else {
+                    appAdapt.notifyDataSetChanged();
+                }
+            } else {
+                Log.e("fillApplications", "No applications found in currentMatch.");
+            }
+        } else {
+            Log.e("fillApplications", "currentMatch is null, cannot populate applications.");
+        }
+    }
+
 
 }

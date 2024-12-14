@@ -56,11 +56,12 @@ public class MatchApplication5x5 extends AppCompatActivity {
 
         fireUser = new firestoreUser();
         firebaseAuth = FirebaseAuth.getInstance();
-        user = new User();
-        initializeUser();
+
         applicationNoteStr = "";
         applyButton = findViewById(R.id.applyButton);
         applicatonNote = findViewById(R.id.applicationNote);
+        user = new User();
+        initializeUser();
 
         kaleciA = findViewById(R.id.kaleciA);
         ortadefansA = findViewById(R.id.ortadefansA);
@@ -207,17 +208,21 @@ public class MatchApplication5x5 extends AppCompatActivity {
 
 
     }
-    private void initializeUser()
-    {
+    private void initializeUser() {
+        applyButton.setEnabled(false);
+
         fireUser.updateInfo(user, new firestoreUser.FirestoreCallback<User>() {
             @Override
             public void onSuccess(User result) {
                 user = result;
+                Log.d("initializeUser", "User info successfully retrieved: " + user.getName());
+                applyButton.setEnabled(true);
             }
 
             @Override
             public void onError(Exception e) {
                 Log.e("MatchApplication", "Error fetching user info", e);
+                Toast.makeText(MatchApplication5x5.this, "Failed to fetch user info", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -225,6 +225,7 @@ public class firestoreUser {
             }
         });
     }
+
     public void getMatchesForUser(FirestoreCallback<List<Match>> callback) {
         firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
         List<Match> matches = new ArrayList<>();
@@ -304,6 +305,33 @@ public class firestoreUser {
         userID = Fauth.getUid();
         return userID;
     }
+
+    public void getApplicationsForThatMatch(){
+
+    }
+    public void updateInfoQuick(User user, FirestoreCallback<User> callback) {
+        Fauth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        userID = Fauth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firestore.collection("users").document(userID);
+
+        documentReference.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        User updatedUser = documentSnapshot.toObject(User.class);
+                        callback.onSuccess(updatedUser); // Notify callback of the updated user
+                    } else {
+                        Log.e("FirestoreUser", "No data found for user");
+                        callback.onError(new Exception("No data found"));
+                    }
+                })
+                .addOnFailureListener(error -> {
+                    Log.e("FirestoreUser", "Error fetching user data", error);
+                    callback.onError(error);
+                });
+    }
+
 
 
     public interface FirestoreCallback<T> {

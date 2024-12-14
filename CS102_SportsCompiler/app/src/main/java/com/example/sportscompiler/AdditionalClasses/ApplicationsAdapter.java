@@ -35,7 +35,7 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapte
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
         Application app = applications.get(position);
 
-        holder.nameSurname.setText(app.getName());
+        holder.nameSurname.setText("Name: " +app.getName());
         holder.position.setText("Position: " + app.getPosition());
         holder.note.setText("Note: " + app.getNote());
 

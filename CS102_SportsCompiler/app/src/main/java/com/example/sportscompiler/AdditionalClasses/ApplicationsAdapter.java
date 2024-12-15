@@ -12,7 +12,7 @@ import com.example.sportscompiler.R;
 
 import java.util.List;
 
-public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder> {
+public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>  {
 
     private List<Application> applications;
     private ApplicationActionListener actionListener;

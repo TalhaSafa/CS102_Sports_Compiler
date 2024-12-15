@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
@@ -41,7 +42,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private Button matchForumButton;
     private firestoreUser fireuser;
     private User user;
-    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestore;
     private Match currentMatch;
     private String matchID, matchType;
@@ -62,7 +62,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         matchForumButton = findViewById(R.id.ForumPage);
 
-        firebaseAuth = FirebaseAuth.getInstance();
         fireuser = new firestoreUser();
         user = new User();
         firestore = FirebaseFirestore.getInstance();
@@ -85,6 +84,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     public void setMatch(Match match)
@@ -108,21 +108,27 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     }
 
     private void fetchMatchFromFirestore(String matchID) {
-        String type = "matches6";
-        if(matchType.equals("matches5")){
-            type = "matches5";
-        }
-        firestore.collection(type).document(matchID).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    currentMatch = documentSnapshot.toObject(Match.class);
-                    if (currentMatch != null) {
-                        fillApplications();
-                    } else {
-                        Log.e("fetchMatchFromFirestore", "Match object is null!");
-                    }
-                })
-                .addOnFailureListener(e -> Log.e("fetchMatchFromFirestore", "Failed to fetch match!", e));
+        String type = matchType.equals("matches5") ? "matches5" : "matches6";
+
+        firestore.collection(type).document(matchID).addSnapshotListener((documentSnapshot, error) -> {
+            if (error != null) {
+                Log.e("fetchMatchFromFirestore", "Error fetching match!", error);
+                return;
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()) {
+                currentMatch = documentSnapshot.toObject(Match.class);
+                if (currentMatch != null) {
+                    fillApplications(); // Update the applications list in real-time
+                } else {
+                    Log.e("fetchMatchFromFirestore", "Match object is null!");
+                }
+            } else {
+                Log.e("fetchMatchFromFirestore", "No document found or document is null!");
+            }
+        });
     }
+
 
     private void fillApplications() {
         // Ensure the applications list is initialized
@@ -141,7 +147,25 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
 
                 // Notify adapter of changes (or initialize it if necessary)
                 if (appAdapt == null) {
-                    appAdapt = new ApplicationsAdapter(applications, actionListener);
+                    appAdapt = new ApplicationsAdapter(applications, new ApplicationActionListener() {
+                        @Override
+                        public void onAccept(Application application) {
+
+                        }
+
+                        @Override
+                        public void onDecline(Application application) {
+                            firestore.collection(matchType)
+                                    .document(matchID)
+                                    .update("applications", FieldValue.arrayRemove(application)) // Remove application from array
+                                    .addOnSuccessListener(aVoid -> {
+                                        applications.remove(application); // Update local list
+                                        appAdapt.notifyDataSetChanged(); // Refresh UI
+                                        Toast.makeText(AdminAcceptApplicationPage.this, "Application declined and removed.", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> Log.e("onDecline", "Failed to remove application", e));
+                        }
+                    });
                     recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
                 } else {
                     appAdapt.notifyDataSetChanged();

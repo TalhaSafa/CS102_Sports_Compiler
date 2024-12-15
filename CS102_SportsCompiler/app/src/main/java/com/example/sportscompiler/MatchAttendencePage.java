@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -144,6 +148,31 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 }
             }
         });
+
+        sortButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                SortDialogFragment dialogFragment = new SortDialogFragment();
+                dialogFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "SortDialog");
+            }
+        });
+
+        getParentFragmentManager().setFragmentResultListener("sortRequest", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result)
+            {
+                String sortingOption = result.getString("sortingOption");
+
+                if(sortingOption != null)
+                {
+                    Toast.makeText(requireContext(), "Sorting by: " + sortingOption, Toast.LENGTH_SHORT).show();
+                    sortMatches(sortingOption);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -214,6 +243,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 }
             }
         }
+
     }
     public void filterNonExpiredMatches() {
         List<Match> nonExpiredMatches = new ArrayList<>();
@@ -231,4 +261,52 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
         matchAdapter.notifyDataSetChanged();
     }
 
+    private void sortMatches(String sortingOption)
+    {
+        if(matches == null ||matches.isEmpty())
+        {
+            return;
+        }
+
+        if(sortingOption.equalsIgnoreCase("date"))
+        {
+            Collections.sort(matches, new Comparator<Match>() {
+                @Override
+                public int compare(Match m1, Match m2)
+                {
+                    return m1.getDate().compareTo(m2.getDate());
+                }
+            });
+        }
+        else if(sortingOption.equalsIgnoreCase("place"))
+        {
+            Collections.sort(matches, new Comparator<Match>() {
+                @Override
+                public int compare(Match m1, Match m2)
+                {
+                    return m1.getField().getAction().compareToIgnoreCase(m2.getField().getAction());
+                }
+            });
+        }
+        else if(sortingOption.equalsIgnoreCase("quota"))
+        {
+            Collections.sort(matches, new Comparator<Match>() {
+                @Override
+                public int compare(Match m1, Match m2)
+                {
+                    int size1 = m1.getPlayersA().size() + m2.getPlayersB().size();
+                    int size2 = m2.getPlayersA().size() + m2.getPlayersB().size();
+
+                    return Integer.compare(size1, size2);
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(getContext(), "Unknown sorting option", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        matchAdapter.notifyDataSetChanged();
+    }
 }

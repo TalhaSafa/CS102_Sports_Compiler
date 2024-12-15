@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Admin_position_selector_5x5">
 
-    <FrameLayout
-        android:id="@+id/admin_fragment_container5"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
 
     <TextView
         android:id="@+id/textView12_2"
@@ -103,5 +98,10 @@
         android:layout_marginLeft="280dp"
         android:layout_marginTop="480dp"
         android:text="Create" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_admin_position_selector5x5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

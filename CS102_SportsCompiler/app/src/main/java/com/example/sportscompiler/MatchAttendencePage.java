@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,6 +60,9 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     public firestoreUser user= new firestoreUser();
+
+    private Calendar calender1;
+    private Calendar calendar2;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -154,8 +158,8 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             @Override
             public void onClick(View view)
             {
-                SortDialogFragment dialogFragment = new SortDialogFragment();
-                dialogFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "SortDialog");
+                SortDialogFragment sortDialogFragment = new SortDialogFragment();
+                sortDialogFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "SortDialog");
             }
         });
 
@@ -170,6 +174,46 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                     Toast.makeText(requireContext(), "Sorting by: " + sortingOption, Toast.LENGTH_SHORT).show();
                     sortMatches(sortingOption);
                 }
+            }
+        });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                FilterDialog filterDialogFragment = new FilterDialog();
+                filterDialogFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "FilterDialog");
+            }
+        });
+
+        getParentFragmentManager().setFragmentResultListener("filterDialogData", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result)
+            {
+                String matchField = result.getString("matchField");
+                int quota = result.getInt("quota");
+
+                int year = result.getInt("year", -1);
+                int month = result.getInt("month", -1);
+                int day = result.getInt("day", -1);
+                int hour = result.getInt("hour", -1);
+                int minute = result.getInt("minute", -1);
+
+                if(year != -1)
+                {
+                    calender1 = Calendar.getInstance();
+                    calender1.set(Calendar.YEAR, year);
+                    calender1.set(Calendar.MONTH, month);
+                    calender1.set(Calendar.DAY_OF_MONTH, day);
+                }
+
+                if(hour != -1)
+                {
+                    calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar2.set(Calendar.MINUTE, minute);
+                }
+                filterMatches(matchField, quota, calender1, calendar2);
             }
         });
 
@@ -307,5 +351,95 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
         }
 
         matchAdapter.notifyDataSetChanged();
+    }
+
+    private void filterMatches(String matchField, Integer quota,
+                               Calendar selectedDate, Calendar selectedTime )
+    {
+        if(!matchField.equalsIgnoreCase("Select"))
+        {
+            filterMatchesByField(matchField);
+        }
+
+        filterMatchesByQuota(quota);
+
+        if (selectedDate != null)
+        {
+            filterMatchesByDate(selectedDate);
+        }
+
+        if(selectedTime != null)
+        {
+            filterMatchesByTime(selectedTime);
+        }
+    }
+
+    private void filterMatchesByField(String matchField)
+    {
+        List<Match> filteredMatches = new ArrayList<>();
+
+        for(Match match : matches)
+        {
+            if(match.getField().toString().equalsIgnoreCase(matchField))
+            {
+                filteredMatches.add(match);
+            }
+        }
+        matches = filteredMatches;
+    }
+
+    private void filterMatchesByQuota(int quota)
+    {
+        List<Match> filteredMatches = new ArrayList<>();
+
+        for(Match match : matches)
+        {
+            int totalPlayers = match.getPlayersA().size() + match.getPlayersB().size();
+
+            if(totalPlayers <= quota)
+            {
+                filteredMatches.add(match);
+            }
+        }
+        matches = filteredMatches;
+    }
+
+    private void filterMatchesByDate(Calendar selectedDate)
+    {
+        List<Match> filteredMatches = new ArrayList<>();
+
+        for(Match match : matches)
+        {
+            Timestamp matchDateAndTimeOfTimeStamp = match.getDate();
+            Calendar matchDateAndTime = Calendar.getInstance();
+            matchDateAndTime.setTimeInMillis(matchDateAndTimeOfTimeStamp.getSeconds() * 1000);
+
+            if(selectedDate.get(Calendar.YEAR) == matchDateAndTime.get(Calendar.YEAR)
+                    && selectedDate.get(Calendar.MONTH) == matchDateAndTime.get(Calendar.MONTH)
+                    && selectedDate.get(Calendar.DAY_OF_MONTH) == matchDateAndTime.get(Calendar.DAY_OF_MONTH))
+            {
+                filteredMatches.add(match);
+            }
+        }
+        matches = filteredMatches;
+    }
+
+    private void filterMatchesByTime(Calendar selectedTime)
+    {
+        List<Match> filteredMatches = new ArrayList<>();
+
+        for(Match match : matches)
+        {
+            Timestamp matchDateAndTimeOfTimeStamp = match.getDate();
+            Calendar matchDateAndTime = Calendar.getInstance();
+            matchDateAndTime.setTimeInMillis(matchDateAndTimeOfTimeStamp.getSeconds() * 1000);
+
+            if (selectedTime.get(Calendar.HOUR_OF_DAY) == matchDateAndTime.get(Calendar.HOUR_OF_DAY)
+                && selectedTime.get(Calendar.MINUTE) == matchDateAndTime.get(Calendar.MINUTE))
+            {
+                filteredMatches.add(match);
+            }
+        }
+        matches = filteredMatches;
     }
 }

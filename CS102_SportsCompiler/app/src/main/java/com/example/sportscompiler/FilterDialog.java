@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +30,8 @@ public class FilterDialog extends DialogFragment {
     private Spinner matchFieldSpinner, quotaCountSpinner;
     private Button submitButton, dateButton, timeButton, cancelButton;
 
-    private Calendar selectedDateTime;
+    private Calendar selectedDate;
+    private Calendar selectedTime;
 
     public FilterDialog() {
         // Required empty public constructor
@@ -69,9 +73,35 @@ public class FilterDialog extends DialogFragment {
 
         matchField = matchFieldSpinner.getSelectedItem().toString();
         quotaS = quotaCountSpinner.getSelectedItem().toString();
-        quota = Integer.parseInt(quotaS);
 
-        selectedDateTime = Calendar.getInstance();
+        if(!quotaS.equalsIgnoreCase("Select person count"))
+        {
+            quota = Integer.parseInt(quotaS);
+        }
+
+        List<String> quotaCount = new ArrayList<>();
+
+        for(int i = 0; i < 15; i++)
+        {
+            quotaCount.add(String.valueOf(i));
+        }
+
+        List<String> matchFields = new ArrayList<>();
+
+        matchFields.add("Select");
+        matchFields.add("Main Campus 1");
+        matchFields.add("Main Campus 2");
+        matchFields.add("East Campus");
+
+        ArrayAdapter<String> quotaCountAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, quotaCount);
+        quotaCountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        quotaCountSpinner.setAdapter(quotaCountAdapter);
+
+        ArrayAdapter<String> matchFieldAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, matchFields);
+        matchFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        matchFieldSpinner.setAdapter(matchFieldAdapter);
+
+
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,15 +112,15 @@ public class FilterDialog extends DialogFragment {
                     @Override
                     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth)
                     {
-                        selectedDateTime.set(Calendar.YEAR, year);
-                        selectedDateTime.set(Calendar.MONTH, month);
-                        selectedDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        selectedDate.set(Calendar.YEAR, year);
+                        selectedDate.set(Calendar.MONTH, month);
+                        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         dateButton.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
                 },
-                        selectedDateTime.get(Calendar.YEAR),
-                        selectedDateTime.get(Calendar.MONTH),
-                        selectedDateTime.get(Calendar.DAY_OF_MONTH)
+                        selectedDate.get(Calendar.YEAR),
+                        selectedDate.get(Calendar.MONTH),
+                        selectedDate.get(Calendar.DAY_OF_MONTH)
                 );
                 datePickerDialog.show();
             }
@@ -106,8 +136,8 @@ public class FilterDialog extends DialogFragment {
                     @Override
                     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute)
                     {
-                        selectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        selectedDateTime.set(Calendar.MINUTE, minute);
+                        selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        selectedTime.set(Calendar.MINUTE, minute);
 
                         String minuteText;
 
@@ -123,8 +153,8 @@ public class FilterDialog extends DialogFragment {
                         timeButton.setText(hourOfDay + ":" + minuteText);
                     }
                 },
-                        selectedDateTime.get(Calendar.HOUR_OF_DAY),
-                        selectedDateTime.get(Calendar.MINUTE),
+                        selectedTime.get(Calendar.HOUR_OF_DAY),
+                        selectedTime.get(Calendar.MINUTE),
                         true
                 );
                 timePickerDialog.show();
@@ -146,16 +176,28 @@ public class FilterDialog extends DialogFragment {
                 if(getParentFragment() != null)
                 {
                     Bundle result = new Bundle();
+
                     result.putString("matchField", matchField);
                     result.putInt("quota", quota);
+
+                    if(selectedDate != null)
+                    {
+                        result.putInt("year", selectedDate.get(Calendar.YEAR));
+                        result.putInt("month", selectedDate.get(Calendar.MONTH) + 1);
+                        result.putInt("day", selectedDate.get(Calendar.DAY_OF_MONTH));
+                    }
+
+                    if(selectedTime != null)
+                    {
+                        result.putInt("hour", selectedTime.get(Calendar.HOUR_OF_DAY));
+                        result.putInt("minute", selectedTime.get(Calendar.MINUTE));
+                    }
+
+                    getParentFragmentManager().setFragmentResult("filterDialogData", result);
+                    dismiss();
                 }
             }
         });
-
-
-
-
         return rootView;
-
     }
 }

@@ -47,7 +47,7 @@ public class RegisterPageAc extends AppCompatActivity {
     private Button registerButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestore;
-    private  Spinner daySpinner;
+    private Spinner daySpinner;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
 

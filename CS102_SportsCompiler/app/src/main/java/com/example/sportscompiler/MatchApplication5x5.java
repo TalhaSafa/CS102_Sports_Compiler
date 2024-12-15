@@ -41,7 +41,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
     private String matchID, matchType, applicationNoteStr;
     private Match match;
     private Positions positionToApply;
-    private TeamType team;
+    private TeamType teamToApply;
     private TextView matchName, dateTxt, adminName, matchNote;
     private FirebaseFirestore firestore;
     private firestoreUser fireUser;
@@ -119,6 +119,10 @@ public class MatchApplication5x5 extends AppCompatActivity {
                         Toast.makeText(MatchApplication5x5.this, "Choose position", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else
+                    {
+                        applyForPosition();
+                    }
 
                 }
             }
@@ -168,13 +172,13 @@ public class MatchApplication5x5 extends AppCompatActivity {
                 }
 
                 if (playerAtPos != null) {
-                    // Pozisyon dolu, buton kırmızı olsun
-                    button.setBackgroundColor(Color.parseColor("#FF5555"));
-                    button.setOnClickListener(v -> showPlayerDetailsDialog(playerAtPos));
+                    // Pozisyon dolu
+                    showPlayerDetailsDialog(playerAtPos);
                 } else {
                     // Pozisyon boş, buton normal
+                    positionToApply = position;
+                    teamToApply = team;
                     button.setBackgroundColor(Color.parseColor("#6200EE"));
-                    button.setOnClickListener(v -> applyForPosition(position, team));
                 }
             }
         });
@@ -197,12 +201,11 @@ public class MatchApplication5x5 extends AppCompatActivity {
         dialog.show();
     }
 
-    private void applyForPosition(Positions position, TeamType team) {
+    private void applyForPosition() {
         // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.
-        positionToApply = position;
-        this.team = team;
+
         applicationNoteStr = applicatonNote.getText().toString();
-        Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID(), user.getAverageRating());
+        Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
         match.addApplication(newApplication);
         firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

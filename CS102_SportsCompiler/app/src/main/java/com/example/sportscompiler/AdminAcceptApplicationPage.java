@@ -27,6 +27,7 @@ import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
+import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -125,6 +127,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 currentMatch = documentSnapshot.toObject(Match.class);
                 if (currentMatch != null) {
+                    //matchName.setText(currentMatch.getMatchName());
                     fillApplications(); // Update the applications list in real-time
                 } else {
                     Log.e("fetchMatchFromFirestore", "Match object is null!");
@@ -155,7 +158,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     appAdapt = new ApplicationsAdapter(applications, new ApplicationActionListener() {
                         @Override
                         public void onAccept(Application application) {
-                            //TODO EREN BURAYI TODO BIRAKMADIGIN ICIN IKI SAAT BURAYI ARADIM,TESEKKURLER,
 
                             if(application.getTeamInfo() == TeamType.TEAM_A)
                             {
@@ -163,7 +165,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                             }
                             else
                             {
-                                addToTeam(currentMatch.getPlayersA(), application);
+                                addToTeam(currentMatch.getPlayersB(), application);
 
                             }
                         }
@@ -200,29 +202,68 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         if(playersOfWantedTeam.get(application.getPosition().getAction()) == null)
         {
 
+
             Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(), application.getTeamInfo(), application.getPosition()
                 ,false, currentMatch.getMatchID(), application.getName() );
-            playersOfWantedTeam.put(application.getPosition().getAction(), acceptedPlayer);
-            applications.remove(application); // Update local list
-            appAdapt.notifyDataSetChanged(); // Refresh UI
 
-            //currentMatch.addApplication(newApplication);
-            firestore.collection(matchType).document(matchID).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+            if(SearchForPlayer.doesMatchIncludePlayer(currentMatch, acceptedPlayer))
+            {
+                Toast.makeText(AdminAcceptApplicationPage.this, "This player is already in this match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            firestore.collection("users").document(application.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onSuccess(Void unused) {
-                    Toast.makeText(AdminAcceptApplicationPage.this, "Application Accepted", Toast.LENGTH_SHORT).show();
-                    recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User userToAccept = documentSnapshot.toObject(User.class);
+                    userToAccept.addMatches(currentMatch.getMatchID());
 
+                    firestore.collection("users").document(application.getUserID()).set(userToAccept).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                playersOfWantedTeam.put(application.getPosition().getAction(), acceptedPlayer);
+                                applications.remove(application); // Update local list
+                                appAdapt.notifyDataSetChanged(); // Refresh UI
+
+                                //currentMatch.addApplication(newApplication);
+                                firestore.collection(matchType).document(matchID).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(AdminAcceptApplicationPage.this, "Application Accepted", Toast.LENGTH_SHORT).show();
+                                        recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        applications.add(application);
+                                        appAdapt.notifyDataSetChanged(); // Refresh UI
+
+                                        Toast.makeText(AdminAcceptApplicationPage.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(AdminAcceptApplicationPage.this, "User not changed!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    applications.add(application);
-                    appAdapt.notifyDataSetChanged(); // Refresh UI
+                    Toast.makeText(AdminAcceptApplicationPage.this, "User not found!", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(AdminAcceptApplicationPage.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+
+
         }
         else
         {

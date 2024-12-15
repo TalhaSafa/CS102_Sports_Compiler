@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,30 +25,39 @@ public class homeActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
-    public void onStart()
-    {
+
+    @Override
+    public void onStart() {
         super.onStart();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser != null)
-        {
-            if(!firebaseUser.isEmailVerified())
-            {
+        if (firebaseUser != null) {
+            if (!firebaseUser.isEmailVerified()) {
                 FragmentLoad.changeActivity(this, emailVerificationPage.class);
             }
-            else
-            {
-                Toast.makeText(this, firebaseUser.getEmail(), Toast.LENGTH_SHORT).show();
+            else {
+
+                SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                boolean emailShown = preferences.getBoolean("email_shown", false);
+
+                if (!emailShown) {
+
+                    Toast.makeText(this, firebaseUser.getEmail(), Toast.LENGTH_SHORT).show();
+
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("email_shown", true);
+                    editor.apply();
+                }
             }
-        }
-        else
-        {
-            //TODO will be changed when converted to activity
+        } else {
+            // TODO: Will be changed when converted to activity
             FragmentLoad.changeActivity(this, RegisterPageAc.class);
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

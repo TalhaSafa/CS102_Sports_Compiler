@@ -25,7 +25,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ProfilePage extends Fragment {
 
@@ -119,10 +128,41 @@ public class ProfilePage extends Fragment {
         if (user != null) {
             nameTextView.setText(user.getName());
             departmentTextView.setText(user.getDepartment());
-            ageTextView.setText(user.getBirthDate());
+            ageTextView.setText(Integer.toString(calculateAge(user.getBirthDate())));
             loadProfilePic();
         }
     }
+
+    private int calculateAge(String birthday) {
+        // Define the date format for "dd/mm/yyyy"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int age;
+        try {
+            // Parse the birthday string into a Date object
+            Date birthDate = dateFormat.parse(birthday);
+
+            // Get the current date
+            Calendar today = Calendar.getInstance();
+
+            // Set the calendar to the birth date
+            Calendar birthDay = Calendar.getInstance();
+            birthDay.setTime(birthDate);
+
+            // Calculate the age
+            age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR);
+
+            // If the birthdate hasn't occurred yet this year, subtract one
+            if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+                age--;
+            }
+
+        }
+        catch (ParseException e)
+        {
+            age = 0;
+        }
+            return age;
+        }
 
     private void loadProfilePic() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

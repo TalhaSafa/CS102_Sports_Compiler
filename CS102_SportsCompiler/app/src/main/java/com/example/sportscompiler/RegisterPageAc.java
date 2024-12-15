@@ -22,6 +22,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sportscompiler.AdditionalClasses.PasswordValidity;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,7 +86,7 @@ public class RegisterPageAc extends AppCompatActivity {
                 if(!name.isEmpty() && !mail.isEmpty() && !password.isEmpty() && !rePassword.isEmpty()
                         && !birthDate1.isEmpty() && !department1.isEmpty() && password.equals(rePassword))
                 {
-                    if(isPasswordValid(password) && isBilkentMail(mail))
+                    if(PasswordValidity.isPasswordValid(password, RegisterPageAc.this) && isBilkentMail(mail))
                     {
                         createAccount(mail, password);
                     }
@@ -109,18 +110,18 @@ public class RegisterPageAc extends AppCompatActivity {
         }
 
         List<String> months = new ArrayList<>();
-        months.add("January");
-        months.add("February");
-        months.add("March");
-        months.add("April");
-        months.add("May");
-        months.add("June");
-        months.add("July");
-        months.add("August");
-        months.add("September");
-        months.add("October");
-        months.add("November");
-        months.add("December");
+        months.add("01");
+        months.add("02");
+        months.add("03");
+        months.add("04");
+        months.add("05");
+        months.add("06");
+        months.add("07");
+        months.add("08");
+        months.add("09");
+        months.add("10");
+        months.add("11");
+        months.add("12");
 
         List<String> years = new ArrayList<>();
 
@@ -261,68 +262,7 @@ public class RegisterPageAc extends AppCompatActivity {
                 });
     }
 
-    private boolean isPasswordValid(String password)
-    {
-        boolean isValid = true;
-        if(password.length() < 7)
-        {
-            isValid = false;
-            Toast.makeText(RegisterPageAc.this, "Password must be longer than 6 characters", Toast.LENGTH_SHORT).show();
-        }
-        else if (!doesIncludeUppercase(password))
-        {
-            isValid = false;
-            Toast.makeText(RegisterPageAc.this, "Password must include at least 1 uppercase", Toast.LENGTH_SHORT).show();
-        }
-        else if(!doesIncludeLowercase(password))
-        {
-            isValid = false;
-            Toast.makeText(RegisterPageAc.this, "Password must include at least 1 lowercase", Toast.LENGTH_SHORT).show();
-        }
-        else if(!doesIncludeNumeric(password))
-        {
-            isValid = true;
-            Toast.makeText(RegisterPageAc.this, "Password must include at least 1 digit", Toast.LENGTH_SHORT).show();
-        }
 
-        return isValid;
-    }
-
-    private boolean doesIncludeUppercase(String pass)
-    {
-        for(int i = 0 ; i < pass.length() ; i++)
-        {
-            if(Character.isUpperCase(pass.charAt(i)))
-            {
-                return  true;
-            }
-        }
-        return false;
-    }
-
-    private boolean doesIncludeLowercase(String pass)
-    {
-        for(int i = 0 ; i < pass.length() ; i++)
-        {
-            if(Character.isLowerCase(pass.charAt(i)))
-            {
-                return  true;
-            }
-        }
-        return false;
-    }
-
-    private boolean doesIncludeNumeric(String pass)
-    {
-        for(int i = 0 ; i < pass.length() ; i++)
-        {
-            if(Character.isDigit(pass.charAt(i)))
-            {
-                return  true;
-            }
-        }
-        return false;
-    }
 
     private boolean isBilkentMail(String mail)
     {

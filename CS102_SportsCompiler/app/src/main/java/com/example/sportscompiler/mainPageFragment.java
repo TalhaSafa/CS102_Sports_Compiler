@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,6 +40,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -73,7 +75,7 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
     private List<Match> matches = new ArrayList<>();
     public firestoreUser user= new firestoreUser();
     private FirebaseFirestore firestore;
-
+    private ListenerRegistration registration;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,9 +116,8 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main_page, container, false);
+    public void onViewCreated(@NonNull View view, Bundle savedInsanceState)
+    {
         day1Txt = view.findViewById(R.id.day1Txt);
         day2Txt = view.findViewById(R.id.day2Txt);
         day3Txt = view.findViewById(R.id.day3Txt);
@@ -137,12 +138,14 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
 
 
         firestore = FirebaseFirestore.getInstance();
-        firestore.collection("users").document(user.getUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        registration = firestore.collection("users").document(user.getUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
                 if(error != null)
                 {
-                    Toast.makeText(getContext(), "Failed to fetch matches: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(getContext() != null)
+                        Toast.makeText(getContext(), "Failed to fetch matches: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 else if (error == null && value.exists())
                 {
@@ -176,6 +179,24 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
 //
 //        matchAdapter = new MatchAdapter(requireContext(),matches,this);
 //        recyclerView.setAdapter(matchAdapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove Firestore listener to avoid memory leaks
+        if (registration != null) {
+            registration.remove();
+            registration = null;
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main_page, container, false);
+
 
         return view;
     }

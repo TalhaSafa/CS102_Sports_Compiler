@@ -52,7 +52,7 @@
         android:id="@+id/position_1"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="130dp"
         android:layout_marginLeft="180dp"
         android:src="@drawable/baseline_person_24" />
@@ -61,7 +61,7 @@
         android:id="@+id/position_3"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="200dp"
         android:layout_marginLeft="180dp"
         android:src="@drawable/baseline_person_24" />
@@ -70,8 +70,7 @@
         android:id="@+id/position_5"
         android:layout_width="50dp"
         android:layout_height="50dp"
-
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="280dp"
         android:layout_marginLeft="180dp"
         android:src="@drawable/baseline_person_24" />
@@ -81,7 +80,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
 
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="240dp"
         android:layout_marginLeft="300dp"
         android:src="@drawable/baseline_person_24" />
@@ -91,7 +90,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
 
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="240dp"
         android:layout_marginLeft="60dp"
         android:src="@drawable/baseline_person_24" />
@@ -101,7 +100,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
 
-        android:backgroundTint="@color/white"
+        android:background="@drawable/highlighted_button"
         android:layout_marginTop="360dp"
         android:layout_marginLeft="180dp"
         android:src="@drawable/baseline_person_24" />

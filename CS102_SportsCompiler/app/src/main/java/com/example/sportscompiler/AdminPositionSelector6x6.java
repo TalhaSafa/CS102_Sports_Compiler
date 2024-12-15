@@ -56,7 +56,6 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         user = new User();
         initializeUser();
 
-
         positionButtons = new FloatingActionButton[]{
                 findViewById(R.id.position_1),
                 findViewById(R.id.position_2),
@@ -100,25 +99,17 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                     Timestamp date = new Timestamp(seconds, nanoseconds);
                     createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
 
-
                     //TODO: TO TRY FORUM:
-
-
                     Intent toSentIntent = new Intent(AdminPositionSelector6x6.this, MatchForumActivity.class);
                     toSentIntent.putExtra("matchID", newMatch.getMatchID());
                     toSentIntent.putExtra("matchType", newMatch.getMatchType());
                     startActivity(toSentIntent);
 
-
                     FragmentLoad.loadFragment(AdminPositionSelector6x6.this, R.id.admin_fragment_container6, new MatchAttendencePage());
-
-
-
                 }
             }
         });
     }
-
 
     //TODO need to be changed when added other position distribution:
     private Positions determinePosition(int selectedPosition , int numberOfPlayersInATeam)
@@ -150,9 +141,7 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         }
 
         return position;
-
     }
-
 
     private void initializeUser()
     {
@@ -171,13 +160,13 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
 
     private void onPositionSelected(int index)
     {
+        // Reset background for all buttons to white
         for (FloatingActionButton button : positionButtons)
         {
-            button.setBackgroundTintList(getColorStateList(android.R.color.white));
+            button.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         }
 
-        // Highlight the selected button
-        //TODO does not work
+        // Set background color for selected button
         positionButtons[index].setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lightGreen)));
 
         // Set selected position
@@ -208,18 +197,17 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
             team.put(Positions.MO2.getAction(), null);
             team.put(Positions.FW3.getAction(), null);
         }
-
     }
 
     private void setAdminPosition(Map<String, Player> team, Positions adminPosition, String matchID)
     {
-
         Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID);
         team.put(adminPosition.getAction(), admin);
     }
 
     //This method is to try whether database is working or not:
-    private void createNewMatch(String adminID, String matchName, int numberOfPlayersInATeam, Positions adminPosition, Timestamp date, View view){
+    private void createNewMatch(String adminID, String matchName, int numberOfPlayersInATeam, Positions adminPosition, Timestamp date, View view)
+    {
         Map<String, Player> teamA = new HashMap<>();
         Map<String, Player> teamB = new HashMap<>();
 
@@ -233,7 +221,6 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         String adminName = user.getName();
 
         newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID );
-
 
         firestore = FirebaseFirestore.getInstance();
         firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)
@@ -253,7 +240,6 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     private void initializeForum(View view)

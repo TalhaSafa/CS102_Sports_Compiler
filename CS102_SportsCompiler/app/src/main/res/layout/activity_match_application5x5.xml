@@ -11,12 +11,13 @@
         android:id="@+id/relativeLayout"
         android:layout_width="275dp"
         android:layout_height="550dp"
+        android:background="@drawable/football_field"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:background="@drawable/football_field">
+        app:layout_constraintVertical_bias="0.016">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/kaleciA"
@@ -26,7 +27,6 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
-
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,7 +64,6 @@
             android:layout_marginTop="120dp"
             android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
-
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -113,7 +112,6 @@
             android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
     </RelativeLayout>
-
 
     <TextView
         android:id="@+id/matchName"

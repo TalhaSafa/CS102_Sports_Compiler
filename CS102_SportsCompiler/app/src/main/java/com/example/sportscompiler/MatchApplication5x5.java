@@ -1,10 +1,13 @@
 package com.example.sportscompiler;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,9 +15,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.Match;
@@ -33,8 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MatchApplication5x5 extends AppCompatActivity {
 
-    private FloatingActionButton kaleciA, ortadefansA, solortaA, sagortaA, ortaforvetA
-            ,kaleciB, ortadefansB, solortaB, sagortaB, ortaforvetB;
+    private FloatingActionButton kaleciA, ortadefansA, solortaA, sagortaA, ortaforvetA,
+            kaleciB, ortadefansB, solortaB, sagortaB, ortaforvetB;
     private Button applyButton;
     private EditText applicatonNote;
     private String matchID, matchType, applicationNoteStr;
@@ -46,7 +46,6 @@ public class MatchApplication5x5 extends AppCompatActivity {
     private firestoreUser fireUser;
     private FirebaseAuth firebaseAuth;
     private User user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,27 +81,22 @@ public class MatchApplication5x5 extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
 
         matchID = getIntent().getStringExtra("matchID");
-
         matchType = getIntent().getStringExtra("matchType");
+
         firestore.collection(matchType).document(matchID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null)
-                {
+                if (error != null) {
                     Toast.makeText(MatchApplication5x5.this, "Could not access database", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(value != null && value.exists())
-                {
+                if (value != null && value.exists()) {
                     match = value.toObject(Match.class);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MatchApplication5x5.this, "Null Match", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         FABListener listener = new FABListener();
         kaleciA.setOnClickListener(listener);
@@ -119,15 +113,13 @@ public class MatchApplication5x5 extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(match != null)
-                {
-                    if(positionToApply == null)
-                    {
+                if (match != null) {
+                    if (positionToApply == null) {
                         Toast.makeText(MatchApplication5x5.this, "Choose position", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     applicationNoteStr = applicatonNote.getText().toString();
-                    Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID() );
+                    Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID());
                     match.addApplication(newApplication);
                     firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -143,71 +135,80 @@ public class MatchApplication5x5 extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
-    private class FABListener implements View.OnClickListener
-    {
+    private class FABListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            if (view.getId() == kaleciA.getId())
-            {
-                positionToApply = Positions.GK1;
-                team = TeamType.TEAM_A;
+            if (view.getId() == kaleciA.getId()) {
+                updateFABButtonColor(kaleciA, Positions.GK1, TeamType.TEAM_A);
+            } else if (view.getId() == kaleciB.getId()) {
+                updateFABButtonColor(kaleciB, Positions.GK1, TeamType.TEAM_B);
+            } else if (view.getId() == ortadefansB.getId()) {
+                updateFABButtonColor(ortadefansB, Positions.CB3, TeamType.TEAM_B);
+            } else if (view.getId() == ortadefansA.getId()) {
+                updateFABButtonColor(ortadefansA, Positions.CB3, TeamType.TEAM_A);
+            } else if (view.getId() == solortaB.getId()) {
+                updateFABButtonColor(solortaB, Positions.MO1, TeamType.TEAM_B);
+            } else if (view.getId() == sagortaB.getId()) {
+                updateFABButtonColor(sagortaB, Positions.MO2, TeamType.TEAM_B);
+            } else if (view.getId() == sagortaA.getId()) {
+                updateFABButtonColor(sagortaA, Positions.MO2, TeamType.TEAM_A);
+            } else if (view.getId() == solortaA.getId()) {
+                updateFABButtonColor(solortaA, Positions.MO1, TeamType.TEAM_A);
+            } else if (view.getId() == ortaforvetB.getId()) {
+                updateFABButtonColor(ortaforvetB, Positions.FW3, TeamType.TEAM_B);
+            } else if (view.getId() == ortaforvetA.getId()) {
+                updateFABButtonColor(ortaforvetA, Positions.FW3, TeamType.TEAM_A);
             }
-            else if (view.getId() == kaleciB.getId())
-            {
-                positionToApply = Positions.GK1;
-                team = TeamType.TEAM_B;
-            }
-            else if (view.getId() == ortadefansB.getId())
-            {
-                positionToApply = Positions.CB3;
-                team = TeamType.TEAM_B;
-            }
-            else if (view.getId() == ortadefansA.getId())
-            {
-                positionToApply = Positions.CB3;
-                team = TeamType.TEAM_A;
-            }
-            else if (view.getId() == solortaB.getId())
-            {
-                positionToApply = Positions.MO1;
-                team = TeamType.TEAM_B;
-            }
-            else if (view.getId() == sagortaB.getId())
-            {
-                positionToApply = Positions.MO2;
-                team = TeamType.TEAM_B;
-            }
-            else if (view.getId() == sagortaA.getId())
-            {
-                positionToApply = Positions.MO2;
-                team = TeamType.TEAM_A;
-            }
-            else if (view.getId() == solortaA.getId())
-            {
-                positionToApply = Positions.MO1;
-                team = TeamType.TEAM_A;
-            }
-            else if (view.getId() == ortaforvetB.getId())
-            {
-                positionToApply = Positions.FW3;
-                team = TeamType.TEAM_B;
-            }
-            else if (view.getId() == ortaforvetA.getId())
-            {
-                positionToApply = Positions.FW3;
-                team = TeamType.TEAM_A;
-            }
-
-
-
         }
-
-
     }
+
+    private void updateFABButtonColor(FloatingActionButton button, Positions position, TeamType team) {
+        firestore.collection(matchType).document(matchID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Match match = documentSnapshot.toObject(Match.class);
+                User player = new User();
+                //TODO get player by position methodu yapılacak
+
+                if (player != null) {
+                    // Pozisyon dolu, buton kırmızı olsun
+                    button.setBackgroundColor(Color.parseColor("#FF5555"));
+                    button.setOnClickListener(v -> showPlayerDetailsDialog(player));
+                } else {
+                    // Pozisyon boş, buton normal
+                    button.setBackgroundColor(Color.parseColor("#6200EE"));
+                    button.setOnClickListener(v -> applyForPosition(position, team));
+                }
+            }
+        });
+    }
+
+    private void showPlayerDetailsDialog(User player) {
+        // Dialog oluşturuluyor ve oyuncu bilgileri buraya aktarılıyor
+        Dialog dialog = new Dialog(MatchApplication5x5.this);
+        dialog.setContentView(R.layout.dialog_user_details);
+
+        ImageView profileImage = dialog.findViewById(R.id.profileImage);
+        TextView nameText = dialog.findViewById(R.id.nameText);
+        TextView ratingText = dialog.findViewById(R.id.ratingText);
+
+        nameText.setText(player.getName());
+        ratingText.setText("Rating: " + player.getAverageRating());
+        // Profil fotoğrafını eklemek için:
+        // profileImage.setImageResource(R.drawable.some_image);
+
+        dialog.show();
+    }
+
+    private void applyForPosition(Positions position, TeamType team) {
+        // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.
+        positionToApply = position;
+        this.team = team;
+        Toast.makeText(MatchApplication5x5.this, "Position applied", Toast.LENGTH_SHORT).show();
+    }
+
     private void initializeUser() {
         applyButton.setEnabled(false);
 

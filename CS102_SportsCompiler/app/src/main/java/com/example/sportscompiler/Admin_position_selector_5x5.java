@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
@@ -60,7 +61,6 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         user = new User();
         initializeUser();
 
-
         positionButtons = new FloatingActionButton[]{
                 findViewById(R.id.position_1),
                 findViewById(R.id.position_2),
@@ -101,14 +101,12 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     long seconds = dateTimeMillis / 1000;
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
-                    createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
-
+                    createNewMatch(user.getUserID(), matchName, numberOfPlayersInATeam, adminPosition, date, view);
                     FragmentLoad.loadFragment(Admin_position_selector_5x5.this, R.id.fragment_container_admin_position_selector5x5, new MatchAttendencePage());
                 }
             }
         });
     }
-
 
     //TODO need to be changed when added other position distribution:
     private Positions determinePosition(int selectedPosition , int numberOfPlayersInATeam)
@@ -138,11 +136,8 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     break;
             }
         }
-
         return position;
-
     }
-
 
     private void initializeUser()
     {
@@ -161,14 +156,14 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
     private void onPositionSelected(int index)
     {
+        // Reset all buttons to default (white)
         for (FloatingActionButton button : positionButtons)
         {
-            button.setBackgroundTintList(getColorStateList(android.R.color.white));
+            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.white)));
         }
 
-        // Highlight the selected button
-        //TODO does not work
-        positionButtons[index].setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lightGreen)));
+        // Highlight the selected button with light green
+        positionButtons[index].setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.lightGreen)));
 
         // Set selected position
         selectedPosition = index;
@@ -198,12 +193,10 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
             team.put(Positions.MO2.getAction(), null);
             team.put(Positions.FW3.getAction(), null);
         }
-
     }
 
     private void setAdminPosition(Map<String, Player> team, Positions adminPosition, String matchID)
     {
-
         Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID);
         team.put(adminPosition.getAction(), admin);
     }
@@ -222,8 +215,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID,adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(),notes, matchID);
-
+        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID);
 
         firestore = FirebaseFirestore.getInstance();
 
@@ -244,13 +236,12 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     private void initializeForum(View view)
     {
         Timestamp nowTime = Timestamp.now();
-        String messageID = newMatch.getMatchID() +  user.getName() + nowTime.toDate().toString();
+        String messageID = newMatch.getMatchID() + user.getName() + nowTime.toDate().toString();
         Message startingMessage = new Message(user, nowTime, user.getName() + " created this match."
                 , messageID);
 

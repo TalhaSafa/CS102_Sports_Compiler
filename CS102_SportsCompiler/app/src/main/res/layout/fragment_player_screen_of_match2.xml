@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#87D064"
+
     tools:context=".adminReportPageFragment">
 
     <!-- Relative Layout for Match Design -->
@@ -164,7 +164,7 @@
         android:layout_marginStart="48dp"
 
         android:text="Team A"
-        android:textColor="@color/white"
+
         android:textSize="20dp"
 
 
@@ -184,7 +184,7 @@
         android:text="Team B"
 
         android:textAlignment="center"
-        android:textColor="@color/white"
+
         android:textSize="20dp"
 
 

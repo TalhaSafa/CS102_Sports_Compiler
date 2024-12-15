@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:background="#AA000000"
         android:orientation="vertical"
-        android:padding="16dp"> <!-- Semi-transparent background -->
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/matchDate"
@@ -68,17 +68,41 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/applicationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
         android:layout_below="@id/applicationsTitle"
         android:layout_weight="1"
+        android:padding="8dp" />
+    <TextView
+        android:id="@+id/playertext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/applicationsRecyclerView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="317dp"
+        android:text="Players:"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playersRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/playertext"
         android:padding="8dp" />
 
     <Button
         android:id="@+id/ForumPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/applicationsRecyclerView"
+        android:layout_below="@id/playersRecyclerView"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="74dp"
         android:text="Match Forum"
         android:textSize="25sp" />
 

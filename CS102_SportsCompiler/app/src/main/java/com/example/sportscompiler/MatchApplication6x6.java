@@ -83,7 +83,7 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
-
+        applicatonNote.setText(matchID + " - " + matchType);
         firestore.collection(matchType).document(matchID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -129,7 +129,7 @@ public class MatchApplication6x6 extends AppCompatActivity {
                         return;
                     }
                     applicationNoteStr = applicatonNote.getText().toString();
-                    Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID() );
+                    Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID(), user.getAverageRating() );
                     match.addApplication(newApplication);   
                     firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

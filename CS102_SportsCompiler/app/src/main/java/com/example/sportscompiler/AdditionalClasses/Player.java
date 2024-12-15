@@ -8,10 +8,11 @@ public class Player
     private TeamType team;
     private boolean isAdmin;
     private String matchID;
+    private String name;
 
     public Player(){}
 
-    public Player(String userID1, double rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1  )
+    public Player(String userID1, double rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1, String name)
     {
         userID = userID1;
         rating = rating1;
@@ -20,6 +21,7 @@ public class Player
         isAdmin = isAdmin1;
         matchID = matchID1;
 
+        this.name = name;
     }
     public Positions getPosition() {
         return position;
@@ -67,5 +69,13 @@ public class Player
 
     public void setMatchID(String matchID) {
         this.matchID = matchID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

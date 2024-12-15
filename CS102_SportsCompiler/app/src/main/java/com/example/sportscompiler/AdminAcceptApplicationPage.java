@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,9 +26,13 @@ import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
+import com.example.sportscompiler.AdditionalClasses.Player;
+import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AdminAcceptApplicationPage extends AppCompatActivity {
 
@@ -51,6 +57,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private ApplicationsAdapter appAdapt;
     private ArrayList<Application> applications;
     private ApplicationActionListener actionListener;
+    private TextView matchName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.applicationsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         matchForumButton = findViewById(R.id.ForumPage);
+        matchName = findViewById(R.id.matchName);
 
         fireuser = new firestoreUser();
         user = new User();
@@ -68,10 +76,9 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         initializeUser();
 
         matchID = getIntent().getStringExtra("matchID");
-        System.out.println(matchID);
         matchType = getIntent().getStringExtra("matchType");
-        System.out.println(matchType);
-        fetchMatchFromFirestore(matchID);
+
+        fetchMatchFromFirestore(matchID, matchType);
 
         matchForumButton.setOnClickListener(new View.OnClickListener()
         {
@@ -107,10 +114,9 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         });
     }
 
-    private void fetchMatchFromFirestore(String matchID) {
-        String type = matchType.equals("matches5") ? "matches5" : "matches6";
+    private void fetchMatchFromFirestore(String matchID, String matchType) {
 
-        firestore.collection(type).document(matchID).addSnapshotListener((documentSnapshot, error) -> {
+        firestore.collection(matchType).document(matchID).addSnapshotListener((documentSnapshot, error) -> {
             if (error != null) {
                 Log.e("fetchMatchFromFirestore", "Error fetching match!", error);
                 return;
@@ -141,7 +147,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
 
         if (currentMatch != null) {
             ArrayList<Application> matchApplications = currentMatch.getApplications();
-
             if (matchApplications != null && !matchApplications.isEmpty()) {
                 applications.addAll(matchApplications);
 
@@ -150,7 +155,17 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     appAdapt = new ApplicationsAdapter(applications, new ApplicationActionListener() {
                         @Override
                         public void onAccept(Application application) {
+                            //TODO EREN BURAYI TODO BIRAKMADIGIN ICIN IKI SAAT BURAYI ARADIM,TESEKKURLER,
 
+                            if(application.getTeamInfo() == TeamType.TEAM_A)
+                            {
+                                addToTeam(currentMatch.getPlayersA(), application);
+                            }
+                            else
+                            {
+                                addToTeam(currentMatch.getPlayersA(), application);
+
+                            }
                         }
 
                         @Override
@@ -176,6 +191,46 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         } else {
             Log.e("fillApplications", "currentMatch is null, cannot populate applications.");
         }
+    }
+
+    private void addToTeam(Map<String, Player> playersOfWantedTeam, Application application)
+    {
+
+        //TODO CHECK
+        if(playersOfWantedTeam.get(application.getPosition().getAction()) == null)
+        {
+
+            Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(), application.getTeamInfo(), application.getPosition()
+                ,false, currentMatch.getMatchID(), application.getName() );
+            playersOfWantedTeam.put(application.getPosition().getAction(), acceptedPlayer);
+            applications.remove(application); // Update local list
+            appAdapt.notifyDataSetChanged(); // Refresh UI
+
+            //currentMatch.addApplication(newApplication);
+            firestore.collection(matchType).document(matchID).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(AdminAcceptApplicationPage.this, "Application Accepted", Toast.LENGTH_SHORT).show();
+                    recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    applications.add(application);
+                    appAdapt.notifyDataSetChanged(); // Refresh UI
+
+                    Toast.makeText(AdminAcceptApplicationPage.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(AdminAcceptApplicationPage.this, "This position is already full!", Toast.LENGTH_SHORT).show();
+
+        }
+
+
     }
 
 

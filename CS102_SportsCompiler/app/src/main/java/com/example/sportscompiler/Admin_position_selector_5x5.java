@@ -178,9 +178,9 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         if(numberOfPlayersInATeam == 5)
         {
             team.put(Positions.GK1.getAction(), null);
-            team.put(Positions.CB1.getAction(), null);
-            team.put(Positions.CB2.getAction(), null);
-            team.put(Positions.MO3.getAction(), null);
+            team.put(Positions.CB3.getAction(), null);
+            team.put(Positions.MO1.getAction(), null);
+            team.put(Positions.MO2.getAction(), null);
             team.put(Positions.FW3.getAction(), null);
         }
 
@@ -197,7 +197,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
     private void setAdminPosition(Map<String, Player> team, Positions adminPosition, String matchID)
     {
-        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID);
+        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID, user.getName());
         team.put(adminPosition.getAction(), admin);
     }
 

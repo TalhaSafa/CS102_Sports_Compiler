@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
@@ -118,20 +119,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
                         Toast.makeText(MatchApplication5x5.this, "Choose position", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    applicationNoteStr = applicatonNote.getText().toString();
-                    Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID());
-                    match.addApplication(newApplication);
-                    firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(MatchApplication5x5.this, "Application sent", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MatchApplication5x5.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
                 }
             }
         });
@@ -169,13 +157,20 @@ public class MatchApplication5x5 extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Match match = documentSnapshot.toObject(Match.class);
-                User player = new User();
-                //TODO get player by position methodu yapılacak
+                Player playerAtPos;
+                if(team == TeamType.TEAM_A)
+                {
+                    playerAtPos = match.getPlayersA().get(position.getAction());
+                }
+                else {
+                    playerAtPos = match.getPlayersB().get(position.getAction());
 
-                if (player != null) {
+                }
+
+                if (playerAtPos != null) {
                     // Pozisyon dolu, buton kırmızı olsun
                     button.setBackgroundColor(Color.parseColor("#FF5555"));
-                    button.setOnClickListener(v -> showPlayerDetailsDialog(player));
+                    button.setOnClickListener(v -> showPlayerDetailsDialog(playerAtPos));
                 } else {
                     // Pozisyon boş, buton normal
                     button.setBackgroundColor(Color.parseColor("#6200EE"));
@@ -185,7 +180,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
         });
     }
 
-    private void showPlayerDetailsDialog(User player) {
+    private void showPlayerDetailsDialog(Player player) {
         // Dialog oluşturuluyor ve oyuncu bilgileri buraya aktarılıyor
         Dialog dialog = new Dialog(MatchApplication5x5.this);
         dialog.setContentView(R.layout.dialog_user_details);
@@ -195,7 +190,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
         TextView ratingText = dialog.findViewById(R.id.ratingText);
 
         nameText.setText(player.getName());
-        ratingText.setText("Rating: " + player.getAverageRating());
+        ratingText.setText("Rating: " + player.getRating());
         // Profil fotoğrafını eklemek için:
         // profileImage.setImageResource(R.drawable.some_image);
 
@@ -206,7 +201,20 @@ public class MatchApplication5x5 extends AppCompatActivity {
         // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.
         positionToApply = position;
         this.team = team;
-        Toast.makeText(MatchApplication5x5.this, "Position applied", Toast.LENGTH_SHORT).show();
+        applicationNoteStr = applicatonNote.getText().toString();
+        Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, team, user.getUserID(), user.getAverageRating());
+        match.addApplication(newApplication);
+        firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(MatchApplication5x5.this, "Application sent", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MatchApplication5x5.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initializeUser() {

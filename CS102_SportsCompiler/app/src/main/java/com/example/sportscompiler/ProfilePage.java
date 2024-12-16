@@ -60,7 +60,10 @@ public class ProfilePage extends Fragment {
     public Uri ImageUri;
     private ImageView Image;
     private ActivityResultLauncher<Intent> pickImageLauncher;
-
+    private RecyclerView currentMatchRecyclerView, pastMatchRecyclerView;
+    private MatchAdapter matchAdapterForCurrentMatches, matchAdapterForPastMatches;
+    private List<Match> currentMatches = new ArrayList<>();
+    private List<Match> pastMatches = new ArrayList<>();
 
     public ProfilePage() {
         user = new User();
@@ -79,6 +82,14 @@ public class ProfilePage extends Fragment {
         ageTextView = rootView.findViewById(R.id.ageTextView);
         settingsButton = rootView.findViewById(R.id.settingsButton);
         changeProfile = rootView.findViewById(R.id.addPP);
+        currentMatchRecyclerView = rootView.findViewById(R.id.matchListRecyclerforCurrentMatches);
+        pastMatchRecyclerView = rootView.findViewById(R.id.matchListRecyclerforPastMatches);
+
+        currentMatchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matchAdapterForCurrentMatches = new MatchAdapter(requireContext(),currentMatches, (MatchAdapter.OnItemClickListener) this);
+        matchAdapterForPastMatches = new MatchAdapter(requireContext(), pastMatches, (MatchAdapter.OnItemClickListener) this);
 
         pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override

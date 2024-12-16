@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,8 @@ public class FilterDialog extends DialogFragment {
             @Override
             public void onClick(View v)
             {
+                selectedDate = Calendar.getInstance();
+
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -131,6 +134,8 @@ public class FilterDialog extends DialogFragment {
             @Override
             public void onClick(View view)
             {
+                selectedTime = Calendar.getInstance();
+
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -173,6 +178,7 @@ public class FilterDialog extends DialogFragment {
             @Override
             public void onClick(View view)
             {
+
                 if(getParentFragment() != null)
                 {
                     Bundle result = new Bundle();
@@ -195,6 +201,10 @@ public class FilterDialog extends DialogFragment {
 
                     getParentFragmentManager().setFragmentResult("filterDialogData", result);
                     dismiss();
+                }
+                else
+                {
+                    Log.e("FilterDialog", "Parent fragment is null");
                 }
             }
         });

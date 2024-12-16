@@ -16,4 +16,25 @@ public class SearchForPlayer {
             return false;
         }
     }
+
+    public static boolean doesMatchContainUser(Match match, String userID )
+    {
+        for(Player player: match.getPlayersA().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return true;
+            }
+        }
+
+        for(Player player: match.getPlayersB().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

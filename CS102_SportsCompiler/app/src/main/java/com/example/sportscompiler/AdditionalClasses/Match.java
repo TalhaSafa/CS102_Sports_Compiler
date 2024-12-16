@@ -45,7 +45,6 @@ public class Match
         this.teamBScore = teamBScore;
         applications = new ArrayList<>();
 
->>>>>>> origin/main
     }
 
 

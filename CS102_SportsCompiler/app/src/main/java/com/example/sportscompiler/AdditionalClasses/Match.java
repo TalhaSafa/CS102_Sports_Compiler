@@ -38,12 +38,9 @@ public class Match
         this.adminPosition = adminPosition;
         this.notes = notes;
         this.matchID = matchID;
-<<<<<<< HEAD
         this.applications = new ArrayList<>();
-=======
         applications = new ArrayList<>();
 
->>>>>>> origin/main
     }
 
 

@@ -18,6 +18,7 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
 
     private List<Player> players;
     private DismissActionListener listener;
+    private double rating;
 
     // Constructor
     public DismissAdapter(List<Player> players, DismissActionListener listener) {
@@ -41,7 +42,13 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
         // Bind data to views
         holder.playerName.setText(player.getName());
         holder.playerPosition.setText("Position: " + player.getPosition().toString());
-        holder.playerRating.setText("Rating: " + player.getRating());
+
+        player.getRating(new RatingCallback() {
+            @Override
+            public void onRatingFetched(double rating1) {
+                holder.playerRating.setText("Rating: " + rating1);
+            }
+        });
 
         // Set dismiss button click listener
         holder.btnDismiss.setOnClickListener(v -> {

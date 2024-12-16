@@ -26,6 +26,7 @@ import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.example.sportscompiler.AdditionalClasses.RatingCallback;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
@@ -53,6 +54,8 @@ public class MatchApplication6x6 extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private User user;
     private FloatingActionButton selectedButton;
+    private double rating;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,7 +215,14 @@ public class MatchApplication6x6 extends AppCompatActivity {
         TextView ratingText = dialog.findViewById(R.id.ratingText);
 
         nameText.setText(player.getName());
-        ratingText.setText("Rating: " + player.getRating());
+
+        player.getRating(new RatingCallback() {
+            @Override
+            public void onRatingFetched(double rating1) {
+                rating = rating1;
+            }
+        });
+        ratingText.setText("Rating: " + rating);
         // Fetch and load the profile picture from Firestore
         firestore.collection("users").document(player.getUserID()).get()
                 .addOnSuccessListener(documentSnapshot -> {

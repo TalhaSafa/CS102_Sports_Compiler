@@ -59,7 +59,7 @@ public class SearchForPlayer {
         return null;
     }
 
-    public TeamType returnTeamType(String userID,Match match ){
+    public static TeamType returnTeamType(String userID,Match match ){
 
         for(Player player: match.getPlayersA().values())
         {

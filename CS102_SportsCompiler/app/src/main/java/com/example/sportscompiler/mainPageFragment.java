@@ -232,9 +232,6 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                 Log.e("Firebase", "Error fetching matches", e);
             }
         });
-
-
-
     }
 
     private void updateWeatherConditions(int day, TextView txtView, ImageView imgView)

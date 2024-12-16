@@ -11,10 +11,11 @@ public class User {
     private ArrayList<String> pastMatchIDs;
     private double averageRating;
     private String profilePicture;
+    private int ratingNumber;
 
     public User(){}
 
-    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture, double averageRating)
+    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture, double averageRating, int ratingNumber)
     {
         userID = UserID;
         name = Name;
@@ -24,6 +25,7 @@ public class User {
         this.profilePicture = profilePicture;
         pastMatchIDs = new ArrayList<>();
         matchIDs = new ArrayList<>();
+        this.ratingNumber = ratingNumber;
 
     }
 
@@ -95,4 +97,21 @@ public class User {
         pastMatchIDs.add(matchID);
     }
 
+
+    public int getRatingNumber() {
+        return ratingNumber;
+    }
+
+    public void setRatingNumber(int ratingNumber) {
+        this.ratingNumber = ratingNumber;
+    }
+    public void addRatingNumber()
+    {
+        ratingNumber++;
+    }
+
+    public void decreaseRatingNumber()
+    {
+        ratingNumber--;
+    }
 }

@@ -2,7 +2,11 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
+<<<<<<< HEAD
       <SelectionState runConfigName="app">
+=======
+      <SelectionState runConfigName="SportsCompiler.app">
+>>>>>>> origin/main
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

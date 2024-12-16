@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -153,78 +154,46 @@ public class firestoreUser {
     }
 
     public void getMatches(FirestoreCallback<List<Match>> callback) {
-        firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
-        List<Match> matches = new ArrayList<>();
-        firestore.collection("matches5").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Map<String, Object> data = document.getData();
-
-                    Match match = new Match();
-                    match.setNotes((String) data.get("notes"));
-                    String fieldVal = (String)data.get("field");
-                    MatchFields enumar = MatchFields.fromString(fieldVal);
-                    match.setField(enumar);
-                    match.setAdminName((String) data.get("adminName"));
-                    match.setAdminID((String) data.get("adminID"));
-                    match.setMatchName((String) data.get("matchName"));
-                    match.setDate((Timestamp) data.get("date"));
-                    match.setMatchID((String) data.get("matchID"));
-
-                    // Deserialize playersA and playersB manually
-                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
-                    Map<String, Player> playersA = new HashMap<>();
-                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
-                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
-                        Player player = new Player();
-                        playersA.put(entry.getKey(), player);
+        Task<List<Match>> taskMatches5 = db.collection("matches5").get()
+                .continueWith(task -> {
+                    List<Match> matches = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Match match = doc.toObject(Match.class);
+                            matches.add(match);
+                        }
                     }
+                    return matches;
+                });
 
-                    match.setPlayersA(playersA);
-                    // Repeat for playersB
-                    matches.add(match);
-                }
-                callback.onSuccess(matches); // Return matches through callback.
-            } else {
-                callback.onError(task.getException());
-            }
-        });
-        firestore.collection("matches6").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Map<String, Object> data = document.getData();
-
-                    Match match = new Match();
-                    match.setNotes((String) data.get("notes"));
-                    String fieldVal = (String)data.get("field");
-                    MatchFields enumar = MatchFields.fromString(fieldVal);
-                    match.setField(enumar);
-                    match.setAdminName((String) data.get("adminName"));
-                    match.setAdminID((String) data.get("adminID"));
-                    match.setMatchName((String) data.get("matchName"));
-                    match.setDate((Timestamp) data.get("date"));
-
-                    // Deserialize playersA and playersB manually
-                    Map<String, Object> playersAData = (Map<String, Object>) data.get("playersA");
-                    Map<String, Player> playersA = new HashMap<>();
-                    for (Map.Entry<String, Object> entry : playersAData.entrySet()) {
-                        //Map<String, Object> playerData = (Map<String, Object>) entry.getValue();
-                        Player player = new Player();
-                        playersA.put(entry.getKey(), player);
+        Task<List<Match>> taskMatches6 = db.collection("matches6").get()
+                .continueWith(task -> {
+                    List<Match> matches = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Match match = doc.toObject(Match.class);
+                            matches.add(match);
+                        }
                     }
+                    return matches;
+                });
 
-                    match.setPlayersA(playersA);
-                    // Repeat for playersB
-                    matches.add(match);
+        Task<List<List<Match>>> allTasks = Tasks.whenAllSuccess(taskMatches5, taskMatches6);
+        allTasks.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Match> combinedMatches = new ArrayList<>();
+                for (List<Match> matchList : task.getResult()) {
+                    combinedMatches.addAll(matchList);
                 }
-                callback.onSuccess(matches); // Return matches through callback.
+                callback.onSuccess(combinedMatches);
             } else {
                 callback.onError(task.getException());
             }
         });
     }
+
 
     public void getMatchesForUser(FirestoreCallback<List<Match>> callback) {
         firestore = FirebaseFirestore.getInstance(); // Ensure firestore is initialized.
@@ -328,8 +297,6 @@ public class firestoreUser {
                     callback.onError(error);
                 });
     }
-
-
 
     public interface FirestoreCallback<T> {
         void onSuccess(T result);

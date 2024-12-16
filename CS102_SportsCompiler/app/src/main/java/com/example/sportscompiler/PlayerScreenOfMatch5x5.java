@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,11 +32,13 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private Match currentMatch;
     private Button confirmationButton, applyRatingButton, didntAttendButton;
-    private RatingBar ratingBar;
     private FloatingActionButton[] positionButtons;
     private EditText matchScoreForTeamA, matchScoreForTeamB;
     private String matchID;
     private String matchType;
+    private ImageView fieldImage, profileImage;
+    private TextView enterMatchScore, nameText, ratingText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,6 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         confirmationButton = findViewById(R.id.confirmationButton);
         applyRatingButton = findViewById(R.id.button6);
         didntAttendButton = findViewById(R.id.button5);
-        ratingBar = findViewById(R.id.ratingBar);
         positionButtons = new FloatingActionButton[]{
                 findViewById(R.id.fab_player1),
                 findViewById(R.id.fab_player2),
@@ -54,9 +57,14 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                 findViewById(R.id.fab_player4),
                 findViewById(R.id.fab_player5),
         };
-
         matchScoreForTeamA = findViewById(R.id.matchScoreForTeamA);
         matchScoreForTeamB = findViewById(R.id.matchScoreForTeamB);
+
+        fieldImage = findViewById(R.id.footballField);
+        profileImage = findViewById(R.id.profileImage);
+        enterMatchScore = findViewById(R.id.enterMatchScore);
+        nameText = findViewById(R.id.nameText);
+        ratingText = findViewById(R.id.ratingText);
 
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {

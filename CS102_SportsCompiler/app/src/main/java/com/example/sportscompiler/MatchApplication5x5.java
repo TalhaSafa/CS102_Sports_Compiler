@@ -175,7 +175,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
 
                 if (playerAtPos != null) {
                     // Pozisyon dolu
-                    button.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e")));
                     showPlayerDetailsDialog(playerAtPos);
                 } else {
                     // Pozisyon boş
@@ -222,6 +222,9 @@ public class MatchApplication5x5 extends AppCompatActivity {
 
         if (playerAtPos != null) {
             button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e"))); // Renk kırmızımsı
+        }
+        else{
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
     }
 

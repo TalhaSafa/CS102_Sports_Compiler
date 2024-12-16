@@ -87,21 +87,19 @@ public class Match implements Serializable
         this.playersB = playersB;
     }
 
-    public String getMatchType()
-    {
-        if(playersA.size() == 5)
-        {
+    public String getMatchType() {
+        if (playersA == null) {
+            throw new NullPointerException("Team A players are not initialized.");
+        }
+        if (playersA.size() == 5) {
             return "matches5";
-        }
-        else if(playersA.size() == 6)
-        {
+        } else if (playersA.size() == 6) {
             return "matches6";
-        }
-        else
-        {
+        } else {
             return Integer.toString(playersA.size());
         }
     }
+
 
     public String getAdminPosition() {
         return adminPosition;
@@ -126,38 +124,39 @@ public class Match implements Serializable
     public void setAdminName(String adminName) {
         this.adminName = adminName;
     }
-    public int countTeam(Map<String, Player> players){
+    public int countTeam(Map<String, Player> players) {
+        if (players == null) {
+            throw new NullPointerException("Players map is not initialized.");
+        }
         int count = 0;
         ArrayList<String> positionList = new ArrayList<>();
-        if(getMatchType().equals("matches5"))
-        {
+        String matchType = getMatchType();
+
+        if (matchType.equals("matches5")) {
             positionList.add(Positions.GK1.getAction());
             positionList.add(Positions.CB1.getAction());
             positionList.add(Positions.CB2.getAction());
             positionList.add(Positions.CB3.getAction());
             positionList.add(Positions.FW3.getAction());
-        }
-        else if(getMatchType().equals("matches6"))
-        {
+        } else if (matchType.equals("matches6")) {
             positionList.add(Positions.GK1.getAction());
             positionList.add(Positions.CB1.getAction());
             positionList.add(Positions.CB2.getAction());
             positionList.add(Positions.CB3.getAction());
             positionList.add(Positions.MO3.getAction());
             positionList.add(Positions.FW3.getAction());
+        } else {
+            throw new IllegalArgumentException("Invalid match type: " + matchType);
         }
-        else
-        {
-            throw new NullPointerException("Not determined match size");
-        }
-        for(int i = 0; i< players.size() ; i++){
-            if(players.get(positionList.get(i)) != null)
-            {
+
+        for (String position : positionList) {
+            if (players.get(position) != null) {
                 count++;
             }
         }
         return count;
     }
+
 
 
     public boolean isFull(){

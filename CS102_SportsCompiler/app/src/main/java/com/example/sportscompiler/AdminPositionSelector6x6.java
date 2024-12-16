@@ -90,22 +90,24 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                if(selectedPosition != -1)
-                {
+                if(selectedPosition != -1) {
                     int numberOfPlayersInATeam = Integer.parseInt(personCount) / 2;
                     Positions adminPosition = determinePosition(selectedPosition, numberOfPlayersInATeam);
                     long seconds = dateTimeMillis / 1000;
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
-                    createNewMatch(user.getUserID(), matchName,numberOfPlayersInATeam , adminPosition, date, view);
+                    createNewMatch(user.getUserID(), matchName, numberOfPlayersInATeam, adminPosition, date, view);
+                    MatchAttendencePage attendanceFragment = new MatchAttendencePage();
+                    Bundle args = new Bundle();
+                    args.putString("matchID", newMatch.getMatchID());
+                    args.putString("matchType", newMatch.getMatchType());
+                    attendanceFragment.setArguments(args);
 
-                    //TODO: TO TRY FORUM:
-                    Intent toSentIntent = new Intent(AdminPositionSelector6x6.this, MatchForumActivity.class);
-                    toSentIntent.putExtra("matchID", newMatch.getMatchID());
-                    toSentIntent.putExtra("matchType", newMatch.getMatchType());
-                    startActivity(toSentIntent);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.admin_fragment_container6, attendanceFragment)
+                            .addToBackStack(null);
 
-                    FragmentLoad.loadFragment(AdminPositionSelector6x6.this, R.id.admin_fragment_container6, new MatchAttendencePage());
                 }
             }
         });

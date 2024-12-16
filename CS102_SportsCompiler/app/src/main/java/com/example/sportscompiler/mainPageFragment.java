@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
+import com.example.sportscompiler.AdditionalClasses.MatchSearch;
 import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +54,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -219,7 +222,7 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                     if (documentSnapshot.exists()) {
                         Match match = documentSnapshot.toObject(Match.class);
                         if (match != null) {
-                            if(!matches.contains(match))
+                            if(!MatchSearch.doesContainMatch(matches, match))
                                 matches.add(match);
                         }
                     }
@@ -432,6 +435,13 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                 expiredMatches.add(match);
             }
         }
+        Collections.sort(nonExpiredMatches, new Comparator<Match>() {
+            @Override
+            public int compare(Match m1, Match m2)
+            {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        });
         // Update the list and refresh RecyclerView
         this.matches = nonExpiredMatches;
         matchAdapter.notifyDataSetChanged();

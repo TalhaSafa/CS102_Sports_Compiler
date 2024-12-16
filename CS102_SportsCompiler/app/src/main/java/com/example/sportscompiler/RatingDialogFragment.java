@@ -74,6 +74,17 @@ public class RatingDialogFragment extends DialogFragment {
         submitButton = rootView.findViewById(R.id.submitButton);
         cancelButton = rootView.findViewById(R.id.cancelButton);
 
+        if(getArguments() != null)
+        {
+            playerName = getArguments().getString("playerName");
+            currentRating = getArguments().getString("currentRating");
+            playerID = getArguments().getString("playerID");
+
+
+        }
+
+        currentRatingTextView.setText(playerName);
+
         List<String> ratingCount = new ArrayList<>();
 
         for(int i = 0; i < 11; i++)
@@ -101,13 +112,8 @@ public class RatingDialogFragment extends DialogFragment {
         });
 
 
-        if(getArguments() != null)
-        {
-            playerName = getArguments().getString("playerName");
-            currentRating = getArguments().getString("currentRating");
-            playerID = getArguments().getString("playerID");
 
-        }
+
 
 
         cancelButton.setOnClickListener(new View.OnClickListener() {

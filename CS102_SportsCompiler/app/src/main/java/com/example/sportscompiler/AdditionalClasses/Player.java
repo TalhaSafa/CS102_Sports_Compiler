@@ -1,5 +1,9 @@
 package com.example.sportscompiler.AdditionalClasses;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class Player
 {
     private Positions position;
@@ -39,8 +43,37 @@ public class Player
         this.userID = userID;
     }
 
-    public double getRating() {
-        return rating;
+    public void getRating(RatingCallback callback) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("users").document(userID).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists() && documentSnapshot.contains("averageRating")) {
+                double updatedRating = documentSnapshot.getDouble("averageRating");
+                callback.onRatingFetched(updatedRating); // Pass the rating to the callback
+            } else {
+                callback.onRatingFetched(rating); // Pass a default value or handle the error
+            }
+        }).addOnFailureListener(e -> {
+            e.printStackTrace();
+            callback.onRatingFetched(rating); // Handle failure case
+        });
+    }
+
+    public void getUpdatedRating(RatingCallback callback)
+    {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("users").document(userID).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists() && documentSnapshot.contains("averageRating")) {
+                double updatedRating = documentSnapshot.getDouble("averageRating");
+                callback.onRatingFetched(updatedRating); // Pass the rating to the callback
+            } else {
+                callback.onRatingFetched(rating); // Pass a default value or handle the error
+            }
+        }).addOnFailureListener(e -> {
+            e.printStackTrace();
+            callback.onRatingFetched(rating); // Handle failure case
+        });
     }
 
     public void setRating(double rating) {

@@ -39,17 +39,18 @@
         android:scaleType="centerCrop"
         android:padding="4dp" />
 
-        <Button
+    <ImageButton
         android:id="@+id/addPP"
-        android:layout_width="39dp"
-        android:layout_height="34dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignEnd="@id/profile_image"
         android:layout_alignBottom="@id/profile_image"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="add"
-        android:textSize="20sp"
-            />
+        android:layout_marginEnd="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:src="@drawable/baseline_edit_24"
+        android:background="@null"
+        />
+
 
     <TextView
         android:id="@+id/nameTextView"

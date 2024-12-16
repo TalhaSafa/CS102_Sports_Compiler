@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportscompiler.R;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     private Context context;
     private List<Match> matchList;
     private OnItemClickListener onItemClickListener;
-
     public interface OnItemClickListener {
         void onItemClick(Match match);
     }
@@ -50,12 +50,18 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         holder.adminName.setText("Admin: " + match.getAdminName());
         holder.notes.setText("Notes: " + (match.getNotes() != null ? match.getNotes() : "None"));
 
+
         // Set background color based on match status
         if (match.isFull()) {
             holder.cardBackground.setBackgroundColor(Color.RED);
         } else {
             holder.cardBackground.setBackgroundColor(Color.GREEN);
         }
+        Date currentDate = new Date(); // Current date and time
+        if (match.getDate().toDate().before(currentDate)) {
+            holder.cardBackground.setBackgroundColor(Color.YELLOW);
+        }
+
 
         // Handle item click
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(match));

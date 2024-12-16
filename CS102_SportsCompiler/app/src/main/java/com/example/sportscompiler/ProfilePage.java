@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,8 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
     private TextView nameTextView, departmentTextView, ageTextView;
     private User user;
     private firestoreUser fireuser;
-    private Button settingsButton, changeProfile;
+    private Button settingsButton;
+    private ImageButton changeProfile;
     public Uri ImageUri;
     private ImageView Image;
     private ActivityResultLauncher<Intent> pickImageLauncher;

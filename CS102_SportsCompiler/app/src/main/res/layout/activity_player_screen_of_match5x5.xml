@@ -14,13 +14,13 @@
         android:id="@+id/footballField"
         android:layout_width="519dp"
         android:layout_height="507dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="-65dp"
         android:src="@drawable/half_field"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player1"
@@ -46,31 +46,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_player3"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="36dp"
-        android:src="@drawable/baseline_person_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!-- Other UI Elements like TextViews, RatingBars -->
     <!-- Include other UI elements as needed -->
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_player3"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player4"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="184dp"
+        android:layout_marginStart="180dp"
         android:layout_marginTop="312dp"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.117" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player5"
@@ -81,22 +81,20 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
         app:layout_constraintEnd_toStartOf="@+id/fab_player2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.121" />
-
+        app:layout_constraintVertical_bias="0.032" />
 
     <Button
         android:id="@+id/confirmationButton"
         android:layout_width="120dp"
         android:layout_height="75dp"
-        android:layout_marginStart="136dp"
         android:layout_marginBottom="112dp"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.981"
-        app:layout_constraintStart_toEndOf="@+id/userInfoContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/matchScoreForTeamB"
         app:layout_constraintVertical_bias="1.0" />
 
@@ -123,7 +121,7 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.766"
+        app:layout_constraintHorizontal_bias="0.832"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -139,18 +137,5 @@
         app:layout_constraintTop_toBottomOf="@+id/fab_player4"
         app:layout_constraintVertical_bias="0.2" />
 
-
-    <LinearLayout
-        android:id="@+id/userInfoContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/fab_player3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.039"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

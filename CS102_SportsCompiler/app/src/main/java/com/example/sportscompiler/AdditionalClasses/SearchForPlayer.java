@@ -37,4 +37,25 @@ public class SearchForPlayer {
 
         return false;
     }
+
+    public static Player findPlayerWithID(Match match , String userID)
+    {
+        for(Player player: match.getPlayersA().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return player;
+            }
+        }
+
+        for(Player player: match.getPlayersB().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
 }

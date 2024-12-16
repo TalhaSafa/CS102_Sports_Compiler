@@ -163,59 +163,18 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener("sortRequest", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result)
-            {
-                String sortingOption = result.getString("sortingOption");
-
-                if(sortingOption != null)
-                {
-                    Toast.makeText(requireContext(), "Sorting by: " + sortingOption, Toast.LENGTH_SHORT).show();
-                    sortMatches(sortingOption);
-                }
-            }
-        });
+        setupSortResultListener();
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 FilterDialog filterDialogFragment = new FilterDialog();
-                filterDialogFragment.show(requireActivity().getSupportFragmentManager().beginTransaction(), "FilterDialog");
+                filterDialogFragment.show(getChildFragmentManager(), "FilterDialog");
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener("filterDialogData", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result)
-            {
-                String matchField = result.getString("matchField");
-                int quota = result.getInt("quota");
-
-                int year = result.getInt("year", -1);
-                int month = result.getInt("month", -1);
-                int day = result.getInt("day", -1);
-                int hour = result.getInt("hour", -1);
-                int minute = result.getInt("minute", -1);
-
-                if(year != -1)
-                {
-                    calender1 = Calendar.getInstance();
-                    calender1.set(Calendar.YEAR, year);
-                    calender1.set(Calendar.MONTH, month);
-                    calender1.set(Calendar.DAY_OF_MONTH, day);
-                }
-
-                if(hour != -1)
-                {
-                    calendar2 = Calendar.getInstance();
-                    calendar2.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar2.set(Calendar.MINUTE, minute);
-                }
-                filterMatches(matchField, quota, calender1, calendar2);
-            }
-        });
+        setupFilterResultListener();
 
         return view;
     }
@@ -304,6 +263,62 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
         matchAdapter.notifyDataSetChanged();
     }
 
+    private void setupSortResultListener()
+    {
+        getParentFragmentManager().setFragmentResultListener("sortRequest", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                String sortingOption = result.getString("sortingOption");
+
+                if (sortingOption != null) {
+                    Toast.makeText(requireContext(), "Sorting by: " + sortingOption, Toast.LENGTH_SHORT).show();
+                    sortMatches(sortingOption);
+                }
+            }
+        });
+    }
+
+    private void setupFilterResultListener()
+    {
+        getChildFragmentManager().setFragmentResultListener("filterDialogData", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result)
+            {
+                Log.d("FilterDialog", "FragmentResult received");
+                String matchField = result.getString("matchField");
+                int quota = result.getInt("quota");
+
+                int year = result.getInt("year", -1);
+                int month = result.getInt("month", -1);
+                int day = result.getInt("day", -1);
+                int hour = result.getInt("hour", -1);
+                int minute = result.getInt("minute", -1);
+
+                Log.d("FilterDialog", "Field: " + matchField + ", Quota: " + quota);
+                Log.d("FilterDialog", "Date: " + year + "/" + month + "/" + day);
+                Log.d("FilterDialog", "Time: " + hour + ":" + minute);
+
+                if(year != -1)
+                {
+                    calender1 = Calendar.getInstance();
+                    calender1.set(Calendar.YEAR, year);
+                    calender1.set(Calendar.MONTH, month);
+                    calender1.set(Calendar.DAY_OF_MONTH, day);
+                }
+
+                if(hour != -1)
+                {
+                    calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar2.set(Calendar.MINUTE, minute);
+                }
+                Log.d("FilterDialog", "Matches Before Filter: " + matches.size());
+                filterMatches(matchField, quota, calender1, calendar2);
+                Log.d("FilterDialog", "Matches After Filter: " + matches.size());
+            }
+        });
+    }
+
     private void sortMatches(String sortingOption)
     {
         if(matches == null ||matches.isEmpty())
@@ -356,25 +371,32 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     private void filterMatches(String matchField, Integer quota,
                                Calendar selectedDate, Calendar selectedTime )
     {
+        List<Match> filteredMathces = new ArrayList<>(matches);
+
         if(!matchField.equalsIgnoreCase("Select"))
         {
-            filterMatchesByField(matchField);
+            filteredMathces = filterMatchesByField(matchField);
         }
 
-        filterMatchesByQuota(quota);
+        filteredMathces = filterMatchesByQuota(quota);
 
         if (selectedDate != null)
         {
-            filterMatchesByDate(selectedDate);
+            filteredMathces = filterMatchesByDate(selectedDate);
         }
 
         if(selectedTime != null)
         {
-            filterMatchesByTime(selectedTime);
+            filteredMathces = filterMatchesByTime(selectedTime);
         }
+
+        matches.clear();
+        matches.addAll(filteredMathces);
+
+        matchAdapter.notifyDataSetChanged();
     }
 
-    private void filterMatchesByField(String matchField)
+    private List<Match> filterMatchesByField(String matchField)
     {
         List<Match> filteredMatches = new ArrayList<>();
 
@@ -385,10 +407,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 filteredMatches.add(match);
             }
         }
-        matches = filteredMatches;
+        return filteredMatches;
     }
 
-    private void filterMatchesByQuota(int quota)
+    private List<Match> filterMatchesByQuota(int quota)
     {
         List<Match> filteredMatches = new ArrayList<>();
 
@@ -401,10 +423,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 filteredMatches.add(match);
             }
         }
-        matches = filteredMatches;
+        return filteredMatches;
     }
 
-    private void filterMatchesByDate(Calendar selectedDate)
+    private List<Match> filterMatchesByDate(Calendar selectedDate)
     {
         List<Match> filteredMatches = new ArrayList<>();
 
@@ -421,10 +443,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 filteredMatches.add(match);
             }
         }
-        matches = filteredMatches;
+        return filteredMatches;
     }
 
-    private void filterMatchesByTime(Calendar selectedTime)
+    private List<Match> filterMatchesByTime(Calendar selectedTime)
     {
         List<Match> filteredMatches = new ArrayList<>();
 
@@ -435,11 +457,12 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             matchDateAndTime.setTimeInMillis(matchDateAndTimeOfTimeStamp.getSeconds() * 1000);
 
             if (selectedTime.get(Calendar.HOUR_OF_DAY) == matchDateAndTime.get(Calendar.HOUR_OF_DAY)
-                && selectedTime.get(Calendar.MINUTE) == matchDateAndTime.get(Calendar.MINUTE))
+                && selectedTime.get(Calendar.MINUTE) >= matchDateAndTime.get(Calendar.MINUTE))
             {
                 filteredMatches.add(match);
             }
         }
-        matches = filteredMatches;
+        return filteredMatches;
     }
+    
 }

@@ -13,14 +13,15 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Player Name"
+        android:text="Player Name: Default"
         android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:visibility="visible"
+        />
 
     <!-- Current Rating -->
     <TextView

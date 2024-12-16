@@ -16,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sportscompiler.AdditionalClasses.Team;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,8 +33,8 @@ import java.util.List;
 public class RatingDialogFragment extends DialogFragment {
 
     private FirebaseFirestore firestore;
-    private String ratingS, playerName, currentRating, playerID;
-    private double rating;
+    private String ratingS, playerName, playerID;
+    private double currentRating;
     private TextView nameTextView, currentRatingTextView;
     private Spinner ratingChooser;
     private Button submitButton, cancelButton;
@@ -46,11 +45,11 @@ public class RatingDialogFragment extends DialogFragment {
     }
 
 
-    public static RatingDialogFragment newInstance(String playerName, String currentRating, String playerID) {
+    public static RatingDialogFragment newInstance(String playerName, double currentRating, String playerID) {
         RatingDialogFragment fragment = new RatingDialogFragment();
         Bundle args = new Bundle();
         args.putString("playerName", playerName);
-        args.putString("currentRating", currentRating);
+        args.putDouble("currentRating", currentRating);
         args.putString("playerID", playerID);
         fragment.setArguments(args);
 
@@ -77,13 +76,16 @@ public class RatingDialogFragment extends DialogFragment {
         if(getArguments() != null)
         {
             playerName = getArguments().getString("playerName");
-            currentRating = getArguments().getString("currentRating");
+            currentRating = getArguments().getDouble("currentRating");
             playerID = getArguments().getString("playerID");
 
 
         }
 
-        currentRatingTextView.setText(playerName);
+        nameTextView.setText("Player Name: " + playerName);
+        String format = String.format("%.2f", currentRating);
+        currentRatingTextView.setText("Current Rating: " + format);
+
 
         List<String> ratingCount = new ArrayList<>();
 
@@ -102,7 +104,7 @@ public class RatingDialogFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
                 ratingS = adapterView.getItemAtPosition(i).toString();
-                rating = Double.parseDouble(ratingS);
+                currentRating = Double.parseDouble(ratingS);
             }
 
             @Override
@@ -128,7 +130,7 @@ public class RatingDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view)
             {
-                pushRating(rating, playerID);
+                pushRating(currentRating, playerID);
             }
         });
         nameTextView.setText(playerName);

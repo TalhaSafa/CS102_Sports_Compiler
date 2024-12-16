@@ -304,8 +304,6 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
             intent.putExtra("matchType", matchType);
             startActivity(intent);
         }
-
-
     }
     public void filterNonExpiredMatches() {
         List<Match> expiredMatches = new ArrayList<>();

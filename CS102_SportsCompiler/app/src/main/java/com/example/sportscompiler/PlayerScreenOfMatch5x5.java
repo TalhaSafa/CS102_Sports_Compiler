@@ -1,6 +1,10 @@
 package com.example.sportscompiler;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +20,8 @@ import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -23,13 +29,61 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private Match currentMatch;
-
+    private Button confirmationButton, applyRatingButton, didntAttendButton;
+    private RatingBar ratingBar;
+    private FloatingActionButton[] positionButtons;
+    private EditText matchScoreForTeamA, matchScoreForTeamB;
+    private String matchID;
+    private String matchType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_player_screen_of_match5x5);
+        matchID = getIntent().getStringExtra("matchID");
+        matchType = getIntent().getStringExtra("matchType");
+        confirmationButton = findViewById(R.id.confirmationButton);
+        applyRatingButton = findViewById(R.id.button6);
+        didntAttendButton = findViewById(R.id.button5);
+        ratingBar = findViewById(R.id.ratingBar);
+        positionButtons = new FloatingActionButton[]{
+                findViewById(R.id.fab_player1),
+                findViewById(R.id.fab_player2),
+                findViewById(R.id.fab_player3),
+                findViewById(R.id.fab_player4),
+                findViewById(R.id.fab_player5),
+        };
+
+        matchScoreForTeamA = findViewById(R.id.matchScoreForTeamA);
+        matchScoreForTeamB = findViewById(R.id.matchScoreForTeamB);
+
+        firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        currentMatch = documentSnapshot.toObject(Match.class);
+                    }
+                });
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String currentUserID = firebaseAuth.getCurrentUser().getUid();
+
+        if(currentUserID.equals(currentMatch.getAdminID()))
+        {
+            confirmationButton.setVisibility(View.VISIBLE);
+            applyRatingButton.setVisibility(View.GONE);
+            didntAttendButton.setVisibility(View.VISIBLE);
+
+            for(FloatingActionButton button : positionButtons)
+            {
+                button.setVisibility(View.VISIBLE);
+            }
+            matchScoreForTeamA.setEnabled(true);
+            matchScoreForTeamB.setEnabled(true);
+        }
+        else
+        {
+
+        }
     }
 
     private String getPlayerIdInClickedPosition(Positions position, TeamType team)

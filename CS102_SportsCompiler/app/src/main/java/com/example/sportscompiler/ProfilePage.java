@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,7 +40,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,7 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ProfilePage extends Fragment {
+public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickListener{
 
     private TextView nameTextView, departmentTextView, ageTextView;
     private static User user;
@@ -62,8 +66,10 @@ public class ProfilePage extends Fragment {
     private ActivityResultLauncher<Intent> pickImageLauncher;
     private RecyclerView currentMatchRecyclerView, pastMatchRecyclerView;
     private MatchAdapter matchAdapterForCurrentMatches, matchAdapterForPastMatches;
-    private List<Match> currentMatches = new ArrayList<>();
+    private List<Match> allMatches = new ArrayList<>();
     private List<Match> pastMatches = new ArrayList<>();
+    private FirebaseFirestore firestore;
+    private ListenerRegistration listenerRegistration;
 
     public ProfilePage() {
         user = new User();
@@ -87,6 +93,10 @@ public class ProfilePage extends Fragment {
         pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         matchAdapterForPastMatches = new MatchAdapter(requireContext(), pastMatches, (MatchAdapter.OnItemClickListener) this);
+        pastMatchRecyclerView.setAdapter(matchAdapterForPastMatches);
+        firestore = FirebaseFirestore.getInstance();
+
+
 
         pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -136,8 +146,79 @@ public class ProfilePage extends Fragment {
             }
         });
 
+        listenerRegistration = firestore.collection("users").document(fireuser.getUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if(error != null)
+                {
+                    if(getContext() != null)
+                        Toast.makeText(getContext(), "Failed to fetch matches: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                else if (error == null && value.exists())
+                {
+                    List<String> registeredMatches = (List<String>) value.get("matches");
+                    if(registeredMatches != null)
+                    {
+                        fetchUsersMatches("matches5", registeredMatches);
+                        fetchUsersMatches("matches6", registeredMatches);
+                    }
+
+                }
+            }
+        });
+
 
         return rootView;
+    }
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove Firestore listener to avoid memory leaks
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+            listenerRegistration = null;
+        }
+    }
+
+    private void fetchUsersMatches(String collectionName, List<String> registeredMatches)
+    {
+        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+
+        for (String matchID : registeredMatches) {
+            Task<DocumentSnapshot> task = firestore.collection(collectionName).document(matchID).get();
+            tasks.add(task);
+        }
+
+        Tasks.whenAllSuccess(tasks).addOnSuccessListener(new OnSuccessListener<List<Object>>() {
+            @Override
+            public void onSuccess(List<Object> objects) {
+                for (Object result : objects) {
+                    DocumentSnapshot documentSnapshot = (DocumentSnapshot) result;
+                    if (documentSnapshot.exists()) {
+                        Match match = documentSnapshot.toObject(Match.class);
+                        if (match != null) {
+                            if(!allMatches.contains(match))
+                                allMatches.add(match);
+                        }
+                    }
+                }
+                filterNonExpiredMatches();
+                matchAdapterForPastMatches.updateData(pastMatches);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Firebase", "Error fetching matches", e);
+            }
+        });
+
+
+
     }
 
     public static User getUser() {
@@ -202,6 +283,26 @@ public class ProfilePage extends Fragment {
             }
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error fetching URI: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
+    }
+
+    public void filterNonExpiredMatches() {
+        List<Match> expiredMatches = new ArrayList<>();
+        Date currentDate = new Date(); // Current date and time
+        for (Match match : allMatches) {
+            // Compare the match's timestamp with the current date
+            if (match.getDate().toDate().before(currentDate)) {
+                expiredMatches.add(match);
+            }
+        }
+        // Update the list and refresh RecyclerView
+        this.pastMatches = expiredMatches;
+        matchAdapterForPastMatches.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onItemClick(Match match) {
+        //TODO
     }
 }
 

@@ -420,17 +420,24 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
             }
         }
     }
-    public void filterNonExpiredMatches() {
+    public List<Match> filterNonExpiredMatches() {
         List<Match> nonExpiredMatches = new ArrayList<>();
+        List<Match> expiredMatches = new ArrayList<>();
         Date currentDate = new Date(); // Current date and time
         for (Match match : matches) {
             // Compare the match's timestamp with the current date
             if (match.getDate().toDate().after(currentDate)) {
                 nonExpiredMatches.add(match); // Add if it's not expired
             }
+            else
+            {
+                expiredMatches.add(match);
+            }
         }
         // Update the list and refresh RecyclerView
         this.matches = nonExpiredMatches;
         matchAdapter.notifyDataSetChanged();
+
+        return expiredMatches;
     }
 }

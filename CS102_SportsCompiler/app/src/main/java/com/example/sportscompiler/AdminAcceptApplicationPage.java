@@ -27,6 +27,7 @@ import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
+import com.example.sportscompiler.AdditionalClasses.PlayerAdapter;
 import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class AdminAcceptApplicationPage extends AppCompatActivity {
@@ -60,6 +62,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private ArrayList<Application> applications;
     private ApplicationActionListener actionListener;
     private TextView matchName;
+    private RecyclerView playerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_accept_application_page);
 
+        playerView = findViewById(R.id.playersRecyclerView);
+        playerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView = findViewById(R.id.applicationsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         matchForumButton = findViewById(R.id.ForumPage);
@@ -128,7 +133,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                 currentMatch = documentSnapshot.toObject(Match.class);
                 if (currentMatch != null) {
                     //matchName.setText(currentMatch.getMatchName());
-                    fillApplications(); // Update the applications list in real-time
+                    fillApplications();
+                    fillPlayers();// Update the applications list in real-time
                 } else {
                     Log.e("fetchMatchFromFirestore", "Match object is null!");
                 }
@@ -194,6 +200,49 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
             Log.e("fillApplications", "currentMatch is null, cannot populate applications.");
         }
     }
+    private void fillPlayers() {
+        if (currentMatch == null) {
+            Log.e("fillPlayers", "currentMatch is null, cannot populate players.");
+            return;
+        }
+
+        // Create a list to hold formatted player strings
+        List<String> playerDetails = new ArrayList<>();
+
+        // Extract players from Team A
+        if (currentMatch.getPlayersA() != null) {
+            for (Player player : currentMatch.getPlayersA().values()) {
+                if (player != null) { // Check if the Player object itself is not null
+                    String playerName = player.getName() != null ? player.getName() : "Unknown Player";
+                    String position = (player.getPosition() != null && player.getPosition().getAction() != null)
+                            ? player.getPosition().getAction()
+                            : "Unknown Position";
+                    String detail = "Team A - " + playerName + " (" + position + ")";
+                    playerDetails.add(detail);
+                }
+            }
+        }
+
+        // Extract players from Team B
+        if (currentMatch.getPlayersB() != null) {
+            for (Player player : currentMatch.getPlayersB().values()) {
+                if (player != null) { // Check if the Player object itself is not null
+                    String playerName = player.getName() != null ? player.getName() : "Unknown Player";
+                    String position = (player.getPosition() != null && player.getPosition().getAction() != null)
+                            ? player.getPosition().getAction()
+                            : "Unknown Position";
+                    String detail = "Team B - " + playerName + " (" + position + ")";
+                    playerDetails.add(detail);
+                }
+            }
+        }
+
+        // Set up the adapter with the player details
+        PlayerAdapter playerAdapter = new PlayerAdapter(playerDetails);
+        playerView.setAdapter(playerAdapter); // `playerView` is your RecyclerView
+    }
+
+
 
     private void addToTeam(Map<String, Player> playersOfWantedTeam, Application application)
     {

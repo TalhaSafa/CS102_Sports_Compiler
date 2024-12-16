@@ -28,10 +28,12 @@ import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -120,7 +122,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-         user.getMatches(new firestoreUser.FirestoreCallback<List<Match>>() {
+        getMatches(new firestoreUser.FirestoreCallback<List<Match>>() {
             @Override
             public void onSuccess(List<Match> result) {
                 matches = result;
@@ -132,7 +134,6 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             @Override
             public void onError(Exception e) {
                 Toast.makeText(getContext(), "Failed to fetch matches: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -461,6 +462,46 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             }
         }
         return filteredMatches;
+    }
+    public void getMatches(firestoreUser.FirestoreCallback<List<Match>> callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Task<List<Match>> taskMatches5 = db.collection("matches5").get()
+                .continueWith(task -> {
+                    List<Match> matches = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Match match = doc.toObject(Match.class);
+                            matches.add(match);
+                        }
+                    }
+                    return matches;
+                });
+
+        Task<List<Match>> taskMatches6 = db.collection("matches6").get()
+                .continueWith(task -> {
+                    List<Match> matches = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Match match = doc.toObject(Match.class);
+                            matches.add(match);
+                        }
+                    }
+                    return matches;
+                });
+
+        Task<List<List<Match>>> allTasks = Tasks.whenAllSuccess(taskMatches5, taskMatches6);
+        allTasks.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Match> combinedMatches = new ArrayList<>();
+                for (List<Match> matchList : task.getResult()) {
+                    combinedMatches.addAll(matchList);
+                }
+                callback.onSuccess(combinedMatches);
+            } else {
+                callback.onError(task.getException());
+            }
+        });
     }
 
 }

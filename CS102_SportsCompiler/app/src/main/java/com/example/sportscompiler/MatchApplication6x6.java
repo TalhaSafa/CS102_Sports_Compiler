@@ -2,6 +2,7 @@
 package com.example.sportscompiler;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -51,7 +52,7 @@ public class MatchApplication6x6 extends AppCompatActivity {
     private firestoreUser fireUser;
     private FirebaseAuth firebaseAuth;
     private User user;
-
+    private FloatingActionButton selectedButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +103,7 @@ public class MatchApplication6x6 extends AppCompatActivity {
                 }
                 if (value != null && value.exists()) {
                     match = value.toObject(Match.class);
+                    markFilledPositions();
                 } else {
                     Toast.makeText(MatchApplication6x6.this, "Null Match", Toast.LENGTH_SHORT).show();
                 }
@@ -180,14 +182,22 @@ public class MatchApplication6x6 extends AppCompatActivity {
                 }
 
                 if (playerAtPos != null) {
-                    // Position is filled
-                    button.setBackgroundColor(Color.GRAY);  // Change color to indicate position is taken
-                    showPlayerDetailsDialog(playerAtPos);  // Show player details in a dialog
+                    // Pozisyon dolu
+                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e")));
+                    showPlayerDetailsDialog(playerAtPos);
                 } else {
-                    // Position is empty
+                    // Pozisyon boş
                     positionToApply = position;
                     teamToApply = team;
-                    button.setBackgroundColor(Color.parseColor("#6200EE"));  // Default color (e.g., purple)
+
+                    if (selectedButton != null) {
+                        // Önceki seçimin rengini sıfırla
+                        selectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF"))); // Varsayılan renk
+                    }
+
+                    // Yeni seçimi vurgula
+                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#90EE90"))); // Vurgulama rengi
+                    selectedButton = button; // Yeni seçilen butonu güncelle
                 }
             }
         });
@@ -261,6 +271,44 @@ public class MatchApplication6x6 extends AppCompatActivity {
             }
         });
     }
+
+    private void updateButtonState(FloatingActionButton button, Positions position, TeamType team, Match match) {
+        Player playerAtPos = (team == TeamType.TEAM_A) ? match.getPlayersA().get(position.getAction()) : match.getPlayersB().get(position.getAction());
+
+        if (playerAtPos != null) {
+
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e")));
+
+        }
+        else{
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+        }
+    }
+
+    private void markFilledPositions() {
+        firestore.collection(matchType).document(matchID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Match match = documentSnapshot.toObject(Match.class);
+
+                if (match != null) {
+                    updateButtonState(kaleciA, Positions.GK1, TeamType.TEAM_A, match);
+                    updateButtonState(kaleciB, Positions.GK1, TeamType.TEAM_B, match);
+                    updateButtonState(ortadefansA, Positions.CB3, TeamType.TEAM_A, match);
+                    updateButtonState(ortadefansB, Positions.CB3, TeamType.TEAM_B, match);
+                    updateButtonState(solortaA, Positions.MO1, TeamType.TEAM_A, match);
+                    updateButtonState(solortaB, Positions.MO1, TeamType.TEAM_B, match);
+                    updateButtonState(sagortaA, Positions.MO2, TeamType.TEAM_A, match);
+                    updateButtonState(sagortaB, Positions.MO2, TeamType.TEAM_B, match);
+                    updateButtonState(ortaforvetA, Positions.FW3, TeamType.TEAM_A, match);
+                    updateButtonState(ortaforvetB, Positions.FW3, TeamType.TEAM_B, match);
+                    updateButtonState(ortasahaA, Positions.MO3, TeamType.TEAM_A, match);
+                    updateButtonState(ortasahaB, Positions.MO3, TeamType.TEAM_B, match);
+                }
+            }
+        });
+    }
+
 
     private void initializeUser() {
         applyButton.setEnabled(false); // Disable apply button initially

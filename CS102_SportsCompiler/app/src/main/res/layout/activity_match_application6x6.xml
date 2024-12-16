@@ -24,7 +24,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +32,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="80dp"
-            android:backgroundTint="@color/white"
+
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,7 +41,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="140dp"
-            android:backgroundTint="@color/white"
+
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,7 +50,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="200dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,7 +58,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="120dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,7 +66,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="120dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
 
@@ -80,7 +76,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="480dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -89,7 +84,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="420dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -98,7 +92,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="360dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -107,7 +100,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="380dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -116,7 +108,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="380dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -125,7 +116,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="300dp"
-            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_person_24" />
     </RelativeLayout>
 

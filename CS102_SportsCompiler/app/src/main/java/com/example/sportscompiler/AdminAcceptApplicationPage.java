@@ -3,6 +3,7 @@ package com.example.sportscompiler;
 import static java.security.AccessController.getContext;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.ApplicationActionListener;
 import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
-import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
@@ -49,7 +49,7 @@ import java.util.Map;
 
 public class AdminAcceptApplicationPage extends AppCompatActivity {
 
-    private Button matchForumButton;
+    private Button matchForumButton, cancelButton;
     private firestoreUser fireuser;
     private User user;
     private FirebaseFirestore firestore;
@@ -61,7 +61,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
     private ApplicationsAdapter appAdapt;
     private ArrayList<Application> applications;
     private ApplicationActionListener actionListener;
-    private TextView matchName;
+    private TextView matchName, matchDate, matchAdminName, matchNote;
     private RecyclerView playerView;
 
     @Override
@@ -76,6 +76,11 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         matchForumButton = findViewById(R.id.ForumPage);
         matchName = findViewById(R.id.matchName);
+        matchDate = findViewById(R.id.matchDate);
+        matchAdminName = findViewById(R.id.adminName);
+        matchNote = findViewById(R.id.matchNote);
+        cancelButton = findViewById(R.id.cancelMatch);
+
 
         fireuser = new firestoreUser();
         user = new User();
@@ -87,6 +92,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
 
         fetchMatchFromFirestore(matchID, matchType);
 
+
+        cancelButton.setOnClickListener(new CancelListener());
         matchForumButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -132,7 +139,10 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 currentMatch = documentSnapshot.toObject(Match.class);
                 if (currentMatch != null) {
-                    //matchName.setText(currentMatch.getMatchName());
+                    matchName.setText(currentMatch.getMatchName());
+                    matchDate.setText(currentMatch.getDate().toDate().toString());
+                    matchAdminName.setText(currentMatch.getAdminName());
+                    matchNote.setText(currentMatch.getNotes());
                     fillApplications();
                     fillPlayers();// Update the applications list in real-time
                 } else {
@@ -322,6 +332,49 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
 
 
     }
+
+    private void cancelMatch()
+    {
+        if(currentMatch != null)
+        {
+            firestore.collection(currentMatch.getMatchType()).document(currentMatch.getMatchID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(AdminAcceptApplicationPage.this, "Match has been deleted successfully.", Toast.LENGTH_SHORT).show();
+                            // Navigate back or disable UI
+                            FragmentLoad.changeActivity(AdminAcceptApplicationPage.this, homeActivity.class);
+                            finish(); // Ends the current activity
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("deleteMatch", "Failed to delete match", e);
+                            Toast.makeText(AdminAcceptApplicationPage.this, "Failed to delete the match. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+    }
+
+
+    private class CancelListener implements View.OnClickListener
+    {
+
+        @Override
+        public void onClick(View view) {
+            new AlertDialog.Builder(AdminAcceptApplicationPage.this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to cancel this match?")
+                    .setPositiveButton("Yes", (dialog, which) -> cancelMatch())
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+        }
+
+
 
 
 }

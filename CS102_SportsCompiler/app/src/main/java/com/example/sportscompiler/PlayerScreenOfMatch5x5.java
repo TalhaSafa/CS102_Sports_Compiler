@@ -60,6 +60,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
         fieldImage = findViewById(R.id.footballField);
         enterMatchScore = findViewById(R.id.enterMatchScore);
+        firestore = FirebaseFirestore.getInstance();
 
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -107,6 +108,46 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(false);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.GONE);
+        }
+
+        confirmationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String scoreAStr = matchScoreForTeamA.getText().toString();
+                String scoreBStr = matchScoreForTeamB.getText().toString();
+                if(!scoreAStr.equals("") && !scoreBStr.equals(""))
+                {
+                    setScore(Integer.parseInt(scoreAStr), Integer.parseInt(scoreBStr));
+                }
+                else
+                {
+                    Toast.makeText(PlayerScreenOfMatch5x5.this, "Enter Match Score", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    private void setScore(int scoreA, int scoreB)
+    {
+        if(currentMatch.getMatchType() != null && currentMatch.getMatchID() != null)
+        {
+            currentMatch.setTeamAScore(scoreA);
+            currentMatch.setTeamBScore(scoreB);
+            firestore.collection(currentMatch.getMatchType()).document(currentMatch.getMatchID()).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(PlayerScreenOfMatch5x5.this, "Match Score Updated!", Toast.LENGTH_SHORT).show();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(PlayerScreenOfMatch5x5.this, "Could Not Update Match Score!", Toast.LENGTH_SHORT).show();
+                    currentMatch.setTeamAScore(0);
+                    currentMatch.setTeamBScore(0);
+                }
+            });
         }
     }
 

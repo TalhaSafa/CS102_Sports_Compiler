@@ -213,7 +213,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID);
+        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0);
 
         firestore = FirebaseFirestore.getInstance();
 

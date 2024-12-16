@@ -112,28 +112,26 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
     private Positions determinePosition(int selectedPosition , int numberOfPlayersInATeam)
     {
         Positions position = Positions.GK1;
-        if(numberOfPlayersInATeam == 6)
+        if(numberOfPlayersInATeam == 5)
         {
             switch (selectedPosition)
             {
-                case 5:
+                case 4:
                     position = Positions.GK1;
                     break;
-                case 3:
-                    position = Positions.CB1;
-                    break;
                 case 2:
-                    position = Positions.CB3;
-                    break;
-                case 4:
-                    position = Positions.CB2;
+                    position = Positions.MO3;
                     break;
                 case 1:
                     position = Positions.MO3;
                     break;
+                case 3:
+                    position = Positions.MO2;
+                    break;
                 case 0:
                     position = Positions.FW3;
                     break;
+
             }
         }
         return position;

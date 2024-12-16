@@ -33,10 +33,10 @@ public class Match
     {
         adminID = adminID1;
         this.adminName = adminName;
-        date = date1;
-        field = field1;
-        playersA= playersA1;
-        playersB= playersB1;
+        this.date = date1;
+        this.field = field1;
+        this.playersA = playersA1 != null ? playersA1 : new HashMap<>();
+        this.playersB = playersB1 != null ? playersB1 : new HashMap<>();
         this.matchName = matchName;
         this.adminPosition = adminPosition;
         this.notes = notes;
@@ -45,7 +45,9 @@ public class Match
         this.teamBScore = teamBScore;
         applications = new ArrayList<>();
 
+>>>>>>> origin/main
     }
+
 
 
     public String getAdminID() {

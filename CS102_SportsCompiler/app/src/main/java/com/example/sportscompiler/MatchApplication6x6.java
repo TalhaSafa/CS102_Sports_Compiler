@@ -1,3 +1,4 @@
+// Updated MatchApplication6x6 to reflect changes for 6x6 matches
 package com.example.sportscompiler;
 
 import android.app.Dialog;
@@ -15,9 +16,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.Match;
@@ -36,8 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MatchApplication6x6 extends AppCompatActivity {
-    private FloatingActionButton kaleciA, ortadefansA, ortasahaA, solortaA, sagortaA, ortaforvetA
-            ,kaleciB, ortadefansB, ortasahaB, solortaB, sagortaB, ortaforvetB;
+    private FloatingActionButton kaleciA, ortadefansA, solortaA, sagortaA, ortasahaA, ortaforvetA,
+            kaleciB, ortadefansB, solortaB, sagortaB, ortasahaB, ortaforvetB;
     private Button applyButton;
     private EditText applicatonNote;
     private String matchID, matchType, applicationNoteStr;
@@ -65,18 +63,20 @@ public class MatchApplication6x6 extends AppCompatActivity {
         initializeUser();
         applicationNoteStr = "";
 
+        // Initialize FloatingActionButtons for TEAM_A
         kaleciA = findViewById(R.id.kaleciA);
         ortadefansA = findViewById(R.id.ortadefansA);
         solortaA = findViewById(R.id.solKanatA);
-        ortasahaA = findViewById(R.id.ortasahaA);
         sagortaA = findViewById(R.id.sagKanatA);
+        ortasahaA = findViewById(R.id.ortasahaA);
         ortaforvetA = findViewById(R.id.ortaforvetA);
 
+        // Initialize FloatingActionButtons for TEAM_B
         kaleciB = findViewById(R.id.kaleciB);
         ortadefansB = findViewById(R.id.ortadefansB);
         solortaB = findViewById(R.id.solkanatB);
-        ortasahaB = findViewById(R.id.ortasahaB);
         sagortaB = findViewById(R.id.sagkanatB);
+        ortasahaB = findViewById(R.id.ortasahaB);
         ortaforvetB = findViewById(R.id.ortaforvetB);
 
         matchName = findViewById(R.id.matchName);
@@ -88,25 +88,21 @@ public class MatchApplication6x6 extends AppCompatActivity {
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
         applicatonNote.setText(matchID + " - " + matchType);
+
         firestore.collection(matchType).document(matchID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null)
-                {
+                if (error != null) {
                     Toast.makeText(MatchApplication6x6.this, "Could not access database", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(value != null && value.exists())
-                {
+                if (value != null && value.exists()) {
                     match = value.toObject(Match.class);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MatchApplication6x6.this, "Null Match", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         FABListener listener = new FABListener();
         kaleciA.setOnClickListener(listener);
@@ -125,24 +121,18 @@ public class MatchApplication6x6 extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(match != null)
-                {
-                    if(positionToApply == null)
-                    {
+                if (match != null) {
+                    if (positionToApply == null) {
                         Toast.makeText(MatchApplication6x6.this, "Choose position", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     applyForPosition();
-
                 }
             }
         });
-
-
     }
 
-    private class FABListener implements View.OnClickListener
-    {
+    private class FABListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (view.getId() == kaleciA.getId()) {
@@ -165,83 +155,12 @@ public class MatchApplication6x6 extends AppCompatActivity {
                 updateFABButtonColor(ortaforvetB, Positions.FW3, TeamType.TEAM_B);
             } else if (view.getId() == ortaforvetA.getId()) {
                 updateFABButtonColor(ortaforvetA, Positions.FW3, TeamType.TEAM_A);
-            }
-            else if(view.getId() == ortasahaA.getId())
-            {
+            } else if (view.getId() == ortasahaA.getId()) {
                 updateFABButtonColor(ortasahaA, Positions.MO3, TeamType.TEAM_A);
-
-            }
-            else if(view.getId() == ortasahaB.getId())
-            {
+            } else if (view.getId() == ortasahaB.getId()) {
                 updateFABButtonColor(ortasahaB, Positions.MO3, TeamType.TEAM_B);
-
             }
-//            if (view.getId() == kaleciA.getId())
-//            {
-//                positionToApply = Positions.GK1;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if (view.getId() == kaleciB.getId())
-//            {
-//                positionToApply = Positions.GK1;
-//                team = TeamType.TEAM_B;
-//            }
-//            else if (view.getId() == ortadefansB.getId())
-//            {
-//                positionToApply = Positions.CB3;
-//                team = TeamType.TEAM_B;
-//            }
-//            else if (view.getId() == ortadefansA.getId())
-//            {
-//                positionToApply = Positions.CB3;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if (view.getId() == solortaB.getId())
-//            {
-//                positionToApply = Positions.MO1;
-//                team = TeamType.TEAM_B;
-//            }
-//            else if (view.getId() == sagortaB.getId())
-//            {
-//                positionToApply = Positions.MO2;
-//                team = TeamType.TEAM_B;
-//            }
-//            else if (view.getId() == sagortaA.getId())
-//            {
-//                positionToApply = Positions.MO2;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if (view.getId() == solortaA.getId())
-//            {
-//                positionToApply = Positions.MO1;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if (view.getId() == ortaforvetB.getId())
-//            {
-//                positionToApply = Positions.FW3;
-//                team = TeamType.TEAM_B;
-//            }
-//            else if (view.getId() == ortaforvetA.getId())
-//            {
-//                positionToApply = Positions.FW3;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if(view.getId() == ortasahaA.getId())
-//            {
-//                positionToApply = Positions.MO3;
-//                team = TeamType.TEAM_A;
-//            }
-//            else if(view.getId() == ortasahaB.getId())
-//            {
-//                positionToApply = Positions.MO3;
-//                team = TeamType.TEAM_B;
-//            }
-
-
-
         }
-
-
     }
 
     private void updateFABButtonColor(FloatingActionButton button, Positions position, TeamType team) {
@@ -250,30 +169,27 @@ public class MatchApplication6x6 extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Match match = documentSnapshot.toObject(Match.class);
                 Player playerAtPos;
-                if(team == TeamType.TEAM_A)
-                {
+                if (team == TeamType.TEAM_A) {
                     playerAtPos = match.getPlayersA().get(position.getAction());
-                }
-                else {
+                } else {
                     playerAtPos = match.getPlayersB().get(position.getAction());
-
                 }
 
                 if (playerAtPos != null) {
-                    // Pozisyon dolu
-                    showPlayerDetailsDialog(playerAtPos);
+                    // Position is filled
+                    button.setBackgroundColor(Color.GRAY);  // Change color to indicate position is taken
+                    showPlayerDetailsDialog(playerAtPos);  // Show player details in a dialog
                 } else {
-                    // Pozisyon boş, buton normal
+                    // Position is empty
                     positionToApply = position;
                     teamToApply = team;
-                    button.setBackgroundColor(Color.parseColor("#6200EE"));
+                    button.setBackgroundColor(Color.parseColor("#6200EE"));  // Default color (e.g., purple)
                 }
             }
         });
     }
 
     private void showPlayerDetailsDialog(Player player) {
-        // Dialog oluşturuluyor ve oyuncu bilgileri buraya aktarılıyor
         Dialog dialog = new Dialog(MatchApplication6x6.this);
         dialog.setContentView(R.layout.dialog_user_details);
 
@@ -283,15 +199,11 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
         nameText.setText(player.getName());
         ratingText.setText("Rating: " + player.getRating());
-        // Profil fotoğrafını eklemek için:
-        // profileImage.setImageResource(R.drawable.some_image);
 
         dialog.show();
     }
 
     private void applyForPosition() {
-        // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.
-
         applicationNoteStr = applicatonNote.getText().toString();
         Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
         match.addApplication(newApplication);

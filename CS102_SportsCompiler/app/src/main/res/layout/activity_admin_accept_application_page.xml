@@ -16,6 +16,8 @@
         android:id="@+id/backgroundImage"
         android:layout_width="500dp"
         android:layout_height="match_parent"
+        android:layout_alignTop="@+id/matchDetails"
+        android:layout_marginTop="-29dp"
         android:scaleType="centerCrop"
         android:src="@drawable/football_field" />
 
@@ -24,10 +26,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="29dp"
         android:background="#AA000000"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <TextView
+            android:id="@+id/matchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Name: CodeBatMasters Match"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/matchDate"
@@ -97,22 +108,12 @@
 
     <Button
         android:id="@+id/ForumPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@id/playersRecyclerView"
-        android:layout_alignParentBottom="true"
+
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="74dp"
         android:text="Match Forum"
         android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/matchName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Match Name: CodeBatMasters Match"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

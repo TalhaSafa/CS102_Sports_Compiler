@@ -1,6 +1,7 @@
 package com.example.sportscompiler;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
     private firestoreUser fireUser;
     private FirebaseAuth firebaseAuth;
     private User user;
+    private FloatingActionButton selectedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
                 }
                 if (value != null && value.exists()) {
                     match = value.toObject(Match.class);
+                    markFilledPositions();
                 } else {
                     Toast.makeText(MatchApplication5x5.this, "Null Match", Toast.LENGTH_SHORT).show();
                 }
@@ -162,27 +165,65 @@ public class MatchApplication5x5 extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Match match = documentSnapshot.toObject(Match.class);
                 Player playerAtPos;
-                if(team == TeamType.TEAM_A)
-                {
+                if (team == TeamType.TEAM_A) {
                     playerAtPos = match.getPlayersA().get(position.getAction());
-                }
-                else {
+                } else {
                     playerAtPos = match.getPlayersB().get(position.getAction());
-
                 }
 
                 if (playerAtPos != null) {
                     // Pozisyon dolu
+                    button.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                     showPlayerDetailsDialog(playerAtPos);
                 } else {
-                    // Pozisyon boş, buton normal
+                    // Pozisyon boş
                     positionToApply = position;
                     teamToApply = team;
-                    button.setBackgroundColor(Color.parseColor("#6200EE"));
+
+                    if (selectedButton != null) {
+                        // Önceki seçimin rengini sıfırla
+                        selectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF"))); // Varsayılan renk
+                    }
+
+                    // Yeni seçimi vurgula
+                    button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#90EE90"))); // Vurgulama rengi
+                    selectedButton = button; // Yeni seçilen butonu güncelle
                 }
             }
         });
     }
+
+    private void markFilledPositions() {
+        firestore.collection(matchType).document(matchID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Match match = documentSnapshot.toObject(Match.class);
+
+                if (match != null) {
+                    updateButtonState(kaleciA, Positions.GK1, TeamType.TEAM_A, match);
+                    updateButtonState(kaleciB, Positions.GK1, TeamType.TEAM_B, match);
+                    updateButtonState(ortadefansA, Positions.CB3, TeamType.TEAM_A, match);
+                    updateButtonState(ortadefansB, Positions.CB3, TeamType.TEAM_B, match);
+                    updateButtonState(solortaA, Positions.MO1, TeamType.TEAM_A, match);
+                    updateButtonState(solortaB, Positions.MO1, TeamType.TEAM_B, match);
+                    updateButtonState(sagortaA, Positions.MO2, TeamType.TEAM_A, match);
+                    updateButtonState(sagortaB, Positions.MO2, TeamType.TEAM_B, match);
+                    updateButtonState(ortaforvetA, Positions.FW3, TeamType.TEAM_A, match);
+                    updateButtonState(ortaforvetB, Positions.FW3, TeamType.TEAM_B, match);
+                }
+            }
+        });
+    }
+
+    private void updateButtonState(FloatingActionButton button, Positions position, TeamType team, Match match) {
+        Player playerAtPos = (team == TeamType.TEAM_A) ? match.getPlayersA().get(position.getAction()) : match.getPlayersB().get(position.getAction());
+
+        if (playerAtPos != null) {
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e"))); // Renk kırmızımsı
+        }
+    }
+
+
 
     private void showPlayerDetailsDialog(Player player) {
         // Dialog oluşturuluyor ve oyuncu bilgileri buraya aktarılıyor

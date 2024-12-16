@@ -66,7 +66,6 @@ public class homeActivity extends AppCompatActivity {
         profileFragment = new ProfilePage();
         mainPageFragment = new mainPageFragment();
         matchAttendence = new MatchAttendencePage();
-        Fragment forumFragment = new matchForum();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.mainPage);
         // Set default fragment

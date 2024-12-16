@@ -10,6 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
+    private Match currentMatch;
 
 
     @Override
@@ -26,6 +30,22 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_player_screen_of_match5x5);
+    }
+
+    private String getPlayerIdInClickedPosition(Positions position, TeamType team)
+    {
+        String wantedPlayerID;
+        if(team == TeamType.TEAM_A)
+        {
+            wantedPlayerID = currentMatch.getPlayersA().get(position).getUserID();
+        }
+        else
+        {
+            wantedPlayerID = currentMatch.getPlayersB().get(position).getUserID();
+        }
+
+        return wantedPlayerID;
+
     }
 
     private void pushRating(double rating, String userID)

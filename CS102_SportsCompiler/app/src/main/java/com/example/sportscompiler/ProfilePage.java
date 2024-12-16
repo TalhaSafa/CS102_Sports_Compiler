@@ -287,7 +287,24 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
     }
 
     @Override
-    public void onItemClick(Match match) {
+    public void onItemClick(Match match)
+    {
+        String matchType = match.getMatchType();
+        if(matchType.equals("matches5"))
+        {
+            Intent intent = new Intent(getContext(), PlayerScreenOfMatch5x5.class);
+            intent.putExtra("matchID", match.getMatchID());
+            intent.putExtra("matchType", matchType);
+            startActivity(intent);
+        }
+        else if(matchType.equals("matches6"))
+        {
+            Intent intent = new Intent(getContext(), PlayerScreenOfMatch6x6.class);
+            intent.putExtra("matchID", match.getMatchID());
+            intent.putExtra("matchType", matchType);
+            startActivity(intent);
+        }
+
 
     }
     public void filterNonExpiredMatches() {

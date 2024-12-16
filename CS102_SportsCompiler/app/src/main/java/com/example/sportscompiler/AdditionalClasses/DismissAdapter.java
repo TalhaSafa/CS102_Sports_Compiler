@@ -17,10 +17,12 @@ import java.util.List;
 public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerViewHolder> {
 
     private List<Player> players;
+    private DismissActionListener listener;
 
     // Constructor
-    public DismissAdapter(List<Player> players) {
+    public DismissAdapter(List<Player> players, DismissActionListener listener) {
         this.players = players;
+        this.listener = listener;
     }
 
     @NonNull
@@ -49,6 +51,7 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
             // Show a Toast message
             Toast.makeText(v.getContext(), player.getName() + " dismissed", Toast.LENGTH_SHORT).show();
         });
+        holder.btnDismiss.setOnClickListener(v -> listener.onDismissClick(player));
     }
 
     @Override

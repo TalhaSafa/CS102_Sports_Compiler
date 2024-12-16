@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.ApplicationActionListener;
 import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
+import com.example.sportscompiler.AdditionalClasses.DismissActionListener;
 import com.example.sportscompiler.AdditionalClasses.DismissAdapter;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
@@ -247,7 +248,12 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         }
 
         // Set up the adapter with the player list
-        DismissAdapter playerAdapter = new DismissAdapter(playerList);
+        DismissAdapter playerAdapter = new DismissAdapter(playerList, new DismissActionListener() {
+            @Override
+            public void onDismissClick(Player player) {
+                playerRemoveMatch(player);
+            }
+        });
         playerView.setAdapter(playerAdapter); // `playerView` is your RecyclerView
     }
 
@@ -356,6 +362,37 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     });
         }
 
+    }
+    private void playerRemoveMatch(Player player)
+    {
+        firestore.collection(currentMatch.getMatchType()).document(currentMatch.getMatchID()).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                firestore.collection("users").document(player.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists() && documentSnapshot != null)
+                        {
+                            User user = documentSnapshot.toObject(User.class);
+                            currentMatch.removePlayer(currentMatch, player.getTeam(), player.getPosition());
+                            user.removeMatch(currentMatch.getMatchID());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminAcceptApplicationPage.this, "Could not access current user!", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AdminAcceptApplicationPage.this, "Could not leave the match!", Toast.LENGTH_SHORT).show();
+                currentMatch.addPlayer(player.getTeam(), player);
+            }
+        });
     }
 
 

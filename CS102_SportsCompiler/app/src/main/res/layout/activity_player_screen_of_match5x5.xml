@@ -14,9 +14,10 @@
         android:id="@+id/footballField"
         android:layout_width="519dp"
         android:layout_height="507dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/half_field"
-        app:layout_constraintBottom_toTopOf="@+id/ratingView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -25,38 +26,32 @@
         android:id="@+id/fab_player1"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="172dp"
         android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamA"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.076" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player2"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="324dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="196dp"
         android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player3"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/baseline_person_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_player4"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="36dp"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,45 +61,58 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_player4"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="312dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player5"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="176dp"
         android:layout_marginTop="160dp"
         android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
+        app:layout_constraintEnd_toStartOf="@+id/fab_player2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121" />
 
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="0"
-        android:stepSize="1"
+    <Button
+        android:id="@+id/confirmationButton"
+        android:layout_width="120dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="100dp"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="@+id/userInfoContainer"
-        app:layout_constraintTop_toBottomOf="@+id/ratingView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintHorizontal_bias="0.981"
+        app:layout_constraintStart_toEndOf="@+id/userInfoContainer"
+        app:layout_constraintVertical_bias="0.896" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="120dp"
         android:layout_height="75dp"
-
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="100dp"
         android:text="Apply Rating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/userInfoContainer"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="0.0"></Button>
+        app:layout_constraintVertical_bias="0.0" />
+
+
     <Button
         android:id="@+id/button5"
         android:layout_width="120dp"
@@ -113,24 +121,38 @@
         android:text="Didn't Attend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.899"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toEndOf="@+id/userInfoContainer"
         app:layout_constraintTop_toBottomOf="@+id/button6"
-        app:layout_constraintVertical_bias="0.428"></Button>
+        app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/ratingView"
+    <EditText
+        android:id="@+id/matchScoreForTeamA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="248dp"
-        android:text="Rating"
+        android:layout_marginBottom="208dp"
+        android:hint="Team A: "
+        android:inputType="number"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.143"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:id="@+id/matchScoreForTeamB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="208dp"
+        android:hint="Team B: "
+        android:inputType="number"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.766"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/enterMatchScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -143,18 +165,6 @@
         app:layout_constraintTop_toBottomOf="@+id/fab_player4"
         app:layout_constraintVertical_bias="0.2" />
 
-    <TextView
-        android:id="@+id/ratingView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Rate your teammates!"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/footballField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fab_player4"
-        app:layout_constraintVertical_bias="0.2" />
 
     <LinearLayout
         android:id="@+id/userInfoContainer"
@@ -162,37 +172,47 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/fab_player3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar">
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:src="@drawable/blank_profile_picture" />
-
-        <TextView
-            android:id="@+id/nameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Name"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/ratingText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="Rating: 4.2"
-            android:textSize="16sp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="36dp"
+        android:src="@drawable/blank_profile_picture"
+        app:layout_constraintEnd_toStartOf="@+id/confirmationButton"
+        app:layout_constraintTop_toBottomOf="@+id/matchScoreForTeamA" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:text="Name"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingText"
+        app:layout_constraintEnd_toStartOf="@+id/button5" />
+
+    <TextView
+        android:id="@+id/ratingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:text="Rating: 4.2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

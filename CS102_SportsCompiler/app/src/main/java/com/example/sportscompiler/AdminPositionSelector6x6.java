@@ -85,13 +85,14 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                 }
             });
         }
-
+        int numberOfPlayersInATeam = Integer.parseInt(personCount) / 2;
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                if(selectedPosition != -1) {
-                    int numberOfPlayersInATeam = Integer.parseInt(personCount) / 2;
+                if(selectedPosition != -1)
+                {
+
                     Positions adminPosition = determinePosition(selectedPosition, numberOfPlayersInATeam);
                     long seconds = dateTimeMillis / 1000;
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
@@ -126,13 +127,13 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                     position = Positions.GK1;
                     break;
                 case 3:
-                    position = Positions.CB1;
+                    position = Positions.MO1;
                     break;
                 case 2:
                     position = Positions.CB3;
                     break;
                 case 4:
-                    position = Positions.CB2;
+                    position = Positions.MO2;
                     break;
                 case 1:
                     position = Positions.MO3;

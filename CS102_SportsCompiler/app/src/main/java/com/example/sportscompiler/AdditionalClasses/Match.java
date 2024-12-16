@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Match implements Serializable
+public class Match
 {
     private String adminID;
     private String adminName;
@@ -38,7 +38,12 @@ public class Match implements Serializable
         this.adminPosition = adminPosition;
         this.notes = notes;
         this.matchID = matchID;
+<<<<<<< HEAD
         this.applications = new ArrayList<>();
+=======
+        applications = new ArrayList<>();
+
+>>>>>>> origin/main
     }
 
 

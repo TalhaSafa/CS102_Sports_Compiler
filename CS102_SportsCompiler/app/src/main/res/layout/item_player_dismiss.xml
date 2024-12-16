@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="#FFFFFF"> <!-- Set white background -->
 
     <!-- Player Info Section -->
     <LinearLayout
@@ -43,6 +43,7 @@
         android:id="@+id/btnDismiss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#FF0000"
         android:text="Dismiss" />
 </LinearLayout>

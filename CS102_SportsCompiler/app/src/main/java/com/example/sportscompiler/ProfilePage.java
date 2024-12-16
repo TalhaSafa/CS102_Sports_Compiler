@@ -12,6 +12,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.firebase.Timestamp;
@@ -33,8 +37,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ProfilePage extends Fragment {
 
@@ -45,7 +51,10 @@ public class ProfilePage extends Fragment {
     public Uri ImageUri;
     private ImageView Image;
     private ActivityResultLauncher<Intent> pickImageLauncher;
-
+    private RecyclerView currentMatchRecyclerView, pastMatchRecyclerView;
+    private MatchAdapter matchAdapterForCurrentMatches, matchAdapterForPastMatches;
+    private List<Match> currentMatches = new ArrayList<>();
+    private List<Match> pastMatches = new ArrayList<>();
 
     public ProfilePage() {
         user = new User();
@@ -55,7 +64,7 @@ public class ProfilePage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile_page, container, false);
 
         // Initialize UI elements
         Image = rootView.findViewById(R.id.profile_image);
@@ -64,6 +73,14 @@ public class ProfilePage extends Fragment {
         ageTextView = rootView.findViewById(R.id.ageTextView);
         settingsButton = rootView.findViewById(R.id.settingsButton);
         changeProfile = rootView.findViewById(R.id.addPP);
+        currentMatchRecyclerView = rootView.findViewById(R.id.matchListRecyclerforCurrentMatches);
+        pastMatchRecyclerView = rootView.findViewById(R.id.matchListRecyclerforPastMatches);
+
+        currentMatchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        matchAdapterForCurrentMatches = new MatchAdapter(requireContext(),currentMatches, (MatchAdapter.OnItemClickListener) this);
+        matchAdapterForPastMatches = new MatchAdapter(requireContext(), pastMatches, (MatchAdapter.OnItemClickListener) this);
 
         pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override

@@ -464,5 +464,5 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
         }
         return filteredMatches;
     }
-    
+
 }

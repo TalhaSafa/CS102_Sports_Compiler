@@ -21,7 +21,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.example.sportscompiler.AdditionalClasses.RatingCallback;
 import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
+import com.example.sportscompiler.AdditionalClasses.Team;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,7 +45,8 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
     private ImageView fieldImage;
     private TextView enterMatchScore;
     private int selectedPosition = -1;
-    private String currentUserID, playerName, currentRating, playerID;
+    private String currentUserID, playerName, playerID;
+    private double currentRating;
 
 
     @Override
@@ -107,8 +110,8 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                     onPositionSelected(index);
                     Positions playerPosition = determinePosition(index, 5);
                     playerID = getPlayerIdInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
-                    RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstance(playerName, currentRating, playerID);
-                    ratingDialogFragment.show(getSupportFragmentManager().beginTransaction(), "Rating Dialog");
+                    playerName = getPlayerNameInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
+                    getPlayerRatingInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
                 }
             });
         }
@@ -196,45 +199,59 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         return wantedPlayerID;
     }
 
-    private void pushRating(double rating, String userID)
+    private void getPlayerRatingInClickedPosition(Positions position, TeamType team)
     {
-        firestore = FirebaseFirestore.getInstance();
-        firestore.collection("users").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-                double totalRating = user.getRatingNumber() * user.getAverageRating();
-                totalRating += rating;
-                user.addRatingNumber();
-                user.setAverageRating(totalRating / user.getRatingNumber());
-
-                firestore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        if(team == TeamType.TEAM_A)
+        {
+            if(currentMatch.getPlayersA() != null)
+            {
+                currentMatch.getPlayersA().get(position.getAction()).getRating(new RatingCallback() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(PlayerScreenOfMatch5x5.this, "Rated Player", Toast.LENGTH_SHORT).show();
+                    public void onRatingFetched(double rating1) {
+                        currentRating = rating1;
+                        RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstance(playerName, currentRating, playerID);
+                        ratingDialogFragment.show(getSupportFragmentManager().beginTransaction(), "Rating Dialog");
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PlayerScreenOfMatch5x5.this, "Could not rate player", Toast.LENGTH_SHORT).show();
-                        double totalRating = user.getRatingNumber() * user.getAverageRating();
-                        totalRating -= rating;
-                        user.decreaseRatingNumber();
-                        user.setAverageRating(totalRating / user.getRatingNumber());
-
-                    }
-
                 });
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PlayerScreenOfMatch5x5.this, "Could not access player", Toast.LENGTH_SHORT).show();
-
+        }
+        else
+        {
+            if(currentMatch.getPlayersB() != null)
+            {
+                currentMatch.getPlayersB().get(position.getAction()).getRating(new RatingCallback() {
+                    @Override
+                    public void onRatingFetched(double rating1) {
+                        currentRating = rating1;
+                        RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstance(playerName, currentRating, playerID);
+                        ratingDialogFragment.show(getSupportFragmentManager().beginTransaction(), "Rating Dialog");
+                    }
+                });
             }
-        });
+        }
+
     }
 
+    private String getPlayerNameInClickedPosition(Positions position, TeamType team)
+    {
+        String playerName = null;
+
+        if(team == TeamType.TEAM_A)
+        {
+            if(currentMatch.getPlayersA() != null)
+            {
+                playerName = currentMatch.getPlayersA().get(position.getAction()).getName();
+            }
+        }
+        else
+        {
+            if(currentMatch.getPlayersB() != null)
+            {
+                playerName = currentMatch.getPlayersB().get(position.getAction()).getName();
+            }
+        }
+        return playerName;
+    }
     private Positions determinePosition(int selectedPosition , int numberOfPlayersInATeam)
     {
         Positions position = Positions.GK1;

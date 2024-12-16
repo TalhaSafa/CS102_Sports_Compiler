@@ -3,8 +3,10 @@ package com.example.sportscompiler;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,10 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sportscompiler.AdditionalClasses.DismissAdapter;
 import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Player;
+import com.example.sportscompiler.AdditionalClasses.PlayerAdapter;
 import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +34,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LeaveMatchPage extends AppCompatActivity {
 
     private Button matchForumButton, leaveButton;
@@ -36,6 +45,11 @@ public class LeaveMatchPage extends AppCompatActivity {
     private Match currMatch;
     private FirebaseAuth fAuth;
     private Player currPlayer;
+    private ArrayList<String> playersA;
+    private ArrayList<String> playersB;
+    private RecyclerView ViewA;
+    private RecyclerView ViewB;
+    private TextView matchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +62,16 @@ public class LeaveMatchPage extends AppCompatActivity {
 
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
+
+
+        matchView = findViewById(R.id.textViewMatchName);
+        ViewA = findViewById(R.id.recyclerViewTeamA);
+        ViewB = findViewById(R.id.recyclerViewTeamB);
+        ViewA.setLayoutManager(new LinearLayoutManager(this));
+        ViewB.setLayoutManager(new LinearLayoutManager(this));
+
+
+        fillPlayers();
 
         firestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -64,6 +88,8 @@ public class LeaveMatchPage extends AppCompatActivity {
                 {
                     currMatch = value.toObject(Match.class);
                     currPlayer = SearchForPlayer.findPlayerWithID(currMatch, fAuth.getUid());
+                    matchView.setText(currMatch.getMatchName());
+                    fillPlayers();
                     //TODO set informations related to match
                 }
                 else
@@ -98,9 +124,44 @@ public class LeaveMatchPage extends AppCompatActivity {
                         .show();
             }
         });
-
-
     }
+
+    private void fillPlayers() {
+        if (currMatch == null) {
+            Log.e("fillPlayers", "currentMatch is null, cannot populate players.");
+            return;
+        }
+
+        // Extract players for Team A
+        List<Player> playersTeamA = new ArrayList<>();
+        if (currMatch.getPlayersA() != null) {
+            for (Player player : currMatch.getPlayersA().values()) {
+                if (player != null) { // Check if the Player object itself is not null
+                    playersTeamA.add(player);
+                }
+            }
+        }
+
+        // Set up the adapter for Team A
+        PlayerAdapter playerAdapterA = new PlayerAdapter(playersTeamA);
+        ViewA.setAdapter(playerAdapterA);
+
+        // Extract players for Team B
+        List<Player> playersTeamB = new ArrayList<>();
+        if (currMatch.getPlayersB() != null) {
+            for (Player player : currMatch.getPlayersB().values()) {
+                if (player != null) { // Check if the Player object itself is not null
+                    playersTeamB.add(player);
+                }
+            }
+        }
+
+        // Set up the adapter for Team B
+        PlayerAdapter playerAdapterB = new PlayerAdapter(playersTeamB);
+        ViewB.setAdapter(playerAdapterB);
+    }
+
+
 
     private void leaveMatch()
     {

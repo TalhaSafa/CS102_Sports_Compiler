@@ -325,9 +325,6 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                 }
             });
 
-
-
-
         }
         else
         {

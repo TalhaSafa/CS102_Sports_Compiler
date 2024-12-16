@@ -46,7 +46,8 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
         player.getRating(new RatingCallback() {
             @Override
             public void onRatingFetched(double rating1) {
-                holder.playerRating.setText("Rating: " + rating1);
+                String formattedRating = String.format("%.2f", rating1);
+                holder.playerRating.setText("Rating: " + formattedRating);
             }
         });
 

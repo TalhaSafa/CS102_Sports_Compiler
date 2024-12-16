@@ -95,7 +95,6 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
-        applicatonNote.setText(matchID + " - " + matchType);
 
         firestore.collection(matchType).document(matchID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

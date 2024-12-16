@@ -25,6 +25,7 @@ import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
 import com.example.sportscompiler.AdditionalClasses.MatchFields;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -208,7 +209,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             }
         }
 
-        else if(match.getPlayersA().containsKey(currentUserID) || match.getPlayersB().containsKey(currentUserID))
+        else if(SearchForPlayer.doesMatchContainUser(match, currentUserID))
         {
             Context context = getActivity();
 

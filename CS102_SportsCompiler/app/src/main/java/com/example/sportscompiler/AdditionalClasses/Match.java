@@ -44,7 +44,6 @@ public class Match
         this.teamAScore = teamAScore;
         this.teamBScore = teamBScore;
         applications = new ArrayList<>();
-
     }
 
 

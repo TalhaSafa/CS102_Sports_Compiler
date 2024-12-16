@@ -15,10 +15,10 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
 
-    private List<String> players;
+    private List<Player> players;
 
     // Constructor
-    public PlayerAdapter(List<String> players) {
+    public PlayerAdapter(List<Player> players) {
         this.players = players;
     }
 
@@ -32,14 +32,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
-        String playerName = players.get(position);
-        holder.playerName.setText(playerName);
+        // Get the player object
+        Player player = players.get(position);
 
-        // Set a click listener to remove the player when clicked
-        holder.itemView.setOnClickListener(v -> {
-            removePlayer(position); // Remove the player when clicked
-            Toast.makeText(v.getContext(), playerName + " removed", Toast.LENGTH_SHORT).show();
-        });
+        // Bind data to the views
+        holder.playerName.setText(player.getName());
+        holder.position.setText(player.getPosition() != null ? player.getPosition().getAction() : "Unknown Position");
+        holder.averageRating.setText(String.valueOf(player.getRating()));
+
+        // Optional: Add a click listener
+        holder.itemView.setOnClickListener(v ->
+                Toast.makeText(v.getContext(), "Selected: " + player.getName(), Toast.LENGTH_SHORT).show()
+        );
     }
 
     @Override
@@ -56,13 +60,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         }
     }
 
-    // ViewHolder class to hold the player name TextView
+    // ViewHolder class
     public static class PlayerViewHolder extends RecyclerView.ViewHolder {
-        TextView playerName;
+        TextView playerName, position, averageRating;
 
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.playerName);
+            position = itemView.findViewById(R.id.playerPosition);
+            averageRating = itemView.findViewById(R.id.playerRating);
         }
     }
 }

@@ -98,8 +98,7 @@
 
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
-        android:text="Apply
-Rating"
+        android:text="Apply Rating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -130,6 +129,19 @@ Rating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/enterMatchScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Enter match score"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fab_player4"
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/ratingView2"

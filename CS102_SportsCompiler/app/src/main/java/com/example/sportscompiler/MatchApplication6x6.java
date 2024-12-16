@@ -2,7 +2,9 @@
 package com.example.sportscompiler;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -199,6 +201,28 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
         nameText.setText(player.getName());
         ratingText.setText("Rating: " + player.getRating());
+        // Fetch and load the profile picture from Firestore
+        firestore.collection("users").document(player.getUserID()).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("profilePicture")) {
+                        String uri = documentSnapshot.getString("profilePicture");
+
+
+                        Bitmap bitmap = fireUser.decodeBase64ToImage(uri);
+
+
+                        Uri imageUri = fireUser.saveBitmapToFile(MatchApplication6x6.this, bitmap);
+                        profileImage.setImageURI(imageUri);
+
+                    } else {
+                        profileImage.setImageResource(R.drawable.blank_profile_picture);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MatchApplication6x6.this, "Failed to load profile picture: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    profileImage.setImageResource(R.drawable.blank_profile_picture);
+                });
+
 
         dialog.show();
     }

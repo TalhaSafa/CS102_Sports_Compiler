@@ -2,7 +2,9 @@ package com.example.sportscompiler;
 
 import android.app.Dialog;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -226,7 +228,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
 
 
     private void showPlayerDetailsDialog(Player player) {
-        // Dialog oluşturuluyor ve oyuncu bilgileri buraya aktarılıyor
+
         Dialog dialog = new Dialog(MatchApplication5x5.this);
         dialog.setContentView(R.layout.dialog_user_details);
 
@@ -234,13 +236,35 @@ public class MatchApplication5x5 extends AppCompatActivity {
         TextView nameText = dialog.findViewById(R.id.nameText);
         TextView ratingText = dialog.findViewById(R.id.ratingText);
 
+        // Set basic player information
         nameText.setText(player.getName());
         ratingText.setText("Rating: " + player.getRating());
-        // Profil fotoğrafını eklemek için:
-        // profileImage.setImageResource(R.drawable.some_image);
+
+        // Fetch and load the profile picture from Firestore
+        firestore.collection("users").document(player.getUserID()).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("profilePicture")) {
+                        String uri = documentSnapshot.getString("profilePicture");
+
+
+                        Bitmap bitmap = fireUser.decodeBase64ToImage(uri);
+
+
+                        Uri imageUri = fireUser.saveBitmapToFile(MatchApplication5x5.this, bitmap);
+                        profileImage.setImageURI(imageUri);
+
+                    } else {
+                        profileImage.setImageResource(R.drawable.blank_profile_picture);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MatchApplication5x5.this, "Failed to load profile picture: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    profileImage.setImageResource(R.drawable.blank_profile_picture); // Default picture
+                });
 
         dialog.show();
     }
+
 
     private void applyForPosition() {
         // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.

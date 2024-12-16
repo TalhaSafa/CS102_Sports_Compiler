@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
+import com.example.sportscompiler.AdditionalClasses.MatchSearch;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -204,7 +205,7 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
                     if (documentSnapshot.exists()) {
                         Match match = documentSnapshot.toObject(Match.class);
                         if (match != null) {
-                            if(!allMatches.contains(match))
+                            if(!MatchSearch.doesContainMatch(allMatches, match))
                                 allMatches.add(match);
                         }
                     }
@@ -311,7 +312,11 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
         for (Match match : allMatches) {
             // Compare the match's timestamp with the current date
             if (match.getDate().toDate().before(currentDate)) {
-                expiredMatches.add(match);
+                if(!MatchSearch.doesContainMatch(expiredMatches, match))
+                {
+                    expiredMatches.add(match);
+
+                }
             }
         }
         // Update the list and refresh RecyclerView

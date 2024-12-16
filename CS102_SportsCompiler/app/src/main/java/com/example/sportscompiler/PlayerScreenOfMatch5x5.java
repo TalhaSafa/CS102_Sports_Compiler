@@ -31,13 +31,13 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private Match currentMatch;
-    private Button confirmationButton, applyRatingButton, didntAttendButton;
+    private Button confirmationButton;
     private FloatingActionButton[] positionButtons;
     private EditText matchScoreForTeamA, matchScoreForTeamB;
     private String matchID;
     private String matchType;
-    private ImageView fieldImage, profileImage;
-    private TextView enterMatchScore, nameText, ratingText;
+    private ImageView fieldImage;
+    private TextView enterMatchScore;
 
 
     @Override
@@ -48,8 +48,6 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
         confirmationButton = findViewById(R.id.confirmationButton);
-        applyRatingButton = findViewById(R.id.button6);
-        didntAttendButton = findViewById(R.id.button5);
         positionButtons = new FloatingActionButton[]{
                 findViewById(R.id.fab_player1),
                 findViewById(R.id.fab_player2),
@@ -61,10 +59,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         matchScoreForTeamB = findViewById(R.id.matchScoreForTeamB);
 
         fieldImage = findViewById(R.id.footballField);
-        profileImage = findViewById(R.id.profileImage);
         enterMatchScore = findViewById(R.id.enterMatchScore);
-        nameText = findViewById(R.id.nameText);
-        ratingText = findViewById(R.id.ratingText);
 
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -78,8 +73,6 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         if(currentUserID.equals(currentMatch.getAdminID()))
         {
             confirmationButton.setVisibility(View.VISIBLE);
-            applyRatingButton.setVisibility(View.GONE);
-            didntAttendButton.setVisibility(View.VISIBLE);
 
             for(FloatingActionButton button : positionButtons)
             {
@@ -87,10 +80,33 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             }
             matchScoreForTeamA.setEnabled(true);
             matchScoreForTeamB.setEnabled(true);
+            fieldImage.setVisibility(View.VISIBLE);
+            enterMatchScore.setVisibility(View.VISIBLE);
+
+            for(FloatingActionButton button : positionButtons)
+            {
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view)
+                    {
+
+                    }
+                });
+            }
+
         }
         else
         {
+            confirmationButton.setVisibility(View.GONE);
 
+            for(FloatingActionButton button : positionButtons)
+            {
+                button.setVisibility(View.VISIBLE);
+            }
+            matchScoreForTeamA.setEnabled(false);
+            matchScoreForTeamB.setEnabled(false);
+            fieldImage.setVisibility(View.VISIBLE);
+            enterMatchScore.setVisibility(View.GONE);
         }
     }
 

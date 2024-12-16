@@ -231,4 +231,36 @@ public class Match
     public void setTeamBScore(int teamBScore) {
         this.teamBScore = teamBScore;
     }
+
+    public void removePlayer(Match match, TeamType team, Positions position)
+    {
+        if(team == TeamType.TEAM_A)
+        {
+            if(match.getPlayersA().get(position.getAction()) != null)
+            {
+                match.getPlayersA().replace(position.getAction(), null);
+            }
+
+        }
+        else
+        {
+            if(match.getPlayersB().get(position.getAction()) != null)
+            {
+                match.getPlayersB().replace(position.getAction(), null);
+            }
+        }
+
+    }
+
+    public void addPlayer(TeamType team, Player player)
+    {
+        if(team == TeamType.TEAM_A)
+        {
+            playersA.put(player.getPosition().getAction(), player);
+        }
+        else
+        {
+            playersB.put(player.getPosition().getAction(), player);
+        }
+    }
 }

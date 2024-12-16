@@ -97,6 +97,10 @@ public class User {
         pastMatchIDs.add(matchID);
     }
 
+    public void removeMatch(String matchID)
+    {
+        matchIDs.remove(matchID);
+    }
 
     public int getRatingNumber() {
         return ratingNumber;

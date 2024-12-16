@@ -38,7 +38,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         // Bind data to the views
         holder.playerName.setText(player.getName());
         holder.position.setText(player.getPosition() != null ? player.getPosition().getAction() : "Unknown Position");
-        holder.averageRating.setText(String.valueOf(player.getRating()));
+        player.getRating(new RatingCallback() {
+            @Override
+            public void onRatingFetched(double rating1) {
+                String formattedRating = String.format("%.2f", rating1);
+                holder.averageRating.setText(formattedRating);
+            }
+        });
 
         // Optional: Add a click listener
         holder.itemView.setOnClickListener(v ->
@@ -54,15 +60,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     // Method to remove a player
     public void removePlayer(int position) {
         if (position >= 0 && position < players.size()) {
-            players.remove(position); // Remove player from the list
+            players.remove(position); // Remove player from the lis
             notifyItemRemoved(position); // Notify adapter to remove the item from the list
             notifyItemRangeChanged(position, players.size()); // Update remaining items
         }
     }
 
-    // ViewHolder class
+    // ViewHolder class to hold the player name TextView
     public static class PlayerViewHolder extends RecyclerView.ViewHolder {
-        TextView playerName, position, averageRating;
+        TextView playerName,position, averageRating;
+
 
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);

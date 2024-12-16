@@ -27,7 +27,7 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
     @Override
     public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate the item layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player_dismiss, parent, false);
         return new PlayerViewHolder(view);
     }
 

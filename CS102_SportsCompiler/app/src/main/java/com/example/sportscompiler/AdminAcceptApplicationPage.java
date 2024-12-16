@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportscompiler.AdditionalClasses.Application;
 import com.example.sportscompiler.AdditionalClasses.ApplicationActionListener;
 import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
+import com.example.sportscompiler.AdditionalClasses.DismissAdapter;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
@@ -216,8 +217,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
             return;
         }
 
-        // Create a list to hold formatted player strings
-        List<String> playerDetails = new ArrayList<>();
+        // Create a list to hold player objects
+        List<Player> playerList = new ArrayList<>();
 
         // Extract players from Team A
         if (currentMatch.getPlayersA() != null) {
@@ -227,8 +228,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     String position = (player.getPosition() != null && player.getPosition().getAction() != null)
                             ? player.getPosition().getAction()
                             : "Unknown Position";
-                    String detail = "Team A - " + playerName + " (" + position + ")";
-                    playerDetails.add(detail);
+                    playerList.add(player); // Add Player object
                 }
             }
         }
@@ -241,14 +241,13 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     String position = (player.getPosition() != null && player.getPosition().getAction() != null)
                             ? player.getPosition().getAction()
                             : "Unknown Position";
-                    String detail = "Team B - " + playerName + " (" + position + ")";
-                    playerDetails.add(detail);
+                    playerList.add(player); // Add Player object
                 }
             }
         }
 
-        // Set up the adapter with the player details
-        PlayerAdapter playerAdapter = new PlayerAdapter(playerDetails);
+        // Set up the adapter with the player list
+        DismissAdapter playerAdapter = new DismissAdapter(playerList);
         playerView.setAdapter(playerAdapter); // `playerView` is your RecyclerView
     }
 
@@ -373,8 +372,5 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     .show();
         }
         }
-
-
-
 
 }

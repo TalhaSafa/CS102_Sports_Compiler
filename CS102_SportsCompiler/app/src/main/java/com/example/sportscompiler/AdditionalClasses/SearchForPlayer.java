@@ -58,4 +58,24 @@ public class SearchForPlayer {
 
         return null;
     }
+
+    public TeamType returnTeamType(String userID,Match match ){
+
+        for(Player player: match.getPlayersA().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return TeamType.TEAM_A;
+            }
+        }
+
+        for(Player player: match.getPlayersB().values())
+        {
+            if(player != null && player.getUserID().equals(userID))
+            {
+                return TeamType.TEAM_B;
+            }
+        }
+        return null;
+    }
 }

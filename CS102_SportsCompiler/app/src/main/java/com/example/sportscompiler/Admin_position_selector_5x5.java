@@ -51,8 +51,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
     private String matchID;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_position_selector5x5);
 
@@ -77,14 +76,11 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         personCount = getIntent().getStringExtra("personCount");
         dateTimeMillis = getIntent().getLongExtra("dateTime", -1);
 
-        for(int i = 0; i < positionButtons.length; i++)
-        {
+        for (int i = 0; i < positionButtons.length; i++) {
             final int index = i;
 
-            positionButtons[i].setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            positionButtons[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     onPositionSelected(index);
                 }
             });
@@ -92,23 +88,23 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
         createMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if(selectedPosition != -1)
-                {
+            public void onClick(View view) {
+                if (selectedPosition != -1) {
                     int numberOfPlayersInATeam = Integer.parseInt(personCount) / 2;
                     Positions adminPosition = determinePosition(selectedPosition, numberOfPlayersInATeam);
                     long seconds = dateTimeMillis / 1000;
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
                     createNewMatch(user.getUserID(), matchName, numberOfPlayersInATeam, adminPosition, date, view);
-                    FragmentLoad.loadFragment(Admin_position_selector_5x5.this, R.id.fragment_container_admin_position_selector5x5, new MatchAttendencePage());
+                    FragmentLoad.changeActivity(Admin_position_selector_5x5.this, homeActivity.class);// "Create Match" butonunu görünmez yap
+                    finish();
+
                 }
             }
         });
     }
 
-    //TODO need to be changed when added other position distribution:
+        //TODO need to be changed when added other position distribution:
     private Positions determinePosition(int selectedPosition , int numberOfPlayersInATeam)
     {
         Positions position = Positions.GK1;
@@ -226,9 +222,9 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             Toast.makeText(view.getContext(), "Created new match", Toast.LENGTH_SHORT).show();
-                            initializeForum(view);
                             user.addMatches(newMatch.getMatchID());
                             firestore.collection("users").document(user.getUserID()).set(user);
+
                         }
                         else
                         {

@@ -107,7 +107,8 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                             .beginTransaction()
                             .replace(R.id.admin_fragment_container6, attendanceFragment)
                             .addToBackStack(null);
-
+                    FragmentLoad.changeActivity(AdminPositionSelector6x6.this, homeActivity.class);// "Create Match" butonunu görünmez yap
+                    finish();
                 }
             }
         });

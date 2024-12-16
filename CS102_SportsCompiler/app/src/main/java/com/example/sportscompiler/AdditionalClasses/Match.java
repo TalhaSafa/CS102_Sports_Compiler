@@ -26,21 +26,21 @@ public class Match implements Serializable
     public Match(){}
 
     public Match(String adminID1, String adminName, String matchName, Timestamp date1,
-                 MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1,
-                 String adminPosition, String notes, String matchID)
-    {
-        adminID = adminID1;
+                 MatchFields field1, Map<String, Player> playersA1, Map<String, Player> playersB1,
+                 String adminPosition, String notes, String matchID) {
+        this.adminID = adminID1;
         this.adminName = adminName;
-        date = date1;
-        field = field1;
-        playersA= playersA1;
-        playersB= playersB1;
+        this.date = date1;
+        this.field = field1;
+        this.playersA = playersA1 != null ? playersA1 : new HashMap<>();
+        this.playersB = playersB1 != null ? playersB1 : new HashMap<>();
         this.matchName = matchName;
         this.adminPosition = adminPosition;
         this.notes = notes;
         this.matchID = matchID;
-        applications = new ArrayList<>();
+        this.applications = new ArrayList<>();
     }
+
 
 
     public String getAdminID() {

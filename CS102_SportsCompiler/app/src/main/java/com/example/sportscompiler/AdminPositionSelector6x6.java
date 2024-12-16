@@ -108,7 +108,8 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
                             .beginTransaction()
                             .replace(R.id.admin_fragment_container6, attendanceFragment)
                             .addToBackStack(null);
-
+                    FragmentLoad.changeActivity(AdminPositionSelector6x6.this, homeActivity.class);// "Create Match" butonunu görünmez yap
+                    finish();
                 }
             }
         });
@@ -223,7 +224,7 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID );
+        newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0 );
 
         firestore = FirebaseFirestore.getInstance();
         firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)

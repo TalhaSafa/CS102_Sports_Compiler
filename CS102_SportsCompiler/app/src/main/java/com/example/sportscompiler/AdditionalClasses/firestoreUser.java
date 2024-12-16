@@ -306,9 +306,6 @@ public class firestoreUser {
         return userID;
     }
 
-    public void getApplicationsForThatMatch(){
-
-    }
     public void updateInfoQuick(User user, FirestoreCallback<User> callback) {
         Fauth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();

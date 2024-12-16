@@ -1,6 +1,8 @@
 package com.example.sportscompiler.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sportscompiler.AdditionalClasses.Message;
+import com.example.sportscompiler.AdditionalClasses.firestoreUser;
+import com.example.sportscompiler.MatchApplication5x5;
 import com.example.sportscompiler.R;
 
 import java.util.List;
@@ -20,6 +24,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     private Context context;
     private List<Message> messageList;
+    private firestoreUser fireUser = new firestoreUser();
 
     public MessageAdapter(Context context, List<Message> messageList) {
         this.context = context;
@@ -40,11 +45,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.username.setText(message.getUser().getName());
         holder.content.setText(message.getContent());
 
-        // Load profile picture using Glide
-        Glide.with(context)
-                .load(message.getUser().getProfilePicture())
-                .placeholder(R.drawable.baseline_person_24)
-                .into(holder.profilePicture);
+        String profilePictureUrl = message.getUser().getProfilePicture();
+
+        if (profilePictureUrl != null && !profilePictureUrl.isEmpty()) {
+
+            Bitmap bitmap = fireUser.decodeBase64ToImage(profilePictureUrl);
+
+
+            Uri imageUri = fireUser.saveBitmapToFile(context, bitmap);
+            holder.profilePicture.setImageURI(imageUri);
+
+        } else {
+            // Set a default profile picture if URL is null or empty
+            holder.profilePicture.setImageResource(R.drawable.blank_profile_picture);
+        }
+
     }
 
     @Override

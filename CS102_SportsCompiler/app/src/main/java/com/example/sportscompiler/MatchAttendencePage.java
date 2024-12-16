@@ -200,7 +200,6 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
 
             if(context != null)
             {
-
                 Intent intent = new Intent(context, AdminAcceptApplicationPage.class);
                 intent.putExtra("matchID", match.getMatchID());
                 intent.putExtra("matchType", match.getMatchType());

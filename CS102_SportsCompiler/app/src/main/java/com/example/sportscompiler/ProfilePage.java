@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,12 +54,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickListener{
 
     private TextView nameTextView, departmentTextView, ageTextView;
-    private static User user;
+    private User user;
     private firestoreUser fireuser;
     private Button settingsButton, changeProfile;
     public Uri ImageUri;
@@ -221,7 +223,7 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
 
     }
 
-    public static User getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -282,9 +284,12 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
 
             }
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error fetching URI: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-
     }
 
+    @Override
+    public void onItemClick(Match match) {
+
+    }
     public void filterNonExpiredMatches() {
         List<Match> expiredMatches = new ArrayList<>();
         Date currentDate = new Date(); // Current date and time
@@ -299,10 +304,10 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
         matchAdapterForPastMatches.notifyDataSetChanged();
 
     }
-
-    @Override
-    public void onItemClick(Match match) {
-        //TODO
-    }
 }
+
+
+
+
+
 

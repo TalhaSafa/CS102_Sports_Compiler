@@ -4,6 +4,8 @@ package com.example.sportscompiler;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -217,6 +219,22 @@ public class MatchApplication6x6 extends AppCompatActivity {
                     } else {
                         profileImage.setImageResource(R.drawable.blank_profile_picture);
                     }
+
+                    if (documentSnapshot.exists() && documentSnapshot.contains("name")) {
+
+                        nameText.setText("Name: " + documentSnapshot.getString("name"));
+
+                    }
+                    else{
+                        nameText.setText("null");
+                    }
+                    if (documentSnapshot.exists() && documentSnapshot.contains("averageRating")) {
+                        ratingText.setText("Rating: " + Double.toString(documentSnapshot.getDouble("averageRating")));
+
+                    }
+                    else{
+                        ratingText.setText("null");
+                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MatchApplication6x6.this, "Failed to load profile picture: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -261,5 +279,33 @@ public class MatchApplication6x6 extends AppCompatActivity {
                 Toast.makeText(MatchApplication6x6.this, "Failed to fetch user info", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void fetchUserProfilePicture(String userId, FloatingActionButton button) {
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("profilePicture")) {
+                        String base64Image = documentSnapshot.getString("profilePicture");
+                        Bitmap bitmap = fireUser.decodeBase64ToImage(base64Image);
+                        Uri imageUri = fireUser.saveBitmapToFile(this,bitmap);
+
+                        if (bitmap != null) {
+                            button.setImageTintList(null); // Remove tint
+                            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                            button.setImageDrawable(drawable);
+                            if(base64Image == null){
+                                button.setImageResource(R.drawable.blank_profile_picture);
+                            }
+
+                        } else {
+                            button.setImageResource(R.drawable.blank_profile_picture); // Default icon if decoding fails
+                        }
+                    } else {
+                        button.setImageResource(R.drawable.blank_profile_picture); // Default icon if no profile picture exists
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    button.setImageResource(R.drawable.blank_profile_picture); // Default icon on failure
+                    Log.e("fetchUserProfilePicture", "Error fetching user profile picture", e);
+                });
     }
 }

@@ -22,13 +22,16 @@ public class Match
     private String notes;
     private String matchID;
     private ArrayList<Application> applications;
+    private int teamAScore;
+    private int teamBScore;
 
     public Match(){}
 
     public Match(String adminID1, String adminName, String matchName, Timestamp date1,
-                 MatchFields field1, Map<String, Player> playersA1, Map<String, Player> playersB1,
-                 String adminPosition, String notes, String matchID) {
-        this.adminID = adminID1;
+                 MatchFields field1, Map<String, Player > playersA1, Map<String, Player > playersB1,
+                 String adminPosition, String notes, String matchID, int teamAScore, int teamBScore)
+    {
+        adminID = adminID1;
         this.adminName = adminName;
         this.date = date1;
         this.field = field1;
@@ -38,7 +41,8 @@ public class Match
         this.adminPosition = adminPosition;
         this.notes = notes;
         this.matchID = matchID;
-        this.applications = new ArrayList<>();
+        this.teamAScore = teamAScore;
+        this.teamBScore = teamBScore;
         applications = new ArrayList<>();
 
     }
@@ -212,4 +216,19 @@ public class Match
     }
 
 
+    public int getTeamAScore() {
+        return teamAScore;
+    }
+
+    public void setTeamAScore(int teamAScore) {
+        this.teamAScore = teamAScore;
+    }
+
+    public int getTeamBScore() {
+        return teamBScore;
+    }
+
+    public void setTeamBScore(int teamBScore) {
+        this.teamBScore = teamBScore;
+    }
 }

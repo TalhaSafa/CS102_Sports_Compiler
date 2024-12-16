@@ -65,7 +65,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                 findViewById(R.id.position_2),
                 findViewById(R.id.position_3),
                 findViewById(R.id.position_4),
-                findViewById(R.id.position_5),
+                findViewById(R.id.position_5)
         };
         createMatchButton = findViewById(R.id.createMatchFinal);
         createMatchButton.setEnabled(false);
@@ -209,7 +209,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID);
+        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0);
 
         firestore = FirebaseFirestore.getInstance();
 

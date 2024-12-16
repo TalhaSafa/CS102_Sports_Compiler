@@ -18,11 +18,11 @@
         android:id="@+id/currentRatingTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="92dp"
         android:text="CurrentRating"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="274dp" />
+        tools:layout_editor_absoluteX="18dp" />
 
     <Spinner
         android:id="@+id/ratingChooser"
@@ -41,6 +41,16 @@
         android:layout_marginTop="80dp"
         android:layout_marginRight="300dp"
         android:text="Submit"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingChooser" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginRight="144dp"
+        android:text="Cancel"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingChooser" />
 

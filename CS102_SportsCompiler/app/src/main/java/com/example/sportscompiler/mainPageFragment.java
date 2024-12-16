@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.MatchAdapter;
+import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.firestoreUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -404,7 +405,7 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                 startActivity(intent);
             }
         }
-        else if(match.getPlayersA().containsKey(currentUserID) || match.getPlayersB().containsKey(currentUserID))
+        else if(SearchForPlayer.doesMatchContainUser(match, currentUserID))
         {
             Context context = getActivity();
 

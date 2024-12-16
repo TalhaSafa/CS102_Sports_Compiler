@@ -4,8 +4,12 @@ import android.app.Dialog;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +38,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.io.IOException;
 
 public class MatchApplication5x5 extends AppCompatActivity {
 
@@ -221,7 +227,9 @@ public class MatchApplication5x5 extends AppCompatActivity {
         Player playerAtPos = (team == TeamType.TEAM_A) ? match.getPlayersA().get(position.getAction()) : match.getPlayersB().get(position.getAction());
 
         if (playerAtPos != null) {
-            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e"))); // Renk kırmızımsı
+
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff2e2e")));
+
         }
         else{
             button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
@@ -239,10 +247,6 @@ public class MatchApplication5x5 extends AppCompatActivity {
         TextView nameText = dialog.findViewById(R.id.nameText);
         TextView ratingText = dialog.findViewById(R.id.ratingText);
 
-        // Set basic player information
-        nameText.setText(player.getName());
-        ratingText.setText("Rating: " + player.getRating());
-
         // Fetch and load the profile picture from Firestore
         firestore.collection("users").document(player.getUserID()).get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -256,8 +260,25 @@ public class MatchApplication5x5 extends AppCompatActivity {
                         Uri imageUri = fireUser.saveBitmapToFile(MatchApplication5x5.this, bitmap);
                         profileImage.setImageURI(imageUri);
 
+
                     } else {
                         profileImage.setImageResource(R.drawable.blank_profile_picture);
+                    }
+
+                    if (documentSnapshot.exists() && documentSnapshot.contains("name")) {
+
+                        nameText.setText("Name: " + documentSnapshot.getString("name"));
+
+                    }
+                    else{
+                        nameText.setText("null");
+                    }
+                    if (documentSnapshot.exists() && documentSnapshot.contains("averageRating")) {
+                        ratingText.setText("Rating: " + Double.toString(documentSnapshot.getDouble("averageRating")));
+
+                    }
+                    else{
+                        ratingText.setText("null");
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -305,5 +326,33 @@ public class MatchApplication5x5 extends AppCompatActivity {
                 Toast.makeText(MatchApplication5x5.this, "Failed to fetch user info", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void fetchUserProfilePicture(String userId, FloatingActionButton button) {
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("profilePicture")) {
+                        String base64Image = documentSnapshot.getString("profilePicture");
+                        Bitmap bitmap = fireUser.decodeBase64ToImage(base64Image);
+                        Uri imageUri = fireUser.saveBitmapToFile(this,bitmap);
+
+                        if (bitmap != null) {
+                                 button.setImageTintList(null); // Remove tint
+                                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                                button.setImageDrawable(drawable);
+
+
+
+                        } else {
+                            button.setImageResource(R.drawable.blank_profile_picture); // Default icon if decoding fails
+                        }
+                    } else {
+                        button.setImageResource(R.drawable.blank_profile_picture); // Default icon if no profile picture exists
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    button.setImageResource(R.drawable.blank_profile_picture); // Default icon on failure
+                    Log.e("fetchUserProfilePicture", "Error fetching user profile picture", e);
+                });
     }
 }

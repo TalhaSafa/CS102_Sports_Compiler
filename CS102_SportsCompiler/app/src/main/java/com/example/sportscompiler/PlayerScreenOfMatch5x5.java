@@ -2,6 +2,7 @@ package com.example.sportscompiler;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Positions;
+import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
 import com.example.sportscompiler.AdditionalClasses.TeamType;
 import com.example.sportscompiler.AdditionalClasses.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +43,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
     private ImageView fieldImage;
     private TextView enterMatchScore;
     private int selectedPosition = -1;
-    String currentUserID;
+    private String currentUserID, playerName, currentRating, playerID;
 
 
     @Override
@@ -75,7 +77,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         currentUserID = firebaseAuth.getCurrentUser().getUid();
-        
+
         confirmationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +94,24 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                 }
             }
         });
+
+        for(int i = 0; i < positionButtons.length; i++)
+        {
+            int index = i;
+
+            positionButtons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    Log.d("ButtonClick", "Button index: " + index);
+                    onPositionSelected(index);
+                    Positions playerPosition = determinePosition(index, 5);
+                    playerID = getPlayerIdInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
+                    RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstance(playerName, currentRating, playerID);
+                    ratingDialogFragment.show(getSupportFragmentManager().beginTransaction(), "Rating Dialog");
+                }
+            });
+        }
     }
 
     private void setVisibilites()
@@ -110,22 +130,6 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(true);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.VISIBLE);
-
-            for(int i = 0; i < positionButtons.length; i++)
-            {
-                int index = i;
-
-                positionButtons[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        onPositionSelected(index);
-                        RatingDialogFragment ratingDialogFragment = new RatingDialogFragment();
-                        ratingDialogFragment.show(getSupportFragmentManager().beginTransaction(), "Rating Dialog");
-                    }
-                });
-            }
-
         }
         else
         {
@@ -169,18 +173,27 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
     private String getPlayerIdInClickedPosition(Positions position, TeamType team)
     {
-        String wantedPlayerID;
+        String wantedPlayerID = null;
         if(team == TeamType.TEAM_A)
         {
-            wantedPlayerID = currentMatch.getPlayersA().get(position).getUserID();
+            if(currentMatch.getPlayersA() != null)
+            {
+                wantedPlayerID = currentMatch.getPlayersA().get(position.getAction()).getUserID();
+            }
         }
         else
         {
-            wantedPlayerID = currentMatch.getPlayersB().get(position).getUserID();
+            if(currentMatch.getPlayersB() != null)
+            {
+                wantedPlayerID = currentMatch.getPlayersB().get(position.getAction()).getUserID();
+            }
         }
 
+        if(wantedPlayerID == null)
+        {
+            Log.e("PlayerScreen", "Player not found for position: " + position);
+        }
         return wantedPlayerID;
-
     }
 
     private void pushRating(double rating, String userID)
@@ -230,19 +243,19 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             switch (selectedPosition)
             {
                 case 4:
-                    position = Positions.GK1;
+                    position = Positions.MO3;
                     break;
                 case 2:
-                    position = Positions.MO3;
+                    position = Positions.FW3;
                     break;
                 case 1:
-                    position = Positions.MO3;
-                    break;
-                case 3:
                     position = Positions.MO2;
                     break;
+                case 3:
+                    position = Positions.GK1;
+                    break;
                 case 0:
-                    position = Positions.FW3;
+                    position = Positions.MO1;
                     break;
 
             }

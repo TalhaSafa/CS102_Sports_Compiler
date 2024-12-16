@@ -279,7 +279,7 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
             if (documentSnapshot.exists() && documentSnapshot.contains("profilePicture")) {
                 String uri = documentSnapshot.getString("profilePicture");
                 Bitmap map = fireuser.decodeBase64ToImage(uri);
-                Uri imageUri = fireuser.saveBitmapToFile(requireContext(),map);
+                Uri imageUri = fireuser.saveBitmapToFile(getContext(),map);
                 Image.setImageURI(imageUri);
                 //Glide.with(this).load(imageUri).placeholder(R.drawable.blank_profile_picture).error(android.R.drawable.stat_notify_error).into(Image);
 

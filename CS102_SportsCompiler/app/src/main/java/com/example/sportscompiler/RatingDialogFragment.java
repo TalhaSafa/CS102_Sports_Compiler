@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -33,7 +34,7 @@ import java.util.List;
 public class RatingDialogFragment extends DialogFragment {
 
     private FirebaseFirestore firestore;
-    private String ratingS, playerName, currentRating, userID;
+    private String ratingS, playerName, currentRating, playerID;
     private double rating;
     private TextView nameTextView, currentRatingTextView;
     private Spinner ratingChooser;
@@ -45,13 +46,14 @@ public class RatingDialogFragment extends DialogFragment {
     }
 
 
-    public static RatingDialogFragment newInstance(String playerName, String currentRating, String userID) {
+    public static RatingDialogFragment newInstance(String playerName, String currentRating, String playerID) {
         RatingDialogFragment fragment = new RatingDialogFragment();
         Bundle args = new Bundle();
         args.putString("playerName", playerName);
         args.putString("currentRating", currentRating);
-        args.putString("userID", userID);
+        args.putString("playerID", playerID);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -71,14 +73,6 @@ public class RatingDialogFragment extends DialogFragment {
         ratingChooser = rootView.findViewById(R.id.ratingChooser);
         submitButton = rootView.findViewById(R.id.submitButton);
         cancelButton = rootView.findViewById(R.id.cancelButton);
-        ratingS = ratingChooser.getSelectedItem().toString();
-
-        if(getArguments() != null)
-        {
-            playerName = getArguments().getString("playerName");
-            currentRating = getArguments().getString("currentRating");
-            userID = getArguments().getString("userID");
-        }
 
         List<String> ratingCount = new ArrayList<>();
 
@@ -87,14 +81,34 @@ public class RatingDialogFragment extends DialogFragment {
             ratingCount.add(String.valueOf(i));
         }
 
-        if(!ratingS.equalsIgnoreCase("Item1"))
-        {
-            rating = Double.parseDouble(ratingS);
-        }
-
         ArrayAdapter<String> ratingCountAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, ratingCount);
         ratingCountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ratingChooser.setAdapter(ratingCountAdapter);
+        ratingChooser.setDropDownVerticalOffset(500);
+
+        ratingChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                ratingS = adapterView.getItemAtPosition(i).toString();
+                rating = Double.parseDouble(ratingS);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        if(getArguments() != null)
+        {
+            playerName = getArguments().getString("playerName");
+            currentRating = getArguments().getString("currentRating");
+            playerID = getArguments().getString("playerID");
+
+        }
+
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +122,11 @@ public class RatingDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view)
             {
-                pushRating(rating, userID);
+                pushRating(rating, playerID);
             }
         });
-
-        return inflater.inflate(R.layout.fragment_rating_dialog, container, false);
+        nameTextView.setText(playerName);
+        return rootView;
     }
     private void pushRating(double rating, String userID)
     {
@@ -120,7 +134,16 @@ public class RatingDialogFragment extends DialogFragment {
         firestore.collection("users").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(!isAdded() || getContext() == null)
+                {
+                    return;
+                }
                 User user = documentSnapshot.toObject(User.class);
+                if(user == null)
+                {
+                    Toast.makeText(requireContext(), "User data is invalid", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 double totalRating = user.getRatingNumber() * user.getAverageRating();
                 totalRating += rating;
                 user.addRatingNumber();
@@ -129,26 +152,35 @@ public class RatingDialogFragment extends DialogFragment {
                 firestore.collection("users").document(userID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(requireContext(), "Rated Player", Toast.LENGTH_SHORT).show();
+                        if(!isAdded() || getContext() == null)
+                        {
+                            return;
+                        }
+                        Toast.makeText(getContext(), "Rated Player", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(requireContext(), "Could not rate player", Toast.LENGTH_SHORT).show();
+                        if(!isAdded() || getContext() == null)
+                        {
+                            return;
+                        }
+                        Toast.makeText(getContext(), "Could not rate player", Toast.LENGTH_SHORT).show();
                         double totalRating = user.getRatingNumber() * user.getAverageRating();
                         totalRating -= rating;
                         user.decreaseRatingNumber();
                         user.setAverageRating(totalRating / user.getRatingNumber());
-
                     }
-
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(requireContext(), "Could not access player", Toast.LENGTH_SHORT).show();
-
+                if(isAdded() && getContext() != null)
+                {
+                    Toast.makeText(requireContext(), "Could not access player", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

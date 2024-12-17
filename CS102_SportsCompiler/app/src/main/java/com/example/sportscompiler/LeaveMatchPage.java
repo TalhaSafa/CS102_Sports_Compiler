@@ -163,9 +163,63 @@ public class LeaveMatchPage extends AppCompatActivity {
 
 
 
+    private void leaveMatch() {
+        firestore.collection(currMatch.getMatchType()).document(currMatch.getMatchID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                firestore.collection("users").document(currPlayer.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists() && documentSnapshot != null) {
+                            User user = documentSnapshot.toObject(User.class);
+                            currMatch.removePlayer(currMatch, currPlayer.getTeam(), currPlayer.getPosition());
+                            user.removeMatch(currMatch.getMatchID());
+
+                            firestore.collection("users").document(user.getUserID()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    firestore.collection(currMatch.getMatchType()).document(currMatch.getMatchID()).set(currMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            FragmentLoad.changeActivity(LeaveMatchPage.this, homeActivity.class);
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(LeaveMatchPage.this, "Could not set the match!", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(LeaveMatchPage.this, "Could not leave the match!", Toast.LENGTH_SHORT).show();
+                                    currMatch.addPlayer(currPlayer.getTeam(), currPlayer);
+
+                                }
+                            });
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LeaveMatchPage.this, "Could not access the match!", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    /*
     private void leaveMatch()
     {
-        firestore.collection(currMatch.getMatchType()).document(currMatch.getMatchID()).set(currMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firestore.collection(currMatch.getMatchType()).document(currMatch.getMatchID()).get(currMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 firestore.collection("users").document(currPlayer.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -209,4 +263,6 @@ public class LeaveMatchPage extends AppCompatActivity {
             }
         });
     }
+
+     */
 }

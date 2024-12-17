@@ -43,6 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -156,8 +157,8 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
                     List<String> registeredMatches = (List<String>) value.get("matches");
                     if(registeredMatches != null)
                     {
-                        fetchUsersMatches("matches5", registeredMatches);
-                        fetchUsersMatches("matches6", registeredMatches);
+                        fetchUserMatches("matches5", registeredMatches);
+                        fetchUserMatches("matches6", registeredMatches);
                     }
 
                 }
@@ -205,6 +206,38 @@ public class mainPageFragment extends Fragment implements MatchAdapter.OnItemCli
         return view;
     }
 
+    private void fetchUserMatches(String collectionName, List<String > registeredMatches)
+    {
+        firestore.collection(collectionName).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!= null)
+                {
+                    Log.e("Firebase", "Error fetching matches", error);
+                }
+                else
+                {
+                    if(!value.isEmpty())
+                    {
+                        for(DocumentSnapshot snapshot: value.getDocuments())
+                        {
+                            Match match = snapshot.toObject(Match.class);
+                            if(registeredMatches.contains(match.getMatchID()) && !MatchSearch.doesContainMatch(matches, match))
+                            {
+                                matches.add(match);
+                            }
+                        }
+                        filterNonExpiredMatches();
+                        matchAdapter.updateData(matches);
+                    }
+                    else
+                    {
+                        System.out.println("Empty matches");
+                    }
+                }
+            }
+        });
+    }
     private void fetchUsersMatches(String collectionName, List<String> registeredMatches)
     {
         List<Task<DocumentSnapshot>> tasks = new ArrayList<>();

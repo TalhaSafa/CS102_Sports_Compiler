@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -48,6 +49,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -109,11 +113,16 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     ImageUri = result.getData().getData();
                     Image.setImageURI(ImageUri);
+                    Bitmap map = getDownscaledBitmap(ImageUri);
+                    Uri imageuri2 = fireuser.saveBitmapToFile(getContext(),map);
                     Log.d("report", "uri: " + ImageUri);
 
-                    if (ImageUri != null) {
+                    if (imageuri2 != null) {
                         Log.d("ProfilePage", "Saving image with URI: " + ImageUri);
-                        fireuser.saveImage(ImageUri, requireContext()); // Saving image
+                        fireuser.saveImage(imageuri2, requireContext());
+
+
+
                     }
                 }
             }
@@ -326,6 +335,60 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
         matchAdapterForPastMatches.notifyDataSetChanged();
 
     }
+    private Bitmap getDownscaledBitmap(Uri uri) {
+        InputStream inputStream = null;
+        try {
+            // Open the input stream for the given URI
+            inputStream = getContext().getContentResolver().openInputStream(uri);
+
+            // Decode only the bounds to determine image dimensions
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
+
+            // Close and reopen the input stream
+            inputStream.close();
+
+            // Calculate a sample size to reduce memory usage
+            options.inSampleSize = calculateInSampleSize(options, 512, 512); // Target size
+            options.inJustDecodeBounds = false;
+
+            inputStream = getContext().getContentResolver().openInputStream(uri);
+            return BitmapFactory.decodeStream(inputStream, null, options);
+
+        } catch (IOException e) {
+            // Log the error and show a message to the user
+            Log.e("ProfilePage", "Error downscaling bitmap: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error loading image.", Toast.LENGTH_SHORT).show();
+            return null; // Return null if there's an error
+        } finally {
+            // Ensure the InputStream is closed to prevent resource leaks
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    Log.e("ProfilePage", "Error closing input stream: " + e.getMessage(), e);
+                }
+            }
+        }
+    }
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
 }
 
 

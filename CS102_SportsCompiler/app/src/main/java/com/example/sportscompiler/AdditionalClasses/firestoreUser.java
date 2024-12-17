@@ -25,6 +25,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -112,19 +120,20 @@ public class firestoreUser {
         }
     }
 
-    public void saveImage(Uri uri, Context context) {
+
+    public Boolean saveImage(Uri uri, Context context) {
         try {
             if (uri == null) {
                 Log.e("FirestoreUser", "Image URI is null");
                 Toast.makeText(context, "Invalid image URI", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
 
             Bitmap bitmap = uriToBitmap(uri, context);
             if (bitmap == null) {
                 Log.e("FirestoreUser", "Failed to convert URI to Bitmap");
                 Toast.makeText(context, "Error processing image", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
 
             // Log bitmap details
@@ -137,6 +146,7 @@ public class firestoreUser {
             Toast.makeText(context, "Error processing image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("FirestoreUser", "IOException in saveImage", e);
         }
+        return true;
     }
 
     public Uri saveBitmapToFile(Context context, Bitmap bitmap) {
@@ -298,35 +308,8 @@ public class firestoreUser {
                 });
     }
 
-    public String getUserMail(String userID) {
 
-        firestore = FirebaseFirestore.getInstance();
 
-        // Placeholder to store the fetched email
-        final String[] emailHolder = {null};
-
-        // Fetch the user document using the userID
-        firestore.collection("users").document(userID).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // Extract email from the document
-                        String email = documentSnapshot.getString("email");
-                        if (email != null) {
-                            emailHolder[0] = email;
-                            Log.d("getUserMail", "Email fetched: " + email);
-                        } else {
-                            Log.e("getUserMail", "Email field is missing or null in the document");
-                        }
-                    } else {
-                        Log.e("getUserMail", "User document does not exist for ID: " + userID);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("getUserMail", "Failed to fetch user document: " + e.getMessage());
-                });
-
-        return emailHolder[0];
-    }
 
     public interface FirestoreCallback<T> {
         void onSuccess(T result);

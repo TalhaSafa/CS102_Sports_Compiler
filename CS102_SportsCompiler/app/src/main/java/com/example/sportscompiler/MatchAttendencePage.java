@@ -138,6 +138,8 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
             }
         });
 
+
+
         matchAdapter = new MatchAdapter(requireContext(),matches,this);
         recyclerView.setAdapter(matchAdapter);
 

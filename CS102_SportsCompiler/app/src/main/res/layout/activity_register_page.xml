@@ -55,6 +55,15 @@
         android:inputType="textPassword"
         android:textSize="20sp" />
 
+    <ImageView
+        android:id="@+id/passwordToggle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="220dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_eye_closed" />
+
     <EditText
         android:id="@+id/registerRePassword"
         android:layout_width="377dp"

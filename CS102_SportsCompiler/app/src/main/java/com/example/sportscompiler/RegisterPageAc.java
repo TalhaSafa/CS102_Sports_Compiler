@@ -4,12 +4,15 @@ package com.example.sportscompiler;
 
 import static java.security.AccessController.getContext;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +54,10 @@ public class RegisterPageAc extends AppCompatActivity {
     private Spinner monthSpinner;
     private Spinner yearSpinner;
 
+    private ImageView passwordToggle, passwordToggle2;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,8 @@ public class RegisterPageAc extends AppCompatActivity {
         daySpinner = findViewById(R.id.day_spinner);
         monthSpinner = findViewById(R.id.month_spinner);
         yearSpinner = findViewById(R.id.year_spinner);
+
+        passwordToggle = findViewById(R.id.passwordToggle);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -180,6 +188,28 @@ public class RegisterPageAc extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        passwordToggle.setOnClickListener(new View.OnClickListener() {
+            private boolean isPasswordVisible = false;
+
+            @Override
+            public void onClick(View view)
+            {
+                if(isPasswordVisible)
+                {
+                    registerPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    registerRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    passwordToggle.setImageResource(R.drawable.ic_eye_closed);
+                }
+                else
+                {
+                    registerPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    registerRePassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    passwordToggle.setImageResource(R.drawable.ic_eye_open);
+                }
+                isPasswordVisible = !isPasswordVisible;
             }
         });
 

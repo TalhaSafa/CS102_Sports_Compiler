@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,8 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     private String matchName;
     private RecyclerView recyclerView;
     private List<Match> matches = new ArrayList<>();
+    private List<Match> filteredMatches = new ArrayList<>();
+    private List<Match> originalMatches = null;
     private MatchAdapter matchAdapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
@@ -292,12 +295,10 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 int year = result.getInt("year", -1);
                 int month = result.getInt("month", -1);
                 int day = result.getInt("day", -1);
-                int hour = result.getInt("hour", -1);
-                int minute = result.getInt("minute", -1);
+
 
                 Log.d("FilterDialog", "Field: " + matchField + ", Quota: " + quota);
                 Log.d("FilterDialog", "Date: " + year + "/" + month + "/" + day);
-                Log.d("FilterDialog", "Time: " + hour + ":" + minute);
 
                 if(year != -1)
                 {
@@ -307,14 +308,8 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                     calender1.set(Calendar.DAY_OF_MONTH, day);
                 }
 
-                if(hour != -1)
-                {
-                    calendar2 = Calendar.getInstance();
-                    calendar2.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar2.set(Calendar.MINUTE, minute);
-                }
                 Log.d("FilterDialog", "Matches Before Filter: " + matches.size());
-                filterMatches(matchField, quota, calender1, calendar2);
+                filterMatches(matchField, quota, calender1);
                 Log.d("FilterDialog", "Matches After Filter: " + matches.size());
             }
         });
@@ -370,101 +365,90 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     }
 
     private void filterMatches(String matchField, Integer quota,
-                               Calendar selectedDate, Calendar selectedTime )
+                               Calendar selectedDate )
     {
-        List<Match> filteredMathces = new ArrayList<>(matches);
-
-        if(!matchField.equalsIgnoreCase("Select"))
+        if(originalMatches == null)
         {
-            filteredMathces = filterMatchesByField(matchField);
+            originalMatches = new ArrayList<>(matches);
         }
 
-        filteredMathces = filterMatchesByQuota(quota);
 
-        if (selectedDate != null)
+
+        System.out.println("Selected match field: " + matchField);
+
+
+        if(matchField != null)
         {
-            filteredMathces = filterMatchesByDate(selectedDate);
+            filterMatchesByField(matchField);
         }
 
-        if(selectedTime != null)
+        if(quota != null && quota > 0)
         {
-            filteredMathces = filterMatchesByTime(selectedTime);
+            filterMatchesByQuota(quota);
         }
 
-        matches.clear();
-        matches.addAll(filteredMathces);
+        if (selectedDate != null && selectedDate.get(Calendar.YEAR) != -1)
+        {
+            filterMatchesByDate(selectedDate);
+        }
 
-        matchAdapter.notifyDataSetChanged();
+        if(filteredMatches != null)
+        {
+            matches = filteredMatches;
+            matchAdapter.updateData(matches);
+            matchAdapter.notifyDataSetChanged();
+            filteredMatches.clear();
+            matches = originalMatches;
+        }
+
     }
 
-    private List<Match> filterMatchesByField(String matchField)
+    private void filterMatchesByField(String matchField)
     {
-        List<Match> filteredMatches = new ArrayList<>();
-
-        for(Match match : matches)
+        if(matches == null)
         {
-            if(match.getField().toString().equalsIgnoreCase(matchField))
+            return;
+        }
+        for(Match match: matches)
+        {
+            if(match.getField().toString().equals(matchField))
             {
                 filteredMatches.add(match);
             }
         }
-        return filteredMatches;
     }
 
-    private List<Match> filterMatchesByQuota(int quota)
+
+    private void filterMatchesByQuota(int quota)
     {
-        List<Match> filteredMatches = new ArrayList<>();
-
-        for(Match match : matches)
+        for(Match match: matches)
         {
-            int totalPlayers = match.getPlayersA().size() + match.getPlayersB().size();
-
-            if(totalPlayers <= quota)
+            if(match.countAllPlayers()  == quota)
             {
                 filteredMatches.add(match);
             }
         }
-        return filteredMatches;
     }
 
-    private List<Match> filterMatchesByDate(Calendar selectedDate)
+    private void filterMatchesByDate(Calendar selectedDate)
     {
-        List<Match> filteredMatches = new ArrayList<>();
 
-        for(Match match : matches)
+        for(Match match: matches)
         {
-            Timestamp matchDateAndTimeOfTimeStamp = match.getDate();
-            Calendar matchDateAndTime = Calendar.getInstance();
-            matchDateAndTime.setTimeInMillis(matchDateAndTimeOfTimeStamp.getSeconds() * 1000);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(match.getDate().getSeconds());
 
-            if(selectedDate.get(Calendar.YEAR) == matchDateAndTime.get(Calendar.YEAR)
-                    && selectedDate.get(Calendar.MONTH) == matchDateAndTime.get(Calendar.MONTH)
-                    && selectedDate.get(Calendar.DAY_OF_MONTH) == matchDateAndTime.get(Calendar.DAY_OF_MONTH))
+            if(((selectedDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) &&
+                    (selectedDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) &&
+                    (selectedDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR))))
             {
                 filteredMatches.add(match);
             }
         }
-        return filteredMatches;
+
     }
 
-    private List<Match> filterMatchesByTime(Calendar selectedTime)
-    {
-        List<Match> filteredMatches = new ArrayList<>();
 
-        for(Match match : matches)
-        {
-            Timestamp matchDateAndTimeOfTimeStamp = match.getDate();
-            Calendar matchDateAndTime = Calendar.getInstance();
-            matchDateAndTime.setTimeInMillis(matchDateAndTimeOfTimeStamp.getSeconds() * 1000);
-
-            if (selectedTime.get(Calendar.HOUR_OF_DAY) == matchDateAndTime.get(Calendar.HOUR_OF_DAY)
-                && selectedTime.get(Calendar.MINUTE) >= matchDateAndTime.get(Calendar.MINUTE))
-            {
-                filteredMatches.add(match);
-            }
-        }
-        return filteredMatches;
-    }
     public void getMatches(firestoreUser.FirestoreCallback<List<Match>> callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -504,6 +488,16 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 callback.onError(task.getException());
             }
         });
+    }
+
+    private void clearFilter()
+    {
+        if (originalMatches != null)
+        {
+            matches.clear();
+            matches.addAll(originalMatches);
+            matchAdapter.notifyDataSetChanged();
+        }
     }
 
 }

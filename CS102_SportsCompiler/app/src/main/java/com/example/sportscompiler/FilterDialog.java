@@ -79,13 +79,6 @@ public class FilterDialog extends DialogFragment {
         cancelButton = rootView.findViewById(R.id.cancel_button);
         submitButton = rootView.findViewById(R.id.submit_button);
 
-        matchField = matchFieldSpinner.getSelectedItem().toString();
-        quotaS = quotaCountSpinner.getSelectedItem().toString();
-
-        if(!quotaS.equalsIgnoreCase("Select person count"))
-        {
-            quota = Integer.parseInt(quotaS);
-        }
 
         List<String> quotaCount = new ArrayList<>();
 
@@ -185,6 +178,15 @@ public class FilterDialog extends DialogFragment {
             @Override
             public void onClick(View view)
             {
+
+                matchField = matchFieldSpinner.getSelectedItem().toString();
+                quotaS = quotaCountSpinner.getSelectedItem().toString();
+                quota = Integer.parseInt(quotaS);
+
+                if(matchField.equalsIgnoreCase("Select"))
+                {
+                    matchField = null;
+                }
 
                 if(getParentFragment() != null)
                 {

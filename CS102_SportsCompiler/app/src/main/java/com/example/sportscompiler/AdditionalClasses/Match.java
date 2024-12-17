@@ -160,6 +160,18 @@ public class Match
         return count;
     }
 
+    public int getNumberOfPlayers()
+    {
+        if(getMatchType().equals("matches5"))
+        {
+            return 10;
+        }
+        else
+        {
+            return 12;
+        }
+    }
+
     public int countTeam(Map<String, Player> players) {
         if (players == null) {
             throw new NullPointerException("Players map is not initialized.");

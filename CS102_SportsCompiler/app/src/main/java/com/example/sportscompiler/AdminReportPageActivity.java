@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class AdminReportPageActivity extends AppCompatActivity {
 
     private Button sendButton;
+    private String matchID, adminID;
 
 
     @Override
@@ -19,6 +20,12 @@ public class AdminReportPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_report_page);
+
+        matchID = getIntent().getStringExtra("matchID");
+        adminID = getIntent().getStringExtra("adminID");
+
+        
+
 
     }
 }

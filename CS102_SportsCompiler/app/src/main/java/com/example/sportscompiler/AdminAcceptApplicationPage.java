@@ -262,81 +262,64 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
 
 
 
-    private void addToTeam(Map<String, Player> playersOfWantedTeam, Application application)
-    {
+    private void addToTeam(Map<String, Player> playersOfWantedTeam, Application application) {
 
-        //TODO CHECK
-        if(playersOfWantedTeam.get(application.getPosition().getAction()) == null)
-        {
+        // Check if the position is already taken
+        if (playersOfWantedTeam.get(application.getPosition().getAction()) != null) {
+            Toast.makeText(AdminAcceptApplicationPage.this, "This position is already full!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Create the accepted Player
+        Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(),
+                application.getTeamInfo(), application.getPosition(), false,
+                currentMatch.getMatchID(), application.getName());
 
-            Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(), application.getTeamInfo(), application.getPosition()
-                ,false, currentMatch.getMatchID(), application.getName() );
+        // Check if the player is already in the match
+        if (SearchForPlayer.doesMatchContainUser(currentMatch, acceptedPlayer.getUserID())) {
+            Toast.makeText(AdminAcceptApplicationPage.this, "This player is already in this match", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            if(SearchForPlayer.doesMatchIncludePlayer(currentMatch, acceptedPlayer))
-            {
-                Toast.makeText(AdminAcceptApplicationPage.this, "This player is already in this match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            firestore.collection("users").document(application.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
+        // Add player to Firestore
+        firestore.collection("users").document(application.getUserID()).get()
+                .addOnSuccessListener(documentSnapshot -> {
                     User userToAccept = documentSnapshot.toObject(User.class);
+                    if (userToAccept == null) {
+                        Toast.makeText(AdminAcceptApplicationPage.this, "User not found!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     userToAccept.addMatches(currentMatch.getMatchID());
 
-                    firestore.collection("users").document(application.getUserID()).set(userToAccept).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                playersOfWantedTeam.put(application.getPosition().getAction(), acceptedPlayer);
-                                applications.remove(application); // Update local list
-                                appAdapt.notifyDataSetChanged(); // Refresh UI
+                    // Save the updated user back to Firestore
+                    firestore.collection("users").document(application.getUserID()).set(userToAccept)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    // Update local data structures
+                                    playersOfWantedTeam.put(application.getPosition().getAction(), acceptedPlayer);
+                                    currentMatch.getApplications().remove(application); // Sync with currentMatch
+                                    applications.remove(application); // Update UI list
 
-                                //currentMatch.addApplication(newApplication);
-                                firestore.collection(matchType).document(matchID).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(AdminAcceptApplicationPage.this, "Application Accepted", Toast.LENGTH_SHORT).show();
-                                        recyclerView.setAdapter(appAdapt); // Set adapter after data is fetched
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        applications.add(application);
-                                        appAdapt.notifyDataSetChanged(); // Refresh UI
-
-                                        Toast.makeText(AdminAcceptApplicationPage.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                Toast.makeText(AdminAcceptApplicationPage.this, "User not changed!", Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AdminAcceptApplicationPage.this, "User not found!", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-        }
-        else
-        {
-            Toast.makeText(AdminAcceptApplicationPage.this, "This position is already full!", Toast.LENGTH_SHORT).show();
-
-        }
-
-
+                                    // Save the updated match to Firestore
+                                    firestore.collection(matchType).document(matchID).set(currentMatch)
+                                            .addOnSuccessListener(aVoid -> {
+                                                appAdapt.notifyDataSetChanged(); // Refresh UI
+                                                Toast.makeText(AdminAcceptApplicationPage.this, "Application Accepted", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(AdminAcceptApplicationPage.this, "Failed to update match: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
+                                } else {
+                                    Toast.makeText(AdminAcceptApplicationPage.this, "User update failed!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(AdminAcceptApplicationPage.this, "User fetch failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
+
 
     private void cancelMatch()
     {

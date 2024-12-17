@@ -70,7 +70,7 @@ public class AdminReportPageActivity extends AppCompatActivity {
         ArrayAdapter<String> reasonsAdapter = new ArrayAdapter<>(AdminReportPageActivity.this, android.R.layout.simple_spinner_item, reasons);
         reasonsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         reasonSpinner.setAdapter(reasonsAdapter);
-        reasonSpinner.setDropDownVerticalOffset(500);
+        reasonSpinner.setDropDownVerticalOffset(reasonSpinner.getHeight());
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override

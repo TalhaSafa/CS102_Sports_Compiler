@@ -37,7 +37,9 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapte
 
         holder.nameSurname.setText("Name: " +app.getName());
         holder.position.setText("Position: " + app.getPosition());
-        holder.department.setText("Department: " );
+        holder.age.setText("Age: " + app.getAge());
+        holder.department.setText("Department: " + app.getDepartment());
+        holder.rating.setText("Rating: " + app.getAverage());
         holder.note.setText("Note: " + app.getNote());
         holder.team.setText("Team: " + app.getTeamInfo());
 

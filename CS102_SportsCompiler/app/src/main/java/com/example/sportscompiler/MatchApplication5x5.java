@@ -41,6 +41,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MatchApplication5x5 extends AppCompatActivity {
 
@@ -297,7 +301,7 @@ public class MatchApplication5x5 extends AppCompatActivity {
         // Eğer pozisyon boşsa başvuru yapılacaksa, bu işlemi burada gerçekleştirebilirsiniz.
 
         applicationNoteStr = applicatonNote.getText().toString();
-        Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
+        Application newApplication = new Application(user.getName(), positionToApply, calculateAge(user.getBirthDate()), user.getDepartment(),  applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
         match.addApplication(newApplication);
         firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -310,6 +314,37 @@ public class MatchApplication5x5 extends AppCompatActivity {
                 Toast.makeText(MatchApplication5x5.this, "Match not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private int calculateAge(String birthday) {
+        // Define the date format for "dd/mm/yyyy"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int age;
+        try {
+            // Parse the birthday string into a Date object
+            Date birthDate = dateFormat.parse(birthday);
+
+            // Get the current date
+            Calendar today = Calendar.getInstance();
+
+            // Set the calendar to the birth date
+            Calendar birthDay = Calendar.getInstance();
+            birthDay.setTime(birthDate);
+
+            // Calculate the age
+            age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR);
+
+            // If the birthdate hasn't occurred yet this year, subtract one
+            if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+                age--;
+            }
+
+        }
+        catch (ParseException e)
+        {
+            age = 0;
+        }
+        return age;
     }
 
     private void initializeUser() {

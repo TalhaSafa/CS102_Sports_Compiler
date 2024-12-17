@@ -23,6 +23,14 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
+            android:id="@+id/teamName"
+            android:text="Team: X"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
             android:id="@+id/playerPosition"
             android:text="Position: Forward"
             android:textSize="16sp"

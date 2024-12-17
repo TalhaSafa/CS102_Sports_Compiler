@@ -191,7 +191,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
     private void setAdminPosition(Map<String, Player> team, Positions adminPosition, String matchID)
     {
-        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID, user.getName());
+        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID, user.getName(),user.getEmail());
         team.put(adminPosition.getAction(), admin);
     }
 

@@ -273,7 +273,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         // Create the accepted Player
         Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(),
                 application.getTeamInfo(), application.getPosition(), false,
-                currentMatch.getMatchID(), application.getName());
+                currentMatch.getMatchID(), application.getName(),fireuser.getUserMail(application.getUserID()));
 
         // Check if the player is already in the match
         if (SearchForPlayer.doesMatchContainUser(currentMatch, acceptedPlayer.getUserID())) {

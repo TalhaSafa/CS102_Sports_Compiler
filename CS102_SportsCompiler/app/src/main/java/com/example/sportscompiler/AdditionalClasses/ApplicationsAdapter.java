@@ -37,6 +37,7 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapte
 
         holder.nameSurname.setText("Name: " +app.getName());
         holder.position.setText("Position: " + app.getPosition());
+        holder.department.setText("Department: " );
         holder.note.setText("Note: " + app.getNote());
         holder.team.setText("Team: " + app.getTeamInfo());
 
@@ -51,13 +52,16 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapte
 
     // ViewHolder Class
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
-        TextView nameSurname, position, note, team;
+        TextView nameSurname, position, age, department, rating, note, team;
         Button acceptButton, declineButton;
 
         public ApplicationViewHolder(@NonNull View itemView) {
             super(itemView);
             nameSurname = itemView.findViewById(R.id.applicantNameSurname);
             position = itemView.findViewById(R.id.applicantPosition);
+            age = itemView.findViewById(R.id.applicantAge);
+            department = itemView.findViewById(R.id.applicantDepartment);
+            rating = itemView.findViewById(R.id.applicantRating);
             team = itemView.findViewById(R.id.teamTextView);
             note = itemView.findViewById(R.id.applicationNote);
             acceptButton = itemView.findViewById(R.id.acceptButton);

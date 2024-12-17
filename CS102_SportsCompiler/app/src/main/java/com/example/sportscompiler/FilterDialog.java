@@ -81,7 +81,7 @@ public class FilterDialog extends DialogFragment {
 
 
         List<String> quotaCount = new ArrayList<>();
-        quotaCount.add("Wanted quota:");
+        quotaCount.add("Wanted quota");
 
         for(int i = 0; i < 15; i++)
         {
@@ -102,8 +102,6 @@ public class FilterDialog extends DialogFragment {
         ArrayAdapter<String> matchFieldAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, matchFields);
         matchFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         matchFieldSpinner.setAdapter(matchFieldAdapter);
-
-
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,43 +128,6 @@ public class FilterDialog extends DialogFragment {
             }
         });
 
-        timeButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                selectedTime = Calendar.getInstance();
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute)
-                    {
-                        selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        selectedTime.set(Calendar.MINUTE, minute);
-
-                        String minuteText;
-
-                        if(minute < 10)
-                        {
-                            minuteText = "0" + minute;
-                        }
-                        else
-                        {
-                            minuteText = String.valueOf(minute);
-                        }
-
-                        timeButton.setText(hourOfDay + ":" + minuteText);
-                    }
-                },
-                        selectedTime.get(Calendar.HOUR_OF_DAY),
-                        selectedTime.get(Calendar.MINUTE),
-                        true
-                );
-                timePickerDialog.show();
-            }
-        });
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -183,9 +144,9 @@ public class FilterDialog extends DialogFragment {
                 matchField = matchFieldSpinner.getSelectedItem().toString();
                 quotaS = quotaCountSpinner.getSelectedItem().toString();
 
-                if(quotaS.equals("Wanted quota"))
+                if(quotaS.equalsIgnoreCase("Wanted quota"))
                 {
-                   quota = Integer.parseInt(null);
+                   quota = -1;
                 }
                 else
                 {

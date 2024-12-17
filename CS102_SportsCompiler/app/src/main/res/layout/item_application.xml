@@ -29,15 +29,40 @@
         android:id="@+id/teamTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Team:A"
+        android:text="Team: A"
         android:textSize="14sp" />
+
+    <!-- Age -->
+    <TextView
+        android:id="@+id/applicantAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age: 25"
+        android:textSize="14sp" />
+
+    <!-- Department -->
+    <TextView
+        android:id="@+id/applicantDepartment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Department: CS"
+        android:textSize="14sp" />
+
+    <!-- Rating -->
+    <TextView
+        android:id="@+id/applicantRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: 4.5/5"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
 
     <!-- Application Note -->
     <TextView
         android:id="@+id/applicationNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Note: I need gloves!."
+        android:text="Note: I need gloves!"
         android:textSize="14sp"
         android:layout_marginBottom="8dp" />
 

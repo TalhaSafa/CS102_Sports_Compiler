@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -67,6 +68,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     FirebaseFirestore firestore;
     public firestoreUser user= new firestoreUser();
 
+    private LocalDateTime dateToLook;
     private Calendar calender1;
     private Calendar calendar2;
 
@@ -297,19 +299,19 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
                 int day = result.getInt("day", -1);
 
 
+
+
                 Log.d("FilterDialog", "Field: " + matchField + ", Quota: " + quota);
                 Log.d("FilterDialog", "Date: " + year + "/" + month + "/" + day);
 
+
                 if(year != -1)
                 {
-                    calender1 = Calendar.getInstance();
-                    calender1.set(Calendar.YEAR, year);
-                    calender1.set(Calendar.MONTH, month);
-                    calender1.set(Calendar.DAY_OF_MONTH, day);
+                    dateToLook = LocalDateTime.of(year, month, day, 0 ,0 , 0);
                 }
 
                 Log.d("FilterDialog", "Matches Before Filter: " + matches.size());
-                filterMatches(matchField, quota, calender1);
+                filterMatches(matchField, quota, dateToLook);
                 Log.d("FilterDialog", "Matches After Filter: " + matches.size());
             }
         });
@@ -365,42 +367,44 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
     }
 
     private void filterMatches(String matchField, Integer quota,
-                               Calendar selectedDate )
+                               LocalDateTime selectedDate )
     {
-        if(originalMatches == null)
-        {
-            originalMatches = new ArrayList<>(matches);
+
+        List<Match> filteredMatches = new ArrayList<>();
+        for (Match match : matches) {
+            boolean matchesField = (matchField == null || match.getField().getAction().equals(matchField));
+            System.out.println(match.getField().getAction());
+            boolean matchesDate = (selectedDate == null || isSameDay(match.getDate(), selectedDate));
+            boolean matchesPlayers = match.countAllPlayers() <= quota;
+
+            if (matchesField && matchesDate && matchesPlayers) {
+                filteredMatches.add(match);
+            }
         }
 
+        updateMatchList(filteredMatches);
+
+    }
+    private boolean isSameDay(Timestamp matchTimestamp, LocalDateTime targetCalendar) {
+        // Convert the Firestore Timestamp to a Date object
+        Date matchDate = matchTimestamp.toDate();
+
+        // Create a Calendar instance and set it to the match Date
+        Calendar matchCalendar = Calendar.getInstance();
+        matchCalendar.setTime(matchDate);
+        System.out.println("Match: " + matchCalendar.get(Calendar.YEAR) + " " + matchCalendar.get(Calendar.MONTH)+ " " + matchCalendar.get(Calendar.DAY_OF_MONTH));
+        System.out.println("Target: " + targetCalendar.getYear() + " " + targetCalendar.getMonth().getValue()+ " " + targetCalendar.getDayOfMonth());
+
+        // Compare the year, month, and day
+        return matchCalendar.get(Calendar.YEAR) == targetCalendar.getYear() &&
+                matchCalendar.get(Calendar.MONTH) +1 == targetCalendar.getMonth().getValue() &&
+                matchCalendar.get(Calendar.DAY_OF_MONTH) == targetCalendar.getDayOfMonth();
+    }
 
 
-        System.out.println("Selected match field: " + matchField);
-
-
-        if(matchField != null)
-        {
-            filterMatchesByField(matchField);
-        }
-
-        if(quota != null && quota > 0)
-        {
-            filterMatchesByQuota(quota);
-        }
-
-        if (selectedDate != null && selectedDate.get(Calendar.YEAR) != -1)
-        {
-            filterMatchesByDate(selectedDate);
-        }
-
-        if(filteredMatches != null)
-        {
-            matches = filteredMatches;
-            matchAdapter.updateData(matches);
-            matchAdapter.notifyDataSetChanged();
-            filteredMatches.clear();
-            matches = originalMatches;
-        }
-
+    private void updateMatchList(List<Match> matches) {
+        matchAdapter.updateData(matches);
+        matchAdapter.notifyDataSetChanged();
     }
 
     private void filterMatchesByField(String matchField)

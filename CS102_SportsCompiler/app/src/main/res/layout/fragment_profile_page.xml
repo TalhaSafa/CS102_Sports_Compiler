@@ -7,7 +7,6 @@
     tools:context=".ProfilePage"
     android:padding="16dp"
     android:background="#F5F5F5">
-
     <!-- Bottom Navigation View -->
 
 

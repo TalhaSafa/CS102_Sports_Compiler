@@ -44,6 +44,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class MatchApplication6x6 extends AppCompatActivity {
     private FloatingActionButton kaleciA, ortadefansA, solortaA, sagortaA, ortasahaA, ortaforvetA,
@@ -112,6 +113,14 @@ public class MatchApplication6x6 extends AppCompatActivity {
                 if (value != null && value.exists()) {
                     match = value.toObject(Match.class);
                     markFilledPositions();
+                    matchName.setText("Match Name: " + match.getMatchName());
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+                    String dateStr = dateFormat.format(match.getDate().toDate());
+                    dateTxt.setText("Match Date: " + dateStr);
+                    adminName.setText("Admin: " + match.getAdminName());
+                    matchNote.setText("Match Note: " + match.getNotes());
                 } else {
                     Toast.makeText(MatchApplication6x6.this, "Null Match", Toast.LENGTH_SHORT).show();
                 }

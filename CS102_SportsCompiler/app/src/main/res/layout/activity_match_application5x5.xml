@@ -149,24 +149,27 @@
         android:id="@+id/applicationNote"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="576dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Application Note"
         android:inputType="textMultiLine"
-        app:layout_constraintStart_toEndOf="@+id/matchName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.83"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/applyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="92dp"
         android:text="Apply"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/applicationNote"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/applicationNote"
         app:layout_constraintVertical_bias="0.134" />
 

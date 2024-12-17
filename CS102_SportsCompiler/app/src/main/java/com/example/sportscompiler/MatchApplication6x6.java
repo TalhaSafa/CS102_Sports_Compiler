@@ -40,6 +40,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MatchApplication6x6 extends AppCompatActivity {
     private FloatingActionButton kaleciA, ortadefansA, solortaA, sagortaA, ortasahaA, ortaforvetA,
             kaleciB, ortadefansB, solortaB, sagortaB, ortasahaB, ortaforvetB;
@@ -271,7 +276,7 @@ public class MatchApplication6x6 extends AppCompatActivity {
 
     private void applyForPosition() {
         applicationNoteStr = applicatonNote.getText().toString();
-        Application newApplication = new Application(user.getName(), positionToApply, applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
+        Application newApplication = new Application(user.getName(), positionToApply, calculateAge(user.getBirthDate()), user.getDepartment(),  applicationNoteStr, teamToApply, user.getUserID(), user.getAverageRating());
         match.addApplication(newApplication);
         firestore.collection(matchType).document(matchID).set(match).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -286,6 +291,37 @@ public class MatchApplication6x6 extends AppCompatActivity {
         });
     }
 
+    private int calculateAge(String birthday) {
+        // Define the date format for "dd/mm/yyyy"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int age;
+        try {
+            // Parse the birthday string into a Date object
+            Date birthDate = dateFormat.parse(birthday);
+
+            // Get the current date
+            Calendar today = Calendar.getInstance();
+
+            // Set the calendar to the birth date
+            Calendar birthDay = Calendar.getInstance();
+            birthDay.setTime(birthDate);
+
+            // Calculate the age
+            age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR);
+
+            // If the birthdate hasn't occurred yet this year, subtract one
+            if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+                age--;
+            }
+
+        }
+        catch (ParseException e)
+        {
+            age = 0;
+        }
+        return age;
+    }
+
     private void updateButtonState(FloatingActionButton button, Positions position, TeamType team, Match match) {
         Player playerAtPos = (team == TeamType.TEAM_A) ? match.getPlayersA().get(position.getAction()) : match.getPlayersB().get(position.getAction());
 
@@ -298,6 +334,8 @@ public class MatchApplication6x6 extends AppCompatActivity {
             button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
     }
+
+
 
     private void markFilledPositions() {
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -322,6 +360,8 @@ public class MatchApplication6x6 extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     private void initializeUser() {

@@ -64,4 +64,12 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsAdapte
             declineButton = itemView.findViewById(R.id.declineButton);
         }
     }
+    // Method to remove a player
+    public void removePlayer(int position) {
+        if (position >= 0 && position < applications.size()) {
+            applications.remove(position); // Remove player from the lis
+            notifyItemRemoved(position); // Notify adapter to remove the item from the list
+            notifyItemRangeChanged(position, applications.size()); // Update remaining items
+        }
+    }
 }

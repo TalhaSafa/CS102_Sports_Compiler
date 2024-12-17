@@ -180,10 +180,12 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                             if(application.getTeamInfo() == TeamType.TEAM_A)
                             {
                                 addToTeam(currentMatch.getPlayersA(), application);
+
                             }
                             else
                             {
                                 addToTeam(currentMatch.getPlayersB(), application);
+
 
                             }
                         }
@@ -251,6 +253,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         DismissAdapter playerAdapter = new DismissAdapter(playerList, new DismissActionListener() {
             @Override
             public void onDismissClick(Player player) {
+                System.out.println(player);
                 playerRemoveMatch(player);
             }
         });
@@ -360,37 +363,49 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         }
 
     }
-    private void playerRemoveMatch(Player player)
-    {
-        firestore.collection(currentMatch.getMatchType()).document(currentMatch.getMatchID()).set(currentMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                firestore.collection("users").document(player.getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists() && documentSnapshot != null)
-                        {
-                            User user = documentSnapshot.toObject(User.class);
-                            currentMatch.removePlayer(currentMatch, player.getTeam(), player.getPosition());
-                            user.removeMatch(currentMatch.getMatchID());
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AdminAcceptApplicationPage.this, "Could not access current user!", Toast.LENGTH_SHORT).show();
+    private void playerRemoveMatch(Player player) {
 
+        firestore.collection("users").document(player.getUserID()).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+
+                        User user = documentSnapshot.toObject(User.class);
+
+                        if (user != null) {
+
+                            user.removeMatch(currentMatch.getMatchID());
+
+
+                            firestore.collection("users").document(player.getUserID()).set(user)
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Step 2: Modify the match object
+                                        currentMatch.removePlayer(currentMatch,player.getTeam(), player.getPosition());
+
+                                        firestore.collection(currentMatch.getMatchType()).document(currentMatch.getMatchID())
+                                                .set(currentMatch)
+                                                .addOnSuccessListener(unused -> {
+                                                    Toast.makeText(AdminAcceptApplicationPage.this, "Player removed successfully!", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    currentMatch.addPlayer(player.getTeam(), player);
+                                                    Toast.makeText(AdminAcceptApplicationPage.this, "Failed to update match: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(AdminAcceptApplicationPage.this, "Failed to update user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            Toast.makeText(AdminAcceptApplicationPage.this, "User object is null!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(AdminAcceptApplicationPage.this, "User does not exist in Firestore!", Toast.LENGTH_SHORT).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(AdminAcceptApplicationPage.this, "Could not access user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AdminAcceptApplicationPage.this, "Could not leave the match!", Toast.LENGTH_SHORT).show();
-                currentMatch.addPlayer(player.getTeam(), player);
-            }
-        });
     }
+
 
 
     private class CancelListener implements View.OnClickListener

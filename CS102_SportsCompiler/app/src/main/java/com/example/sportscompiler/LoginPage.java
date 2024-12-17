@@ -26,7 +26,8 @@ public class LoginPage extends AppCompatActivity {
     private Button loginButton;
     private Button forgotPasswordButton;
     private Button registerButton;
-    private Button autoLogin;
+    private Button autoLogin, autoCagan;
+
 
     private String eMail;
     private String password;
@@ -57,6 +58,15 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View view) {
                 loginMail.setText("safa.kucuk@ug.bilkent.edu.tr");
                 loginPassword.setText("Talha.123");
+            }
+        });
+
+        autoCagan = findViewById(R.id.autoCan);
+        autoCagan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginMail.setText("cagan.aksoy@ug.bilkent.edu.tr");
+                loginPassword.setText("Cagan12345.");
             }
         });
 

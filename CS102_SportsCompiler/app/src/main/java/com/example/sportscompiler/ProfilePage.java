@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -61,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.List;    import android.media.ExifInterface;
 
 public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickListener{
 
@@ -354,7 +355,10 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
             options.inJustDecodeBounds = false;
 
             inputStream = getContext().getContentResolver().openInputStream(uri);
-            return BitmapFactory.decodeStream(inputStream, null, options);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+
+            // Fix the image orientation
+            return fixImageOrientation(uri, bitmap);
 
         } catch (IOException e) {
             // Log the error and show a message to the user
@@ -388,6 +392,40 @@ public class ProfilePage extends Fragment implements MatchAdapter.OnItemClickLis
 
         return inSampleSize;
     }
+    private Bitmap fixImageOrientation(Uri uri, Bitmap bitmap) {
+        try {
+            InputStream inputStream = getContext().getContentResolver().openInputStream(uri);
+            ExifInterface exif = new ExifInterface(inputStream);
+
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            int rotationDegrees = 0;
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotationDegrees = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotationDegrees = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotationDegrees = 270;
+                    break;
+            }
+
+            if (rotationDegrees != 0) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate(rotationDegrees);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            }
+
+            inputStream.close();
+        } catch (IOException e) {
+            Log.e("ProfilePage", "Error fixing image orientation: " + e.getMessage(), e);
+        }
+
+        return bitmap;
+    }
+
 
 }
 

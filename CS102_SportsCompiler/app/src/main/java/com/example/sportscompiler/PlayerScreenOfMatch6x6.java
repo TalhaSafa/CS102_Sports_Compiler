@@ -37,7 +37,7 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private Match currentMatch;
-    private Button confirmationButton;
+    private Button confirmationButton, reportAdminButton;
     private FloatingActionButton[] positionButtons;
     private EditText matchScoreForTeamA, matchScoreForTeamB;
     private String matchID;
@@ -71,6 +71,8 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
         fieldImage = findViewById(R.id.footballField);
         enterMatchScore = findViewById(R.id.enterMatchScore);
         firestore = FirebaseFirestore.getInstance();
+
+        reportAdminButton = findViewById(R.id.reportAdminButton);
 
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists() && documentSnapshot != null) {
@@ -129,6 +131,14 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
                     Toast.makeText(PlayerScreenOfMatch6x6.this, "Enter Match Score", Toast.LENGTH_SHORT).show();
 
                 }
+            }
+        });
+
+        reportAdminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
             }
         });
     }

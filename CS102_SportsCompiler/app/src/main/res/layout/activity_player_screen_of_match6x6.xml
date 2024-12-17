@@ -97,10 +97,22 @@
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.741" />
+
+    <Button
+        android:id="@+id/reportAdminButton"
+        android:layout_width="120dp"
+        android:layout_height="75dp"
+        android:text="Report Admin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
+        app:layout_constraintVertical_bias="0.741" />
 
     <EditText
         android:id="@+id/matchScoreForTeamA"

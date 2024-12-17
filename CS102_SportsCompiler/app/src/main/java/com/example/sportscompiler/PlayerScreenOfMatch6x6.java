@@ -59,6 +59,7 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
         matchID = getIntent().getStringExtra("matchID");
         matchType = getIntent().getStringExtra("matchType");
         confirmationButton = findViewById(R.id.confirmationButton);
+        reportAdminButton = findViewById(R.id.reportAdminButton);
         positionButtons = new FloatingActionButton[]{
                 findViewById(R.id.fab_player1),
                 findViewById(R.id.fab_player2),

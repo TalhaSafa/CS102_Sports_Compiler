@@ -4,7 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.os.Message;
 import android.widget.Toast;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -19,13 +25,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdminReportPageActivity extends AppCompatActivity {
 
     private FirebaseFirestore data;
     private FirebaseAuth firebaseAuth;
     private Button sendButton;
     private String matchID, adminID;
-
+    private TextView reasonTextView, reportTheAdminTextView, specificationTextView;
+    private TextInputEditText specificationEditText;
+    private Spinner reasonSpinner;
+    private EditText enterUserMail;
+    private String userMail, userReason;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,53 @@ public class AdminReportPageActivity extends AppCompatActivity {
         data = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        sendButton = findViewById(R.id.reportButton);
+        reasonSpinner = findViewById(R.id.spinnerReport);
+        specificationEditText = findViewById(R.id.textInputEditText);
+        enterUserMail = findViewById(R.id.enterUserMail);
+
+        List<String> reasons = new ArrayList<>();
+
+        reasons.add("Admin entered the scored wrong");
+        reasons.add("Admin didn't enter the score");
+        reasons.add("Admin entered the match informations wrong");
+        reasons.add("Else");
+
+        ArrayAdapter<String> reasonsAdapter = new ArrayAdapter<>(AdminReportPageActivity.this, android.R.layout.simple_spinner_item, reasons);
+        reasonsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reasonSpinner.setAdapter(reasonsAdapter);
+        reasonSpinner.setDropDownVerticalOffset(500);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+            }
+        });
+
+        enterUserMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                userMail = enterUserMail.getText().toString();
+            }
+        });
+
+        reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        
     }
     private void uptadeMessage(String reason, String message, String mail, String userName, String matchID, String adminID){
 

@@ -45,6 +45,8 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
 
     private Match newMatch;
 
+    private MatchFields matchField;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -72,6 +74,19 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         city = getIntent().getStringExtra("city");
         personCount = getIntent().getStringExtra("personCount");
         dateTimeMillis = getIntent().getLongExtra("dateTime", -1);
+
+        if(city.equals("Main Campus 1"))
+        {
+            matchField = MatchFields.MAIN1;
+        }
+        else if(city.equals("Main Campus 2"))
+        {
+            matchField = MatchFields.MAIN2;
+        }
+        else if(city.equals("East Campus"))
+        {
+            matchField = MatchFields.EAST;
+        }
 
         for(int i = 0; i < positionButtons.length; i++)
         {
@@ -224,7 +239,7 @@ public class AdminPositionSelector6x6 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID, adminName,  matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0 );
+        newMatch = new Match(adminID, adminName,  matchName, date, matchField, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0 );
 
         firestore = FirebaseFirestore.getInstance();
         firestore.collection(newMatch.getMatchType()).document(matchID).set(newMatch)

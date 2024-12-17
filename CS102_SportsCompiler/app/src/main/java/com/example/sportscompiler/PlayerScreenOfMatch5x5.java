@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sportscompiler.AdditionalClasses.Match;
+import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
 import com.example.sportscompiler.AdditionalClasses.RatingCallback;
 import com.example.sportscompiler.AdditionalClasses.SearchForPlayer;
@@ -75,6 +76,39 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                     if (documentSnapshot.exists() && documentSnapshot != null) {
                         currentMatch = documentSnapshot.toObject(Match.class);
                         setVisibilites();
+
+                        for(int i = 0; i < positionButtons.length; i++)
+                        {
+                            int index = i;
+                            Positions playerPosition = determinePosition(index, 5);
+                            TeamType teamType = SearchForPlayer.returnTeamType(currentUserID, currentMatch);
+
+                            if(currentMatch == null || getPlayerIdInClickedPosition(playerPosition, teamType) == null)
+                            {
+                                positionButtons[i].setEnabled(false);
+                            }
+
+                            positionButtons[i].setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view)
+                                {
+                                    onPositionSelected(index);
+                                    Positions playerPosition = determinePosition(index, 5);
+                                    playerID = getPlayerIdInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
+
+                                    if(playerID != null)
+                                    {
+                                        positionButtons[index].setEnabled(true);
+                                        playerName = getPlayerNameInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
+                                        getPlayerRatingInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
+                                    }
+                                    else
+                                    {
+                                        positionButtons[index].setEnabled(false);
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
 
@@ -98,7 +132,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             }
         });
 
-        for(int i = 0; i < positionButtons.length; i++)
+        /*for(int i = 0; i < positionButtons.length; i++)
         {
             int index = i;
 
@@ -114,7 +148,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                     getPlayerRatingInClickedPosition(playerPosition, SearchForPlayer.returnTeamType(currentUserID, currentMatch));
                 }
             });
-        }
+        }*/
     }
 
     private void setVisibilites()
@@ -177,18 +211,29 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
     private String getPlayerIdInClickedPosition(Positions position, TeamType team)
     {
         String wantedPlayerID = null;
+
         if(team == TeamType.TEAM_A)
         {
             if(currentMatch.getPlayersA() != null)
             {
-                wantedPlayerID = currentMatch.getPlayersA().get(position.getAction()).getUserID();
+                Player player = currentMatch.getPlayersA().get(position.getAction());
+
+                if(player != null && player.getUserID() != null)
+                {
+                    wantedPlayerID = player.getUserID();
+                }
             }
         }
         else
         {
             if(currentMatch.getPlayersB() != null)
             {
-                wantedPlayerID = currentMatch.getPlayersB().get(position.getAction()).getUserID();
+                Player player = currentMatch.getPlayersA().get(position.getAction());
+
+                if(player != null && player.getUserID() != null)
+                {
+                    wantedPlayerID = player.getUserID();
+                }
             }
         }
 

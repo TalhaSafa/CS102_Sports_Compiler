@@ -53,9 +53,14 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
 
         // Set dismiss button click listener
         holder.btnDismiss.setOnClickListener(v -> {
-            removePlayer(position); // Remove player from the list
-            listener.onDismissClick(player); // Trigger the listener callback
-            Toast.makeText(v.getContext(), player.getName() + " dismissed", Toast.LENGTH_SHORT).show(); // Optional: Show a Toast message
+            if(!player.isAdmin()){
+                removePlayer(position); // Remove player from the list
+                listener.onDismissClick(player); // Trigger the listener callback
+                Toast.makeText(v.getContext(), player.getName() + " dismissed", Toast.LENGTH_SHORT).show(); // Optiona
+            }
+            else {
+                Toast.makeText(v.getContext(), player.getName() + " is admin.", Toast.LENGTH_SHORT).show(); // Optiona
+            }
         });
     }
 

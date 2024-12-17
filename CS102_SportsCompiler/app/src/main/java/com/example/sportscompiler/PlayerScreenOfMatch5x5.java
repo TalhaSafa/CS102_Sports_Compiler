@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private Match currentMatch;
-    private Button confirmationButton;
+    private Button confirmationButton, reportButton;
     private FloatingActionButton[] positionButtons;
     private EditText matchScoreForTeamA, matchScoreForTeamB;
     private String matchID;
@@ -46,7 +47,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
     private ImageView fieldImage;
     private TextView enterMatchScore;
     private int selectedPosition = -1;
-    private String currentUserID, playerName, playerID;
+    private String currentUserID, playerName, playerID, adminID;
     private double currentRating;
 
 
@@ -65,6 +66,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                 findViewById(R.id.fab_player4),
                 findViewById(R.id.fab_player5),
         };
+        reportButton = findViewById(R.id.reportAdminButton5x5);
         matchScoreForTeamA = findViewById(R.id.matchScoreForTeamA);
         matchScoreForTeamB = findViewById(R.id.matchScoreForTeamB);
 
@@ -75,6 +77,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists() && documentSnapshot != null) {
                         currentMatch = documentSnapshot.toObject(Match.class);
+                        adminID = currentMatch.getAdminID();
                         setVisibilites();
 
                         for(int i = 0; i < positionButtons.length; i++)
@@ -132,6 +135,16 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             }
         });
 
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PlayerScreenOfMatch5x5.this, AdminReportPageActivity.class);
+                intent.putExtra("matchID", matchID);
+                intent.putExtra("adminID", adminID);
+                startActivity(intent);
+            }
+        });
+
         /*for(int i = 0; i < positionButtons.length; i++)
         {
             int index = i;
@@ -167,6 +180,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(true);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.VISIBLE);
+            reportButton.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -182,6 +196,7 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(false);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.GONE);
+            reportButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -274,6 +289,8 @@ public class PlayerScreenOfMatch5x5 extends AppCompatActivity {
                 });
             }
         }
+
+
 
     }
 

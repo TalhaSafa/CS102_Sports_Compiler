@@ -1,5 +1,6 @@
 package com.example.sportscompiler;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,8 +46,9 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
     private ImageView fieldImage;
     private TextView enterMatchScore;
     private int selectedPosition = -1;
-    private String currentUserID, playerName, playerID;
+    private String currentUserID, playerName, playerID, adminID;
     private double currentRating;
+
 
 
     @Override
@@ -77,6 +79,7 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
         firestore.collection(matchType).document(matchID).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists() && documentSnapshot != null) {
                 currentMatch = documentSnapshot.toObject(Match.class);
+                adminID = currentMatch.getAdminID();
                 setVisibilites();
 
                 for(int i = 0; i < positionButtons.length; i++)
@@ -138,7 +141,10 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-
+                Intent intent = new Intent(PlayerScreenOfMatch6x6.this, AdminReportPageActivity.class);
+                intent.putExtra("matchID", matchID);
+                intent.putExtra("adminID", adminID);
+                startActivity(intent);
             }
         });
     }
@@ -159,6 +165,7 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(true);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.VISIBLE);
+            reportAdminButton.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -174,6 +181,8 @@ public class PlayerScreenOfMatch6x6 extends AppCompatActivity {
             matchScoreForTeamB.setEnabled(false);
             fieldImage.setVisibility(View.VISIBLE);
             enterMatchScore.setVisibility(View.GONE);
+            reportAdminButton.setVisibility(View.VISIBLE);
+
         }
     }
 

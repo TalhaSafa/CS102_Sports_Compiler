@@ -1,9 +1,10 @@
 package com.example.sportscompiler;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
+import android.os.Message;
 import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -22,11 +23,22 @@ public class AdminReportPageActivity extends AppCompatActivity {
 
     private FirebaseFirestore data;
     private FirebaseAuth firebaseAuth;
+    private Button sendButton;
+    private String matchID, adminID;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_report_page);
+
+        matchID = getIntent().getStringExtra("matchID");
+        adminID = getIntent().getStringExtra("adminID");
+
+        
+
+
         data = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 

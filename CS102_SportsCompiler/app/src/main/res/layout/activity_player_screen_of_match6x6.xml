@@ -12,9 +12,8 @@
 
     <ImageView
         android:id="@+id/footballField"
-        android:layout_width="519dp"
-        android:layout_height="507dp"
-        android:layout_marginTop="-65dp"
+        android:layout_width="wrap_content"
+        android:layout_height="315dp"
         android:src="@drawable/half_field"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,25 +25,23 @@
         android:id="@+id/fab_player1"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="172dp"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamA"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="@+id/footballField"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player2"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="336dp"
-        android:layout_marginTop="196dp"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="@+id/footballField"
+        app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Other UI Elements like TextViews, RatingBars -->
     <!-- Include other UI elements as needed -->
@@ -54,101 +51,96 @@
         android:id="@+id/fab_player3"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="32dp"
         android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player4"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="312dp"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintTop_toBottomOf="@+id/fab_player6" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player5"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="176dp"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
-        app:layout_constraintEnd_toStartOf="@+id/fab_player2"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fab_player3"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_player6"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="160dp"
         android:src="@drawable/baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@+id/matchScoreForTeamB"
-        app:layout_constraintEnd_toStartOf="@+id/fab_player2"
-        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintTop_toBottomOf="@+id/fab_player5"
+        app:layout_constraintVertical_bias="0.19" />
 
     <Button
         android:id="@+id/confirmationButton"
         android:layout_width="120dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="112dp"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchScoreForTeamB"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
+        app:layout_constraintVertical_bias="0.74" />
 
     <EditText
         android:id="@+id/matchScoreForTeamA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
         android:hint="Team A: "
         android:inputType="number"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.143"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
+        app:layout_constraintVertical_bias="0.219" />
 
     <EditText
         android:id="@+id/matchScoreForTeamB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
         android:hint="Team B: "
         android:inputType="number"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.832"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterMatchScore"
+        app:layout_constraintVertical_bias="0.22000003" />
 
     <TextView
         android:id="@+id/enterMatchScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Enter match score"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/footballField"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fab_player4"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/footballField"
+        app:layout_constraintVertical_bias="0.050000012" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

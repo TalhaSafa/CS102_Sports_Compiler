@@ -119,7 +119,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     position = Positions.MO3;
                     break;
                 case 1:
-                    position = Positions.MO3;
+                    position = Positions.MO1;
                     break;
                 case 3:
                     position = Positions.MO2;

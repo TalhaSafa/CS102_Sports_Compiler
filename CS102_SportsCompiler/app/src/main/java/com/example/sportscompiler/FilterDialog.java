@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.sportscompiler.AdditionalClasses.MatchFields;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -91,9 +93,9 @@ public class FilterDialog extends DialogFragment {
         List<String> matchFields = new ArrayList<>();
 
         matchFields.add("Select");
-        matchFields.add("Main Campus 1");
-        matchFields.add("Main Campus 2");
-        matchFields.add("East Campus");
+        matchFields.add(MatchFields.MAIN1.getAction());
+        matchFields.add(MatchFields.MAIN2.getAction());
+        matchFields.add(MatchFields.EAST.getAction());
 
         ArrayAdapter<String> quotaCountAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, quotaCount);
         quotaCountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,7 +148,7 @@ public class FilterDialog extends DialogFragment {
 
                 if(quotaS.equalsIgnoreCase("Wanted quota"))
                 {
-                   quota = -1;
+                   quota = 15;
                 }
                 else
                 {

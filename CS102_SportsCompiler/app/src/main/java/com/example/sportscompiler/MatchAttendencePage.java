@@ -373,7 +373,7 @@ public class MatchAttendencePage extends Fragment implements MatchAdapter.OnItem
         List<Match> filteredMatches = new ArrayList<>();
         for (Match match : matches) {
             boolean matchesField = (matchField == null || match.getField().getAction().equals(matchField));
-            System.out.println(match.getField().getAction());
+            System.out.println("Match: " + match.getField().getAction() + " Target: " + matchField);
             boolean matchesDate = (selectedDate == null || isSameDay(match.getDate(), selectedDate));
             boolean matchesPlayers = match.countAllPlayers() <= quota;
 

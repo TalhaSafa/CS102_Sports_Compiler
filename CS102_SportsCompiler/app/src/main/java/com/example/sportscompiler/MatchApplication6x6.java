@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportscompiler.AdditionalClasses.Application;
+import com.example.sportscompiler.AdditionalClasses.FragmentLoad;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Player;
 import com.example.sportscompiler.AdditionalClasses.Positions;
@@ -135,6 +136,10 @@ public class MatchApplication6x6 extends AppCompatActivity {
                         return;
                     }
                     applyForPosition();
+                    //Go to main activity
+                    FragmentLoad.changeActivity(MatchApplication6x6.this, homeActivity.class);// "Create Match" butonunu görünmez yap
+                    finish();
+
                 }
             }
         });

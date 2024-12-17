@@ -7,6 +7,8 @@ import static java.security.AccessController.getContext;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -190,6 +192,7 @@ public class RegisterPageAc extends AppCompatActivity {
 
             }
         });
+        
 
         passwordToggle.setOnClickListener(new View.OnClickListener() {
             private boolean isPasswordVisible = false;
@@ -199,14 +202,14 @@ public class RegisterPageAc extends AppCompatActivity {
             {
                 if(isPasswordVisible)
                 {
-                    registerPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    registerRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    registerPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    registerRePassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     passwordToggle.setImageResource(R.drawable.ic_eye_closed);
                 }
                 else
                 {
-                    registerPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    registerRePassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    registerPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    registerRePassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     passwordToggle.setImageResource(R.drawable.ic_eye_open);
                 }
                 isPasswordVisible = !isPasswordVisible;

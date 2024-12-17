@@ -277,16 +277,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
             return;
         }
 
-        // Create the accepted Player
-        Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(),
-                application.getTeamInfo(), application.getPosition(), false,
-                currentMatch.getMatchID(), application.getName(),fireuser.getUserMail(application.getUserID()));
 
-        // Check if the player is already in the match
-        if (SearchForPlayer.doesMatchContainUser(currentMatch, acceptedPlayer.getUserID())) {
-            Toast.makeText(AdminAcceptApplicationPage.this, "This player is already in this match", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         // Add player to Firestore
         firestore.collection("users").document(application.getUserID()).get()
@@ -294,6 +285,16 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     User userToAccept = documentSnapshot.toObject(User.class);
                     if (userToAccept == null) {
                         Toast.makeText(AdminAcceptApplicationPage.this, "User not found!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // Create the accepted Player
+                    Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(),
+                            application.getTeamInfo(), application.getPosition(), false,
+                            currentMatch.getMatchID(), application.getName(), userToAccept.getEmail());
+
+                    // Check if the player is already in the match
+                    if (SearchForPlayer.doesMatchContainUser(currentMatch, acceptedPlayer.getUserID())) {
+                        Toast.makeText(AdminAcceptApplicationPage.this, "This player is already in this match", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -407,6 +408,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                 if(player != null)
                 {
                     sendMailToOnePlayer(player.getEmail(), player.getName());
+                    System.out.println(player.getEmail());
                 }
             }
             for(Player player: currentMatch.getPlayersB().values())
@@ -414,6 +416,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                 if(player != null)
                 {
                     sendMailToOnePlayer(player.getEmail(), player.getName());
+                    System.out.println(player.getEmail());
                 }
             }
         }
@@ -426,8 +429,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         MailjetEmailRequest.mailMessage message = new MailjetEmailRequest.mailMessage(
                 new MailjetEmailRequest.EmailAddress("codingbatmasters@gmail.com", "SportsCompiler"), // Sender
                 Arrays.asList(new MailjetEmailRequest.EmailAddress(playerMail, playerName)), // Recipient
-                "Match with name " + currentMatch.getMatchName() + " Cancelled", // Subject
-                "We regret to inform you that the match has been cancelled.", // Text content
+                "Match Cancelled", // Subject
+                "We regret to inform you that the match with name " + currentMatch.getMatchName() + " has been cancelled.", // Text content
                 "<h3>Match Cancelled</h3><p>We regret to inform you that the match has been cancelled.</p>" // HTML content
         );
 

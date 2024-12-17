@@ -81,6 +81,7 @@ public class FilterDialog extends DialogFragment {
 
 
         List<String> quotaCount = new ArrayList<>();
+        quotaCount.add("Wanted quota:");
 
         for(int i = 0; i < 15; i++)
         {
@@ -181,7 +182,15 @@ public class FilterDialog extends DialogFragment {
 
                 matchField = matchFieldSpinner.getSelectedItem().toString();
                 quotaS = quotaCountSpinner.getSelectedItem().toString();
-                quota = Integer.parseInt(quotaS);
+
+                if(quotaS.equals("Wanted quota"))
+                {
+                   quota = Integer.parseInt(null);
+                }
+                else
+                {
+                    quota = Integer.parseInt(quotaS);
+                }
 
                 if(matchField.equalsIgnoreCase("Select"))
                 {

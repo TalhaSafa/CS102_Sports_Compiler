@@ -38,10 +38,10 @@ public class AdminReportPageActivity extends AppCompatActivity {
     private Button sendButton;
     private String matchID, adminID;
     private TextView reasonTextView, reportTheAdminTextView, specificationTextView;
-    private TextInputEditText specificationEditText;
+    private EditText specificationEditText;
     private Spinner reasonSpinner;
     private EditText enterUserMail;
-    private String userMail, userReason;
+    private String userMail, userReason, specification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +51,6 @@ public class AdminReportPageActivity extends AppCompatActivity {
 
         matchID = getIntent().getStringExtra("matchID");
         adminID = getIntent().getStringExtra("adminID");
-
-        
-
 
         data = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -79,39 +76,50 @@ public class AdminReportPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-
-            }
-        });
-
-        enterUserMail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
                 userMail = enterUserMail.getText().toString();
+                specification = specificationEditText.getText().toString();
+                if(userReason == null || userReason.equals(""))
+                {
+                    Toast.makeText(AdminReportPageActivity.this, "Choose Reason" , Toast.LENGTH_SHORT).show();
+                }
+                else if(specification == null || specification.equals(""))
+                {
+                    Toast.makeText(AdminReportPageActivity.this, "Specify Your Report" , Toast.LENGTH_SHORT).show();
+                }
+                else if (userMail == null || userMail.equals(""))
+                {
+                    Toast.makeText(AdminReportPageActivity.this, "Enter Mail For Further Communication" , Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    uptadeMessage(userReason, specification, userMail, matchID, adminID);
+                }
             }
         });
+
+
 
         reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-
+                userReason = reasonSpinner.getSelectedItem().toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                userReason = "";
             }
         });
 
         
     }
-    private void uptadeMessage(String reason, String message, String mail, String userName, String matchID, String adminID){
+    private void uptadeMessage(String reason, String message, String mail, String matchID, String adminID){
 
         String repMessage = reason + " - "  + message + "\n" + "Admin ID: " + adminID + "\nMatch ID: " + matchID;
         Timestamp nowTime = Timestamp.now();
-        adminHelpMessage reportMessage = new adminHelpMessage(repMessage, firebaseAuth.getUid(), mail, userName, nowTime );
-        String mssgID = adminID + " " + userName + " " + nowTime.toDate().toString();
+        adminHelpMessage reportMessage = new adminHelpMessage(repMessage, firebaseAuth.getUid(), mail, mail, nowTime );
+        String mssgID = adminID + " " + mail + " " + nowTime.toDate().toString();
         data.collection("helpMessages").document(mssgID).set(reportMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

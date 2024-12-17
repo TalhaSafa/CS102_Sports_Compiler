@@ -267,7 +267,7 @@ public class RegisterPageAc extends AppCompatActivity {
 
                                             //CREATING NEW USER:
                                             User user = new User(newUser.getUid(), registerName.getText().toString()
-                                                    , birthDate.getText().toString(), department.getText().toString(),"" , 0 , 0);
+                                                    , birthDate.getText().toString(), department.getText().toString(),"" , 0 , 0, email);
 
                                             updateDatabase(user);
 

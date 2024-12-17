@@ -298,6 +298,36 @@ public class firestoreUser {
                 });
     }
 
+    public String getUserMail(String userID) {
+
+        firestore = FirebaseFirestore.getInstance();
+
+        // Placeholder to store the fetched email
+        final String[] emailHolder = {null};
+
+        // Fetch the user document using the userID
+        firestore.collection("users").document(userID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Extract email from the document
+                        String email = documentSnapshot.getString("email");
+                        if (email != null) {
+                            emailHolder[0] = email;
+                            Log.d("getUserMail", "Email fetched: " + email);
+                        } else {
+                            Log.e("getUserMail", "Email field is missing or null in the document");
+                        }
+                    } else {
+                        Log.e("getUserMail", "User document does not exist for ID: " + userID);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("getUserMail", "Failed to fetch user document: " + e.getMessage());
+                });
+
+        return emailHolder[0];
+    }
+
     public interface FirestoreCallback<T> {
         void onSuccess(T result);
         void onError(Exception e);

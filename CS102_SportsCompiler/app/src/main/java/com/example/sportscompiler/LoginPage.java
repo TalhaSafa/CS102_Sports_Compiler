@@ -1,9 +1,11 @@
 package com.example.sportscompiler;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +33,8 @@ public class LoginPage extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+    private ImageView passwordToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class LoginPage extends AppCompatActivity {
         loginButton = findViewById(R.id.signInButton);
         forgotPasswordButton = findViewById(R.id.forgetPasswordButton);
         registerButton = findViewById(R.id.registerButton);
+        passwordToggle = findViewById(R.id.passwordToggle);
+
 
         //TODO AUTOLOGING FOR IMPLEMENTATIN STAGE:
         autoLogin = findViewById(R.id.autoLogin);
@@ -71,6 +77,26 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tryLogin();
+            }
+        });
+
+        passwordToggle.setOnClickListener(new View.OnClickListener() {
+            private boolean isPasswordVisible = false;
+
+            @Override
+            public void onClick(View view)
+            {
+                if(isPasswordVisible)
+                {
+                    loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    passwordToggle.setImageResource(R.drawable.ic_eye_closed);
+                }
+                else
+                {
+                    loginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    passwordToggle.setImageResource(R.drawable.ic_eye_open);
+                }
+                isPasswordVisible = !isPasswordVisible;
             }
         });
     }

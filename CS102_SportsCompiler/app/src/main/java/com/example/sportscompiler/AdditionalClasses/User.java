@@ -12,10 +12,11 @@ public class User {
     private double averageRating;
     private String profilePicture;
     private int ratingNumber;
+    private String email;
 
     public User(){}
 
-    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture, double averageRating, int ratingNumber)
+    public User(String UserID, String Name, String BirthDate, String Department,String profilePicture, double averageRating, int ratingNumber,String email)
     {
         userID = UserID;
         name = Name;
@@ -26,7 +27,16 @@ public class User {
         pastMatchIDs = new ArrayList<>();
         matchIDs = new ArrayList<>();
         this.ratingNumber = ratingNumber;
+        this.email = email;
 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUserID() {

@@ -26,6 +26,8 @@ import com.example.sportscompiler.AdditionalClasses.ApplicationActionListener;
 import com.example.sportscompiler.AdditionalClasses.ApplicationsAdapter;
 import com.example.sportscompiler.AdditionalClasses.DismissActionListener;
 import com.example.sportscompiler.AdditionalClasses.DismissAdapter;
+import com.example.sportscompiler.AdditionalClasses.MailjetClient;
+import com.example.sportscompiler.AdditionalClasses.MailjetEmailRequest;
 import com.example.sportscompiler.AdditionalClasses.Match;
 import com.example.sportscompiler.AdditionalClasses.Message;
 import com.example.sportscompiler.AdditionalClasses.Player;
@@ -46,8 +48,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdminAcceptApplicationPage extends AppCompatActivity {
 
@@ -273,7 +280,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         // Create the accepted Player
         Player acceptedPlayer = new Player(application.getUserID(), application.getAverage(),
                 application.getTeamInfo(), application.getPosition(), false,
-                currentMatch.getMatchID(), application.getName());
+                currentMatch.getMatchID(), application.getName(),fireuser.getUserMail(application.getUserID()));
 
         // Check if the player is already in the match
         if (SearchForPlayer.doesMatchContainUser(currentMatch, acceptedPlayer.getUserID())) {
@@ -331,6 +338,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(AdminAcceptApplicationPage.this, "Match has been deleted successfully.", Toast.LENGTH_SHORT).show();
+                            sendMailToPlayers();
                             // Navigate back or disable UI
                             FragmentLoad.changeActivity(AdminAcceptApplicationPage.this, homeActivity.class);
                             finish(); // Ends the current activity
@@ -343,6 +351,8 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                             Toast.makeText(AdminAcceptApplicationPage.this, "Failed to delete the match. Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
         }
 
     }
@@ -388,8 +398,58 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
                     Toast.makeText(AdminAcceptApplicationPage.this, "Could not access user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+    private void sendMailToPlayers()
+    {
+        if(currentMatch != null)
+        {
+            for(Player player: currentMatch.getPlayersA().values())
+            {
+                if(player != null)
+                {
+                    sendMailToOnePlayer(player.getEmail(), player.getName());
+                }
+            }
+            for(Player player: currentMatch.getPlayersB().values())
+            {
+                if(player != null)
+                {
+                    sendMailToOnePlayer(player.getEmail(), player.getName());
+                }
+            }
+        }
+    }
 
+    private void sendMailToOnePlayer(String playerMail, String playerName)
+    {
 
+        //MAIL CONTENT:
+        MailjetEmailRequest.mailMessage message = new MailjetEmailRequest.mailMessage(
+                new MailjetEmailRequest.EmailAddress("codingbatmasters@gmail.com", "SportsCompiler"), // Sender
+                Arrays.asList(new MailjetEmailRequest.EmailAddress(playerMail, playerName)), // Recipient
+                "Match with name " + currentMatch.getMatchName() + " Cancelled", // Subject
+                "We regret to inform you that the match has been cancelled.", // Text content
+                "<h3>Match Cancelled</h3><p>We regret to inform you that the match has been cancelled.</p>" // HTML content
+        );
+
+        MailjetEmailRequest emailRequest = new MailjetEmailRequest(Arrays.asList(message));
+
+        MailjetClient.getInstance().sendEmail(emailRequest).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Mailjet", "Email sent successfully!");
+                    Toast.makeText(AdminAcceptApplicationPage.this, "Cancel email sent to players ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Mailjet", "Failed to send email: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("Mailjet", "Error: " + t.getMessage());
+            }
+        });
+    }
 
     private class CancelListener implements View.OnClickListener
     {

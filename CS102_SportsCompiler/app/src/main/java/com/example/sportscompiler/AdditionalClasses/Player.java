@@ -13,11 +13,13 @@ public class Player
     private boolean isAdmin;
     private String matchID;
     private String name;
+    private String email;
 
     public Player(){}
 
-    public Player(String userID1, double rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1, String name)
+    public Player(String userID1, double rating1, TeamType team1, Positions position1, boolean isAdmin1, String matchID1, String name,String email)
     {
+        this.email = email;
         userID = userID1;
         rating = rating1;
         team = team1;
@@ -110,5 +112,13 @@ public class Player
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

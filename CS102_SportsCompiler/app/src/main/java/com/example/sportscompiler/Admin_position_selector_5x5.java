@@ -49,6 +49,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
     private long dateTimeMillis;
     private Match newMatch;
     private String matchID;
+    private MatchFields matchField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,20 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
                     long seconds = dateTimeMillis / 1000;
                     int nanoseconds = (int) ((dateTimeMillis % 1000) * 1000000);
                     Timestamp date = new Timestamp(seconds, nanoseconds);
+
+                    if(city.equals("Main Campus 1"))
+                    {
+                        matchField = MatchFields.MAIN1;
+                    }
+                    else if(city.equals("Main Campus 2"))
+                    {
+                        matchField = MatchFields.MAIN2;
+                    }
+                    else if(city.equals("East Campus"))
+                    {
+                        matchField = MatchFields.EAST;
+                    }
+
                     createNewMatch(user.getUserID(), matchName, numberOfPlayersInATeam, adminPosition, date, view);
                     FragmentLoad.changeActivity(Admin_position_selector_5x5.this, homeActivity.class);// "Create Match" butonunu görünmez yap
                     finish();
@@ -191,7 +206,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
 
     private void setAdminPosition(Map<String, Player> team, Positions adminPosition, String matchID)
     {
-        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID, user.getName());
+        Player admin = new Player(user.getUserID(), user.getAverageRating(), TeamType.TEAM_A, adminPosition, true, matchID, user.getName(),user.getEmail());
         team.put(adminPosition.getAction(), admin);
     }
 
@@ -209,7 +224,7 @@ public class Admin_position_selector_5x5 extends AppCompatActivity {
         setAdminPosition(teamA, adminPosition, matchID);
         String adminName = user.getName();
 
-        newMatch = new Match(adminID, adminName, matchName, date, MatchFields.MAIN1, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0);
+        newMatch = new Match(adminID, adminName, matchName, date, matchField, teamA, teamB, adminPosition.getAction(), notes, matchID, 0 , 0);
 
         firestore = FirebaseFirestore.getInstance();
 

@@ -47,7 +47,11 @@ public class Match
     }
 
 
-
+    public String getQuota(){
+        int personCount = countTeam(playersA) + countTeam(playersB);
+        int quota = playersA.size() + playersB.size();
+        return personCount + "/" + quota;
+    }
     public String getAdminID() {
         return adminID;
     }

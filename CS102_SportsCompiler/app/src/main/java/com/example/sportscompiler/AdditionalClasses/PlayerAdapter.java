@@ -3,6 +3,7 @@ package com.example.sportscompiler.AdditionalClasses;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     // ViewHolder class to hold the player name TextView
     public static class PlayerViewHolder extends RecyclerView.ViewHolder {
         TextView playerName,position, averageRating;
+        ImageView profilePicture;
 
 
         public PlayerViewHolder(@NonNull View itemView) {

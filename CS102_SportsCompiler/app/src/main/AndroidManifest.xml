@@ -58,15 +58,15 @@
         <activity
             android:name=".RegisterPageAc"
             android:exported="false" />
-        <activity
-            android:name=".MatchLeavePage"
-            android:exported="false" />
+
         <activity
             android:name=".emailVerificationPage"
             android:exported="false" />
         <activity
             android:name=".homeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"

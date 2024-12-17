@@ -12,6 +12,7 @@
         android:padding="16dp"
         android:id="@+id/cardBackground">
 
+        <!-- Match Name -->
         <TextView
             android:id="@+id/matchName"
             android:layout_width="wrap_content"
@@ -21,6 +22,7 @@
             android:textStyle="bold"
             android:layout_alignParentStart="true" />
 
+        <!-- Match Date -->
         <TextView
             android:id="@+id/matchDate"
             android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- Admin Name -->
         <TextView
             android:id="@+id/adminName"
             android:layout_width="wrap_content"
@@ -38,6 +41,7 @@
             android:layout_alignParentEnd="true"
             android:textSize="14sp" />
 
+        <!-- Place -->
         <TextView
             android:id="@+id/place"
             android:layout_width="wrap_content"
@@ -47,6 +51,7 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- Notes -->
         <TextView
             android:id="@+id/notes"
             android:layout_width="wrap_content"
@@ -55,6 +60,17 @@
             android:layout_alignParentStart="true"
             android:text="Notes: None"
             android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Quota -->
+        <TextView
+            android:id="@+id/quota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quota: 2/12"
+            android:textSize="14sp"
+            android:layout_below="@id/notes"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="4dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

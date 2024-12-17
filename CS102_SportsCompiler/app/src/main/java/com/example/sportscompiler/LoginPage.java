@@ -2,6 +2,8 @@ package com.example.sportscompiler;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,12 +100,12 @@ public class LoginPage extends AppCompatActivity {
             {
                 if(isPasswordVisible)
                 {
-                    loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     passwordToggle.setImageResource(R.drawable.ic_eye_closed);
                 }
                 else
                 {
-                    loginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     passwordToggle.setImageResource(R.drawable.ic_eye_open);
                 }
                 isPasswordVisible = !isPasswordVisible;

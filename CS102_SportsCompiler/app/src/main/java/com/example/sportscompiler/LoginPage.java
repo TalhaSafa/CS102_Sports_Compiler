@@ -64,11 +64,12 @@ public class LoginPage extends AppCompatActivity {
         });
 
         autoCagan = findViewById(R.id.autoCan);
+        autoCagan.setText("Eren Login");
         autoCagan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginMail.setText("cagan.aksoy@ug.bilkent.edu.tr");
-                loginPassword.setText("Cagan12345.");
+                loginMail.setText("eren.sucuoglu@ug.bilkent.edu.tr");
+                loginPassword.setText("Talha.123");
             }
         });
 

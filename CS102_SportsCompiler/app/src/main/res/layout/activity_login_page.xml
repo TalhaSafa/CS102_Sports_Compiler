@@ -85,5 +85,13 @@
         android:layout_height="wrap_content"
         android:text="Auto Login" />
 
+    <Button
+        android:id="@+id/autoCan"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Cagan" />
+
 
 </FrameLayout>

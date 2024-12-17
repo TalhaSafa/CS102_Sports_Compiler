@@ -42,7 +42,7 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
         // Bind data to views
         holder.playerName.setText(player.getName());
         holder.playerPosition.setText("Position: " + player.getPosition().toString());
-
+        holder.teamName.setText("Team: " + player.getTeam());
         player.getRating(new RatingCallback() {
             @Override
             public void onRatingFetched(double rating1) {
@@ -80,12 +80,13 @@ public class DismissAdapter extends RecyclerView.Adapter<DismissAdapter.PlayerVi
 
     // ViewHolder class
     public static class PlayerViewHolder extends RecyclerView.ViewHolder {
-        TextView playerName, playerPosition, playerRating;
+        TextView playerName, playerPosition, playerRating, teamName;
         Button btnDismiss;
 
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.playerName);
+            teamName = itemView.findViewById(R.id.teamName);
             playerPosition = itemView.findViewById(R.id.playerPosition);
             playerRating = itemView.findViewById(R.id.playerRating);
             btnDismiss = itemView.findViewById(R.id.btnDismiss);

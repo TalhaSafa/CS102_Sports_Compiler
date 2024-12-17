@@ -49,7 +49,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         holder.place.setText("Place: " + match.getField().getAction());
         holder.adminName.setText("Admin: " + match.getAdminName());
         holder.notes.setText("Notes: " + (match.getNotes() != null ? match.getNotes() : "None"));
-
+        holder.quota.setText("Quota: " + match.getQuota());
 
         // Set background color based on match status
         if (match.isFull()) {
@@ -77,7 +77,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     }
 
     public static class MatchViewHolder extends RecyclerView.ViewHolder {
-        TextView matchName, matchDate, place, adminName, notes;
+        TextView matchName, matchDate, place, adminName, notes, quota;
         RelativeLayout cardBackground;
 
         public MatchViewHolder(@NonNull View itemView) {
@@ -88,6 +88,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             adminName = itemView.findViewById(R.id.adminName);
             notes = itemView.findViewById(R.id.notes);
             cardBackground = itemView.findViewById(R.id.cardBackground);
+            quota = itemView.findViewById(R.id.quota);
         }
     }
     public void updateData(List<Match> newMatchList) {

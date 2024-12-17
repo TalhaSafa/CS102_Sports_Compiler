@@ -48,7 +48,7 @@ public class Match
 
 
     public String getQuota(){
-        int personCount = countTeam(playersA) + countTeam(playersB);
+        int personCount = countAllPlayers();
         int quota = playersA.size() + playersB.size();
         return personCount + "/" + quota;
     }
@@ -133,6 +133,33 @@ public class Match
     public void setAdminName(String adminName) {
         this.adminName = adminName;
     }
+
+    public int countAllPlayers()
+    {
+        int count = 0;
+
+        if (playersA == null || playersB == null) {
+            throw new NullPointerException("Players map is not initialized.");
+        }
+
+        for(Player player: playersA.values())
+        {
+            if(player != null)
+            {
+                count++;
+            }
+        }
+        for(Player player: playersB.values())
+        {
+            if(player != null)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public int countTeam(Map<String, Player> players) {
         if (players == null) {
             throw new NullPointerException("Players map is not initialized.");
@@ -171,7 +198,7 @@ public class Match
     public boolean isFull(){
         if(getMatchType().equals("matches5"))
         {
-            if(countTeam(playersA) == 5 && countTeam(playersB) == 5)
+            if(countAllPlayers() == 10)
             {
                 return true;
             }
@@ -183,7 +210,7 @@ public class Match
 
         else if(getMatchType().equals("matches6"))
         {
-            if(countTeam(playersA) == 6 && countTeam(playersB) == 6)
+            if(countAllPlayers() == 12)
             {
                 return true;
             }

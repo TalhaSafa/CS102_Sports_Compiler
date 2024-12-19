@@ -1,9 +1,9 @@
 # SportsCompiler
 The SportsCompiler is an application designed for Bilkent University students to simplify the organization and participation in football matches. The app provides a mobile-friendly interface for creating, joining, and managing matches, along with additional features such as weather forecasts, and communication tools. 
 
-Application Video: [SportsCompiler Working Demo Video](https://drive.google.com/file/d/1m5daqhhGMY3UIxR19fJYQUPDtS4Yr-kH/view?usp=sharing)
+Application Video: [SportsCompiler Working Demo Video](https://drive.google.com/file/d/1eSJdxn91l8wViqFIglbUo2iBzdYYz2wS/view?usp=sharing)
 
-To Download the App as APK: [SportsCompiler APK for Android Devices](https://drive.google.com/file/d/1eSJdxn91l8wViqFIglbUo2iBzdYYz2wS/view?usp=sharing)
+To Download the App as APK: [SportsCompiler APK for Android Devices](https://drive.google.com/file/d/1_FuJreQ7UaV3NPU8bbMI84_b1nDoUzey/view?usp=sharing)
 
 ## **How to run the program:**
 

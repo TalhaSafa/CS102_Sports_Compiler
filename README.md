@@ -1,1 +1,4 @@
 # CS102_Sports_Compiler
+The sports compiler is an application designed for Bilkent University students to simplify the organization and participation in football matches. The app provides a mobile-friendly interface for creating, joining, and managing matches, along with additional features such as weather forecasts, and communication tools. 
+How to run the program:
+When the application is first installed, Users can log in using their Bilkent email if they already have an account. If they forget their password, they can use the "Forgot Password" button to verify their identity via email authentication. For new users without an account, clicking the "Register" button allows them to create one easily with the requireed information.  After creating an account, users are required to verify their email address to complete the process. An email is sent to the user, containing a link that must be clicked to proceed. 

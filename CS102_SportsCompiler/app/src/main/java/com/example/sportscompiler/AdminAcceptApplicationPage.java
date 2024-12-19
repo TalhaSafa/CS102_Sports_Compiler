@@ -460,7 +460,7 @@ public class AdminAcceptApplicationPage extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             new AlertDialog.Builder(AdminAcceptApplicationPage.this)
-                    .setTitle("Logout")
+                    .setTitle("Cancel")
                     .setMessage("Are you sure you want to cancel this match?")
                     .setPositiveButton("Yes", (dialog, which) -> cancelMatch())
                     .setNegativeButton("No", null)
